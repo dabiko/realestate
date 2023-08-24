@@ -1,0 +1,20 @@
+<?php
+
+use App\Http\Controllers\AgentController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register Admin routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('dashboard', [AgentController::class, 'AgentDashboard'])->name('dashboard');
+
+
+

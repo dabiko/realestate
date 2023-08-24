@@ -226,10 +226,18 @@
                             </a>
                         </li>
                         <li class="dropdown-item py-2">
-                            <a href="javascript:;" class="text-body ms-0">
-                                <i class="me-2 icon-md" data-feather="log-out"></i>
-                                <span>Log Out</span>
-                            </a>
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                @method('POST')
+                                <a href="{{route('logout')}}" class="text-body ms-0"
+                                   onclick="event.preventDefault();
+                                   this.closest('form').submit();"
+                                 >
+                                    <i class="me-2 icon-md" data-feather="log-out"></i>
+                                    <span>{{ __('Log Out') }}</span>
+                                </a>
+                            </form>
                         </li>
                     </ul>
                 </div>
