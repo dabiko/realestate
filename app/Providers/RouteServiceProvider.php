@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Access\Response;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,9 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    public const AGENTDASHBOARD = 'agent/dashboard';
+    public const ADMINDASHBOARD = 'admin/dashboard';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
