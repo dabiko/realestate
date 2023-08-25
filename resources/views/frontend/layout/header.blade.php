@@ -18,7 +18,7 @@
                     <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
                 </ul>
                 <div class="sign-box">
-                    <a href="{{route('login')}}"><i class="fas fa-user"></i>Sign In</a>
+                    <a href="{{route('login')}}"><i class="fas fa-user"></i>Log In</a>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
         <div class="outer-box">
             <div class="main-box">
                 <div class="logo-box">
-                    <figure class="logo"><a href="index.html"><img src="{{asset('frontend/assets/images/logo.png')}}" alt=""></a></figure>
+                    <figure class="logo"><a href="{{route('home')}}"><img src="{{asset('frontend/assets/images/logo.png')}}" alt=""></a></figure>
                 </div>
                 <div class="menu-area clearfix">
                     <nav class="main-menu clearfix">

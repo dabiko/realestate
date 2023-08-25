@@ -4,6 +4,11 @@
     {{ config('app.name') }}
 @endsection
 
+@section('preloader')
+    {{--     preloader--}}
+    @include('frontend.layout.preloader')
+@endsection
+
 @section('content')
 
 

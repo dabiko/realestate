@@ -6,9 +6,7 @@
 <div class="boxed_wrapper">
 
 
-    {{--     preloader--}}
-    @include('frontend.layout.preloader')
-
+    @yield('preloader')
 
     {{--     main header--}}
     @include('frontend.layout.header')
