@@ -30,11 +30,12 @@ class UpdateProfileRequest extends FormRequest
             'username' => ['min:4','required','string', 'max:255'],
             'phone' => ['required','string', 'max:255'],
             'address' => ['required','string', 'max:255'],
-            'image' => ['image'],
+            'image' => ['image',
              File::image()
                 ->min(1024)
                 ->max(12 * 1024)
-                ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
+                ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500))
+            ],
         ];
     }
 }
