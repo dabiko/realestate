@@ -202,8 +202,8 @@
                             <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                         </div>
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder">Amiah Burton</p>
-                            <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                            <p class="tx-16 fw-bolder">{{ Auth::user()->name }}</p>
+                            <p class="tx-12 text-muted">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
@@ -227,10 +227,10 @@
                         </li>
                         <li class="dropdown-item py-2">
                             <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('admin.logout') }}">
                                 @csrf
                                 @method('POST')
-                                <a href="{{route('logout')}}" class="text-body ms-0"
+                                <a href="{{route('admin.logout')}}" class="text-body ms-0"
                                    onclick="event.preventDefault();
                                    this.closest('form').submit();"
                                  >

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('dashboard', [AdminController::class, 'AdminDashboard'])->name('dashboard');
+Route::post('logout', [AdminController::class, 'AdminLogout'])->name('logout');
+
 
 
 
