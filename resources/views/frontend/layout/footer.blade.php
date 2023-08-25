@@ -37,12 +37,12 @@
                         </div>
                         <div class="post-inner">
                             <div class="post">
-                                <figure class="post-thumb"><a href="blog-details.html"><img src="frontend/assets/images/resource/footer-post-1.jpg" alt=""></a></figure>
+                                <figure class="post-thumb"><a href="blog-details.html"><img src="{{asset('frontend/assets/images/resource/footer-post-1.jpg')}}" alt=""></a></figure>
                                 <h5><a href="blog-details.html">The Added Value Social Worker</a></h5>
                                 <p>Mar 25, 2020</p>
                             </div>
                             <div class="post">
-                                <figure class="post-thumb"><a href="blog-details.html"><img src="frontend/assets/images/resource/footer-post-2.jpg" alt=""></a></figure>
+                                <figure class="post-thumb"><a href="blog-details.html"><img src="{{asset('frontend/assets/images/resource/footer-post-2.jpg')}}" alt=""></a></figure>
                                 <h5><a href="blog-details.html">Ways to Increase Trust</a></h5>
                                 <p>Mar 24, 2020</p>
                             </div>
@@ -69,7 +69,7 @@
     <div class="footer-bottom">
         <div class="auto-container">
             <div class="inner-box clearfix">
-                <figure class="footer-logo"><a href="index.html"><img src="frontend/assets/images/footer-logo.png" alt=""></a></figure>
+                <figure class="footer-logo"><a href="index.html"><img src="{{asset('frontend/assets/images/footer-logo.png')}}" alt=""></a></figure>
                 <div class="copyright pull-left">
                     <p><a href="index.html">Realshed</a> &copy; 2021 All Right Reserved</p>
                 </div>
