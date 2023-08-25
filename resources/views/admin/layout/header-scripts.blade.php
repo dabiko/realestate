@@ -20,6 +20,9 @@
     <!-- endinject -->
 
     <!-- Plugin css for this page -->
+    {{--SweetAlert2--}}
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('backend/assets/vendors/sweetalert2/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/vendors/flatpickr/flatpickr.min.css')}}">
     <!-- End plugin css for this page -->
 
@@ -33,6 +36,7 @@
     <!-- End layout styles -->
 
     <link rel="shortcut icon" href="{{asset('backend/assets/images/favicon.png')}}" />
-    {{--SweetAlert2--}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
 </head>

@@ -17,6 +17,16 @@
                             <a href="#" class="noble-ui-logo logo-light d-block mb-2">Homes <span>Admin Login</span></a>
                             <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
 
+                            @if ($errors->any())
+                                <div class="mt-3 alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li> {{ $error }} </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <form method="POST" action="{{ route('login') }}" class="forms-sample">
 
                                 @csrf
@@ -24,7 +34,7 @@
 
                                 <div class="mb-3">
                                     <label for="login" class="form-label">{{__('Email | Name | Phone')}}</label>
-                                    <input type="text" class="form-control" name="login" id="login" placeholder="Email, Phone or Username">
+                                    <input type="text" class="form-control" name="login" id="login" placeholder="Email, Phone or Username" value="{{old('login')}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">{{__('Password')}}</label>
