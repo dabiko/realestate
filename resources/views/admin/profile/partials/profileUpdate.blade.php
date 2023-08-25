@@ -11,15 +11,6 @@
                         </div>
                     </div>
 
-                    @if ($errors->any())
-                        <div class="mt-3 alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li> {{ $error }} </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </div>
 
                 <div class="card-body">
@@ -41,30 +32,45 @@
 
                         <div class="mb-3">
                             <label for="image" class="form-label">{{__('Profile Image')}}</label>
-                            <input type="file" class="form-control" id="image" name="image" autocomplete="off">
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" autocomplete="off">
+                            @error('image')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="name" class="form-label">{{__('Name')}}</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{$profile->name}}" autocomplete="off">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{$profile->name}}" autocomplete="off">
+                                @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label for="username" class="form-label">{{__('Username')}}</label>
-                                <input type="text" class="form-control" id="username" name="username" value="{{$profile->username}}" autocomplete="off">
+                                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{$profile->username}}" autocomplete="off">
+                                @error('username')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">{{__('Phone')}}</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="{{$profile->phone}}" autocomplete="off">
+                                <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{$profile->phone}}" autocomplete="off">
+                                @error('phone')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label for="address" class="form-label">{{__('Address')}}</label>
-                                <input type="text" class="form-control" id="address" name="address" value="{{$profile->address}}" autocomplete="off">
+                                <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{$profile->address}}" autocomplete="off">
+                                @error('address')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 

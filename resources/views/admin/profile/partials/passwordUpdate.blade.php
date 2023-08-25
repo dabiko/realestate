@@ -10,16 +10,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @if ($errors->any())
-                        <div class="mt-3 alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li> {{ $error }} </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </div>
 
                 <div class="card-body">
@@ -35,17 +25,26 @@
 
                         <div class="mb-3">
                             <label for="current_password" class="form-label">{{__('Current Password')}}</label>
-                            <input type="password" class="form-control" id="current_password" name="current_password" autocomplete="current-password">
+                            <input type="password" class="form-control @error('current_password') is-invalid @enderror" id="current_password" name="current_password" autocomplete="current-password">
+                            @error('current_password')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">{{__('New Password')}}</label>
-                            <input type="password" class="form-control" id="password" name="password" autocomplete="new-password">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" autocomplete="new-password">
+                            @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">{{__('Confirm Password')}}</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" autocomplete="new-password">
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" autocomplete="new-password">
+                            @error('password_confirmation')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
 
