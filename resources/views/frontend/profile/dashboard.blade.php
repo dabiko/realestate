@@ -74,15 +74,15 @@
 
                 @if (Route::currentRouteName() === 'user.dashboard')
 
-                    @include('profile.partials.profile-info')
+                    @include('frontend.profile.partials.profile-info')
 
                 @elseif(Route::currentRouteName() === 'user.profile.edit')
 
-                    @include('profile.partials.edit-profile')
+                    @include('frontend.profile.partials.edit-profile')
 
                 @elseif(Route::currentRouteName() === 'user.password.change')
 
-                    @include('profile.partials.update-password')
+                    @include('frontend.profile.partials.update-password')
 
                 @endif
 

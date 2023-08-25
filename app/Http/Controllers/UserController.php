@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail(Auth::id());
 
-        return view('dashboard',
+        return view('frontend.profile.dashboard',
             [
                 'user' => $user,
             ]
