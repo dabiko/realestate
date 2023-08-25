@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [AdminController::class, 'AdminDashboard'])->name('dashboard');
 Route::post('logout', [AdminController::class, 'AdminLogout'])->name('logout');
+
+Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
+
 
 
 

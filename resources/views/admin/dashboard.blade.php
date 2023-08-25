@@ -2,7 +2,19 @@
 @section('title')
     {{ config('app.name') }} | Admin Dashboard
 @endsection
+
 @section('content')
+    @if(Session::has('status'))
+        <script>
+            Swal.fire({
+                icon: '{{Session::get('status')}}',
+                title: '{{Session::get('message')}}',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        </script>
+    @endif
+
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
             <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>

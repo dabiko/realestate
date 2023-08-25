@@ -35,15 +35,33 @@ class AuthenticatedSessionController extends Controller
 
         if($request->user()->role === 'admin'){
 
-            return redirect()->intended(RouteServiceProvider::ADMINDASHBOARD);
+            return redirect()->intended(RouteServiceProvider::ADMINDASHBOARD)
+                ->with(
+                    [
+                        'status' => 'success',
+                        'message' => 'Welcome back '. Auth::user()->name
+                    ]
+                );
 
         }elseif ($request->user()->role === 'agent'){
 
-            return redirect()->intended(RouteServiceProvider::AGENTDASHBOARD);
+            return redirect()->intended(RouteServiceProvider::AGENTDASHBOARD)
+                ->with(
+                    [
+                        'status' => 'success',
+                        'message' => 'Welcome back '. Auth::user()->name
+                    ]
+                );
 
         }elseif ($request->user()->role === 'user'){
 
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended(RouteServiceProvider::HOME)
+                ->with(
+                    [
+                        'status' => 'success',
+                        'message' => 'Welcome back '. Auth::user()->name
+                    ]
+                );
 
         }else{
 
