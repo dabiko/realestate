@@ -1,8 +1,31 @@
 @extends('frontend.layout.master')
 
 @section('title')
-    {{ config('app.name') }} | Dashboard
+    @if (Route::currentRouteName() === 'user.dashboard')
+
+        {{ config('app.name') }} | Dashboard
+
+    @elseif(Route::currentRouteName() === 'user.profile.edit')
+
+        {{ config('app.name') }} | Update Profile
+
+    @elseif(Route::currentRouteName() === 'user.password.change')
+
+        {{ config('app.name') }} | Update Password
+
+    @else
+
+        {{ config('app.name') }} | Dashboard
+
+    @endif
+
 @endsection
+
+@section('preloader')
+    {{--     preloader--}}
+    @include('frontend.layout.preloader')
+@endsection
+
 
 @section('content')
     <section class="page-title centred" style="background-image: url({{asset('frontend/assets/images/background/page-title-5.jpg')}});">
@@ -40,7 +63,7 @@
 
                         <div class="sidebar-widget category-widget">
                             <div class="widget-title">
-                                <h4>Category</h4>
+                                <h4>Menu</h4>
                             </div>
                             <div class="widget-content">
                                 <ul class="category-list ">
@@ -54,16 +77,13 @@
                                     <li><a href="blog-details.html"><i class="fa fa-indent" aria-hidden="true"></i> Add a Property  </a></li>
                                     <li><a href="{{route('user.password.change')}}"><i class="fa fa-key" aria-hidden="true"></i> Security </a></li>
 
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
                                         <li>
-                                            <a onclick="event.preventDefault(); this.closest('form').submit();" href="{{route('logout')}}">
+                                            <a href="{{route('user.logout')}}">
                                                 <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
                                                 {{ __('Log Out') }}
                                             </a>
                                         </li>
-                                    </form>
+
                                 </ul>
                             </div>
                         </div>

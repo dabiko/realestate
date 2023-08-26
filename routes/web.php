@@ -21,6 +21,9 @@ Route::get('/', [UserController::class, 'index'])->name('home');
 
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
 
+Route::get('user/login', [UserController::class, 'login'])->name('user.login');
+
+
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -31,6 +34,8 @@ require __DIR__.'/auth.php';
 
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){
+
+    Route::get('logout', [ UserController::class, 'logout'])->name('logout');
 
     Route::get('dashboard', [ UserController::class, 'dashboard'])->name('dashboard');
 

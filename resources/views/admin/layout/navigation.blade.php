@@ -18,24 +18,36 @@
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">web apps</li>
+            <li class="nav-item nav-category">HOMES</li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
-                    <i class="link-icon" data-feather="mail"></i>
-                    <span class="link-title">Email</span>
+                <a class="nav-link" data-bs-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="category">
+                    <i class="link-icon" data-feather="grid"></i>
+                    <span class="link-title">Property Categories</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="emails">
+                <div class="collapse" id="category">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/email/inbox.html" class="nav-link">Inbox</a>
+                            <a href="{{route('admin.property-category.index')}}" class="nav-link">Category</a>
                         </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#amenity" role="button" aria-expanded="false" aria-controls="amenity">
+                    <i class="link-icon" data-feather="film"></i>
+                    <span class="link-title">Property Amenities</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="amenity">
+                    <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/email/read.html" class="nav-link">Read</a>
+                            <a href="{{route('admin.amenity.index')}}" class="nav-link">Amenity</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/email/compose.html" class="nav-link">Compose</a>
-                        </li>
+
+
                     </ul>
                 </div>
             </li>

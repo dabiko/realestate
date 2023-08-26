@@ -17,9 +17,17 @@
                     <li><a href="index.html"><i class="fab fa-google-plus-g"></i></a></li>
                     <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
                 </ul>
-                <div class="sign-box">
-                    <a href="{{route('login')}}"><i class="fas fa-user"></i>Log In</a>
-                </div>
+                @auth
+                    <div class="sign-box">
+                        <a href="{{route('user.dashboard')}}"><i class="fas fa-server"></i>Dashboard</a> &boxV;
+                        <a href="{{route('user.logout')}}"><i class="fas fa-user"></i>Log Out</a>
+                    </div>
+                @else
+                    <div class="sign-box">
+                        <a href="{{route('login')}}"><i class="fas fa-user"></i>Log In</a>
+                    </div>
+                @endauth
+
             </div>
         </div>
     </div>

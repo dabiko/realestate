@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Backend\AmenityController;
+use App\Http\Controllers\Backend\PropertyCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,14 @@ Route::get('profile', [AdminProfileController::class, 'index'])->name('profile')
 Route::put('profile-update', [AdminProfileController::class, 'update'])->name('profile.update');
 Route::get('password', [AdminProfileController::class, 'index'])->name('password');
 Route::put('password-update', [AdminProfileController::class, 'passwordUpdate'])->name('password.update');
+
+
+Route::put('property-category/change-status', [PropertyCategoryController::class, 'updateStatus'])->name('property-category.change-status');
+Route::resource('property-category', PropertyCategoryController::class);
+
+Route::put('amenity/change-status', [AmenityController::class, 'updateStatus'])->name('amenity.change-status');
+Route::resource('amenity', AmenityController::class);
+
 
 
 

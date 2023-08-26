@@ -25,6 +25,8 @@
     <link href="{{asset('frontend/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/assets/css/responsive.css')}}" rel="stylesheet">
 
+    {{--SweetAlert2--}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 
 </head>
