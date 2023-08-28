@@ -3,7 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Backend\AmenityController;
-use App\Http\Controllers\Backend\PropertyCategoryController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PropertyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,11 +27,15 @@ Route::get('password', [AdminProfileController::class, 'index'])->name('password
 Route::put('password-update', [AdminProfileController::class, 'passwordUpdate'])->name('password.update');
 
 
-Route::put('property-category/change-status', [PropertyCategoryController::class, 'updateStatus'])->name('property-category.change-status');
-Route::resource('property-category', PropertyCategoryController::class);
+Route::put('category/change-status', [CategoryController::class, 'updateStatus'])->name('category.change-status');
+Route::resource('category', CategoryController::class);
 
 Route::put('amenity/change-status', [AmenityController::class, 'updateStatus'])->name('amenity.change-status');
 Route::resource('amenity', AmenityController::class);
+
+
+Route::put('property/change-status', [PropertyController::class, 'updateStatus'])->name('property.change-status');
+Route::resource('property', PropertyController::class);
 
 
 

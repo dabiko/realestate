@@ -53,52 +53,50 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-
-                                  @if(count($amenities) === 0)
-                                    <tbody>
-                                    <tr>
-                                            <div style="text-align: center" class="alert alert-primary" role="alert">
-                                                <i data-feather="alert-circle"></i>
-                                                Empty data Table. Please property amenity.... <a href="{{route('admin.amenity.create')}}">Here</a>
-                                            </div>
-                                    </tr>
-                                    </tbody>
-                                  @endif
-
-
                             <tbody>
-                                    @foreach($amenities as $key => $amenity)
+                                  @if($amenities->Count()) > 0)
+                                      @foreach($amenities as $key => $amenity)
 
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn btn-inverse-info">{{$key+1}}</button>
-                                        </td>
-                                        <td>{{$amenity->name}}</td>
-                                        <td>
-                                            @if($amenity->status === 1)
-                                                <div class="form-check form-switch">
-                                                    <input
-                                                        class="form-check-input change-status"
-                                                        type="checkbox" id="activeChecked"
-                                                        data-id="{{$amenity->id}}"
-                                                        checked>
-                                                </div>
-                                            @else
-                                                <div class="form-check form-switch">
-                                                    <input
-                                                        class="form-check-input change-status"
-                                                        type="checkbox"
-                                                        data-id="{{$amenity->id}}"
-                                                        id="inActiveChecked">
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{route('admin.amenity.edit', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-primary"> <i data-feather="edit"></i></a>
-                                            <a href="{{route('admin.amenity.destroy', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-danger delete-item"> <i data-feather="trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                          <tr>
+                                              <td>
+                                                  <button type="button" class="btn btn-inverse-info">{{$key+1}}</button>
+                                              </td>
+                                              <td>{{$amenity->name}}</td>
+                                              <td>
+                                                  @if($amenity->status === 1)
+                                                      <div class="form-check form-switch">
+                                                          <input
+                                                              class="form-check-input change-status"
+                                                              type="checkbox" id="activeChecked"
+                                                              data-id="{{$amenity->id}}"
+                                                              checked>
+                                                      </div>
+                                                  @else
+                                                      <div class="form-check form-switch">
+                                                          <input
+                                                              class="form-check-input change-status"
+                                                              type="checkbox"
+                                                              data-id="{{$amenity->id}}"
+                                                              id="inActiveChecked">
+                                                      </div>
+                                                  @endif
+                                              </td>
+                                              <td>
+                                                  <a href="{{route('admin.amenity.edit', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-primary"> <i data-feather="edit"></i></a>
+                                                  <a href="{{route('admin.amenity.destroy', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-danger delete-item"> <i data-feather="trash"></i></a>
+                                              </td>
+                                          </tr>
+                                      @endforeach
+                                  @else
+                                      <tr>
+                                          <td colspan="100%" style="text-align: center;">
+                                              <div class="alert alert-primary" role="alert">
+                                                  <i data-feather="alert-circle"></i>
+                                                  <strong>Oops No Data Available!!! </strong> Create amenity.. <a href="{{route('admin.amenity.create')}}">Here</a>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  @endif
                             </tbody>
                         </table>
                     </div>

@@ -10,6 +10,7 @@ use App\Traits\EncryptDecrypt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -45,6 +46,7 @@ class AmenityController extends Controller
         $validate = $request->validated();
 
         Amenities::create([
+            'user_id' => Auth::id(),
             'name' => $validate['name'],
             'status' => $validate['status'],
         ]);

@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreatePropertyCategoryRequest;
 use App\Http\Requests\Backend\UpdatePropertyCategoryRequest;
-use App\Models\PropertyCategory;
+use App\Models\Category;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class PropertyCategoryController extends Controller
+class CategoryController extends Controller
 {
     use EncryptDecrypt;
 
@@ -22,7 +23,7 @@ class PropertyCategoryController extends Controller
      */
     public function index(): View
     {
-        $propertyCat = PropertyCategory::all();
+        $propertyCat = Category::all();
         return view('admin.property-category.index',
             [
                 'propertyCat' => $propertyCat
@@ -45,7 +46,8 @@ class PropertyCategoryController extends Controller
     {
         $validate = $request->validated();
 
-        PropertyCategory::create([
+        Category::create([
+            'user_id' => Auth::id(),
             'name' => $validate['name'],
             'icon' => $validate['icon'],
             'status' => $validate['status'],
@@ -74,7 +76,7 @@ class PropertyCategoryController extends Controller
     {
         $decrypted_id =  $this->decryptId($id);
 
-        $propertyCat = PropertyCategory::findOrFail($decrypted_id);
+        $propertyCat = Category::findOrFail($decrypted_id);
 
         return view('admin.property-category.edit',
             [
@@ -92,7 +94,7 @@ class PropertyCategoryController extends Controller
 
         $decrypted_id =  $this->decryptId($id);
 
-        PropertyCategory::findOrFail($decrypted_id)->update([
+        Category::findOrFail($decrypted_id)->update([
             'icon' => $validate['icon'],
             'name' => $validate['name'],
             'status' => $validate['status'],
@@ -114,7 +116,7 @@ class PropertyCategoryController extends Controller
     {
         $decrypted_id = $this->decryptId($id);
 
-        $propertyCat = PropertyCategory::findOrFail($decrypted_id);
+        $propertyCat = Category::findOrFail($decrypted_id);
 
         if ($propertyCat->status === 1){
             return response([
@@ -136,7 +138,7 @@ class PropertyCategoryController extends Controller
      */
     public function updateStatus(Request $request): Response
     {
-        $propertyCat = PropertyCategory::findOrFail($request->id);
+        $propertyCat = Category::findOrFail($request->id);
 
         $propertyCat->status = $request->status === 'true' ? 1 : 0;
         $propertyCat->save();

@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_categories', function (Blueprint $table) {
+        Schema::create('property_galleries', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('icon');
-            $table->boolean('status');
+            $table->foreignId('property_id')->constrained();
+            $table->text('image');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_categories');
+        Schema::dropIfExists('property_galleries');
     }
 };

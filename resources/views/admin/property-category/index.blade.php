@@ -54,53 +54,50 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-
-                                  @if(count($propertyCat) === 0)
-                                    <tbody>
-                                    <tr>
-                                            <div style="text-align: center" class="alert alert-primary" role="alert">
-                                                <i data-feather="alert-circle"></i>
-                                                Empty data Table. Please property categories.... <a href="{{route('admin.property-category.create')}}">Here</a>
-                                            </div>
-                                    </tr>
-                                    </tbody>
-                                  @endif
-
-
                             <tbody>
-                                    @foreach($propertyCat as $key => $type)
-
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn btn-inverse-info">{{$key+1}}</button>
-                                        </td>
-                                        <td>{{$type->icon}}</td>
-                                        <td>{{$type->name}}</td>
-                                        <td>
-                                            @if($type->status === 1)
-                                                <div class="form-check form-switch">
-                                                    <input
-                                                        class="form-check-input change-status"
-                                                        type="checkbox" id="activeChecked"
-                                                        data-id="{{$type->id}}"
-                                                        checked>
-                                                </div>
-                                            @else
-                                                <div class="form-check form-switch">
-                                                    <input
-                                                        class="form-check-input change-status"
-                                                        type="checkbox"
-                                                        data-id="{{$type->id}}"
-                                                        id="inActiveChecked">
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{route('admin.property-category.edit', Crypt::encryptString($type->id))}}" class="btn btn-inverse-primary"> <i data-feather="edit"></i></a>
-                                            <a href="{{route('admin.property-category.destroy', Crypt::encryptString($type->id))}}" class="btn btn-inverse-danger delete-item"> <i data-feather="trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                  @if($propertyCat->Count() > 0)
+                                      @foreach($propertyCat as $key => $type)
+                                          <tr>
+                                              <td>
+                                                  <button type="button" class="btn btn-inverse-info">{{$key+1}}</button>
+                                              </td>
+                                              <td>{{$type->icon}}</td>
+                                              <td>{{$type->name}}</td>
+                                              <td>
+                                                  @if($type->status === 1)
+                                                      <div class="form-check form-switch">
+                                                          <input
+                                                              class="form-check-input change-status"
+                                                              type="checkbox" id="activeChecked"
+                                                              data-id="{{$type->id}}"
+                                                              checked>
+                                                      </div>
+                                                  @else
+                                                      <div class="form-check form-switch">
+                                                          <input
+                                                              class="form-check-input change-status"
+                                                              type="checkbox"
+                                                              data-id="{{$type->id}}"
+                                                              id="inActiveChecked">
+                                                      </div>
+                                                  @endif
+                                              </td>
+                                              <td>
+                                                  <a href="{{route('admin.property-category.edit', Crypt::encryptString($type->id))}}" class="btn btn-inverse-primary"> <i data-feather="edit"></i></a>
+                                                  <a href="{{route('admin.property-category.destroy', Crypt::encryptString($type->id))}}" class="btn btn-inverse-danger delete-item"> <i data-feather="trash"></i></a>
+                                              </td>
+                                          </tr>
+                                      @endforeach
+                                  @else
+                                      <tr>
+                                          <td colspan="100%" style="text-align: center;">
+                                              <div class="alert alert-primary" role="alert">
+                                                  <i data-feather="alert-circle"></i>
+                                                  <strong>Oops No Data Available!!! </strong> Create property categories.. <a href="{{route('admin.property-category.create')}}">Here</a>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  @endif
                             </tbody>
                         </table>
                     </div>

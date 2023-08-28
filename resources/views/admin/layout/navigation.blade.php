@@ -22,7 +22,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="category">
                     <i class="link-icon" data-feather="grid"></i>
-                    <span class="link-title">Property Categories</span>
+                    <span class="link-title">Categories</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse" id="category">
@@ -38,13 +38,31 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#amenity" role="button" aria-expanded="false" aria-controls="amenity">
                     <i class="link-icon" data-feather="film"></i>
-                    <span class="link-title">Property Amenities</span>
+                    <span class="link-title">Amenities</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse" id="amenity">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
                             <a href="{{route('admin.amenity.index')}}" class="nav-link">Amenity</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#property" role="button" aria-expanded="false" aria-controls="property">
+                    <i class="link-icon" data-feather="home"></i>
+                    <span class="link-title">Properties</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="property">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.property.index')}}" class="nav-link">property</a>
                         </li>
 
 
