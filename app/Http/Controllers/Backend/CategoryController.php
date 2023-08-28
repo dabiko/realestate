@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CreatePropertyCategoryRequest;
-use App\Http\Requests\Backend\UpdatePropertyCategoryRequest;
+use App\Http\Requests\Admin\CreateCategoryRequest;
+use App\Http\Requests\Backend\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Response;
@@ -21,12 +22,13 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(CategoryDataTable $dataTable)
     {
-        $propertyCat = Category::all();
-        return view('admin.property-category.index',
+        $categories = Category::all();
+
+        return $dataTable->render('admin.category.index',
             [
-                'propertyCat' => $propertyCat
+                'categories' => $categories
             ]
         );
     }
@@ -36,13 +38,13 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
-        return view('admin.property-category.create');
+        return view('admin.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreatePropertyCategoryRequest $request): RedirectResponse
+    public function store(CreateCategoryRequest $request): RedirectResponse
     {
         $validate = $request->validated();
 
@@ -53,7 +55,7 @@ class CategoryController extends Controller
             'status' => $validate['status'],
         ]);
 
-        return Redirect::route('admin.property-category.index')
+        return Redirect::route('admin.category.index')
             ->with([
                 'status' => 'success',
                 'message' => 'Property category Successfully'
@@ -76,11 +78,11 @@ class CategoryController extends Controller
     {
         $decrypted_id =  $this->decryptId($id);
 
-        $propertyCat = Category::findOrFail($decrypted_id);
+        $category = Category::findOrFail($decrypted_id);
 
-        return view('admin.property-category.edit',
+        return view('admin.category.edit',
             [
-                'propertyCat' => $propertyCat
+                'category' => $category
             ]
         );
     }
@@ -88,7 +90,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePropertyCategoryRequest $request, string $id): RedirectResponse
+    public function update(UpdateCategoryRequest $request, string $id): RedirectResponse
     {
         $validate = $request->validated();
 
@@ -101,7 +103,7 @@ class CategoryController extends Controller
         ]);
 
 
-        return Redirect::route('admin.property-category.index')
+        return Redirect::route('admin.category.index')
             ->with([
                 'status' => 'success',
                 'message' => $validate['name']. ' Updated Successfully'

@@ -25,16 +25,16 @@ class PropertyCreateRequest extends FormRequest
         return [
             'image' => ['required', 'image'],
             'name' => ['required', 'string', 'min:4', 'max:50'],
-            'property_category' => ['required', 'integer'],
-            'agent' => ['required', 'integer'],
+            'category_id' => ['required', 'integer'],
+            'agent_id' => ['required', 'integer'],
+            'amenity_id' => ['required', 'string'],
             'video_link' => ['required', 'string'],
-            'lowest_price' => ['required', 'integer'],
-            'maximum_price' => ['required', 'integer'],
-            'buy_sale_rent' => ['required', 'string'],
+            'low_price' => ['required', 'integer'],
+            'max_price' => ['required', 'integer'],
+            'purpose' => ['required', 'string'],
             'short_desc' => ['required', 'string'],
             'long_desc' => ['required', 'string'],
-            'amenity' => ['required', 'string'],
-            'property_tag' => ['required', 'string'],
+            'tag' => ['required', 'string'],
             'status' => ['required', 'integer'],
         ];
     }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\DataTables\PropertyDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PropertyCreateRequest;
-use App\Models\Amenities;
+use App\Models\Amenity;
 use App\Models\Property;
 use App\Models\Category;
 use App\Models\User;
@@ -23,10 +24,10 @@ class PropertyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(PropertyDataTable $dataTable)
     {
         $properties = Property::all();
-        return view('admin.property.index',
+        return $dataTable->render('admin.property.index',
             [
                 'properties' => $properties
             ]
@@ -42,7 +43,7 @@ class PropertyController extends Controller
         $agents = User::where('status', 'active')
             ->where('role', 'agent')
             ->get();
-        $amenities = Amenities::where('status', 1)->get();
+        $amenities = Amenity::where('status', 1)->get();
 
         return view('admin.property.create',
             [
@@ -64,19 +65,19 @@ class PropertyController extends Controller
         Property::create([
             'thumbnail' => $imagePath,
             'user_id' => Auth::id(),
-            'agent_id' => $validate['agent'],
-            'property_categories_id' => $validate['property_category'],
-            'amenities_id' => $validate['amenity'],
+            'agent_id' => $validate['agent_id'],
+            'categories_id' => $validate['category_id'],
+            'amenities_id' => $validate['amenity_id'],
             'name' => $validate['name'],
             'slug' => Str::slug($validate['name'], '-'),
             'status' => $validate['status'],
-            'lowest_price' => $validate['lowest_price'],
-            'maximum_price' => $validate['maximum_price'],
+            'low_price' => $validate['low_price'],
+            'max_price' => $validate['max_price'],
             'short_desc' => $validate['short_desc'],
             'long_desc' => $validate['long_desc'],
-            'video' => $validate['video_link'],
-            'property_for' => $validate['buy_sale_rent'],
-            'property_tag' => $validate['property_tag'],
+            'video_link' => $validate['video_link'],
+            'purpose' => $validate['purpose'],
+            'tag' => $validate['tag'],
         ]);
 
 

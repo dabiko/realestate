@@ -20,7 +20,7 @@
             <h4 class="mb-3 mb-md-0">Create Property Type</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('admin.property-category.index')}}">
+            <a href="{{route('admin.category.index')}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="arrow-left"></i>
                     Property Type Table
@@ -32,7 +32,7 @@
 
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('admin.property-category.index')}}">Property Type Table</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.category.index')}}">Property Type Table</a></li>
             <li class="breadcrumb-item active" aria-current="page">Create Type</li>
         </ol>
     </nav>
@@ -41,7 +41,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{route('admin.property-category.store')}}">
+                    <form method="POST" action="{{route('admin.category.store')}}">
 
                             @csrf
                             @method('POST')

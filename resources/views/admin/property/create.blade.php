@@ -74,14 +74,14 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="property_category" class="form-label">{{ __('Property Category') }}</label>
-                                    <select class="js-example-basic-single form-select @error('property_category') is-invalid @enderror" data-width="100%" name="property_category" id="property_category" >
+                                    <label for="category_id" class="form-label">{{ __(' Category') }}</label>
+                                    <select class="js-example-basic-single form-select @error('category_id') is-invalid @enderror" data-width="100%" name="category_id" id="category_id" >
                                         <option selected disabled>Select category</option>
-                                        @foreach($property_categories as $property_category)
-                                            <option value="{{$property_category->id}}">{{$property_category->name}}</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('property_category')
+                                    @error('category_id')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -89,14 +89,14 @@
 
                         <div class="row mb-3">
                             <div class="form-group col-md-6">
-                                <label for="agent" class="form-label">{{ __('Agent') }}</label>
-                                <select class="js-example-basic-single form-select @error('agent') is-invalid @enderror" data-width="100%" name="agent" id="agent" >
+                                <label for="agent_id" class="form-label">{{ __('Agent') }}</label>
+                                <select class="js-example-basic-single form-select @error('agent_id') is-invalid @enderror" data-width="100%" name="agent_id" id="agent_id" >
                                     <option selected disabled>Select agent</option>
                                     @foreach($agents as $agent)
                                         <option value="{{$agent->id}}">{{$agent->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('agent')
+                                @error('agent_id')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -113,17 +113,17 @@
 
                         <div class="row mb-3">
                             <div class="form-group col-md-6 ">
-                                <label  class="mb-2" for="lowest_price">{{__('Lowest Price')}}</label>
-                                <input type="text" class="form-control @error('lowest_price') is-invalid @enderror" name="lowest_price" id="lowest_price" value="{{old('lowest_price')}}">
-                                @error('lowest_price')
+                                <label  class="mb-2" for="low_price">{{__('Lowest Price')}}</label>
+                                <input type="text" class="form-control @error('low_price') is-invalid @enderror" name="low_price" id="low_price" value="{{old('low_price')}}">
+                                @error('low_price')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div class="form-group col-md-6 ">
-                                <label  class="mb-2" for="maximum_price">{{__('Maximum Price')}}</label>
-                                <input type="text" class="form-control @error('maximum_price') is-invalid @enderror" name="maximum_price" id="maximum_price" value="{{old('maximum_price')}}">
-                                @error('maximum_price')
+                                <label  class="mb-2" for="max_price">{{__('Maximum Price')}}</label>
+                                <input type="text" class="form-control @error('max_price') is-invalid @enderror" name="max_price" id="max_price" value="{{old('max_price')}}">
+                                @error('max_price')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -132,26 +132,26 @@
                         <div class="row mb-3">
 
                             <div class="form-group col-md-6">
-                                <label for="buy_sale_rent" class="form-label">{{ __('For Buy-Sale-Rent') }}</label>
-                                <select class="form-select @error('buy_sale_rent') is-invalid @enderror" name="buy_sale_rent" id="buy_sale_rent" >
+                                <label for="purpose" class="form-label">{{ __('Purpose') }}</label>
+                                <select class="form-select @error('purpose') is-invalid @enderror" name="purpose" id="purpose" >
                                     <option selected disabled>Select buy or sale</option>
                                     <option value="buy">Buy</option>
                                     <option value="sale">Sale</option>
                                     <option value="rent">Rent</option>
                                 </select>
-                                @error('buy_sale_rent')
+                                @error('purpose')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="property_tag" class="form-label">{{ __('Property Tag') }}</label>
-                                <select class="form-select @error('property_tag') is-invalid @enderror" name="property_tag" id="property_tag" >
+                                <label for="tag" class="form-label">{{ __(' Tag') }}</label>
+                                <select class="form-select @error('tag') is-invalid @enderror" name="tag" id="tag" >
                                     <option selected disabled>Select tag</option>
                                     <option value="featured">Featured</option>
                                     <option value="hot">Hot</option>
                                 </select>
-                                @error('property_tag')
+                                @error('tag')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -183,13 +183,13 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="amenity" class="form-label">{{ __('Amenity') }}</label>
-                            <select class="js-example-basic-multiple form-select @error('agent') is-invalid @enderror" multiple="multiple"  data-width="100%" name="amenity" id="amenity" >
+                            <label for="amenity_id" class="form-label">{{ __('Amenity') }}</label>
+                            <select class="js-example-basic-multiple form-select @error('amenity_id') is-invalid @enderror" multiple="multiple"  data-width="100%" name="amenity_id" id="amenity_id" >
                                 @foreach($amenities as $amenity)
                                     <option value="{{$amenity->id}}">{{$amenity->name}}</option>
                                 @endforeach
                             </select>
-                            @error('amenity')
+                            @error('amenity_id')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

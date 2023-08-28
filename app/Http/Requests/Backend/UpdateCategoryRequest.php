@@ -2,15 +2,15 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\PropertyCategory;
+use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @method PropertyCategory()
+ * @method Category()
  */
-class UpdatePropertyCategoryRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,12 @@ class UpdatePropertyCategoryRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(PropertyCategory $propertyCategory ): array
+    public function rules(Category $category ): array
     {
         return [
                 'icon' => ['required', 'string', 'min:4', 'max:10'],
                 'name' => ['required', 'string', 'min:4', 'max:100',
-                    Rule::unique('property_categories', 'id')->ignore($propertyCategory->id)],
+                    Rule::unique('property_categories', 'id')->ignore($category->id)],
                 'status' => ['required', 'boolean'],
         ];
     }

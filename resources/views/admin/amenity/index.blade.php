@@ -43,69 +43,39 @@
                 <div class="card-body">
                     <h6 class="card-title">Property Amenities</h6>
                     <p class="text-muted mb-3">Add read text here.....</p>
-                    <div class="table-responsive">
-                        <table id="dataTableExample" class="table">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Amenity Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                  @if($amenities->Count()) > 0)
-                                      @foreach($amenities as $key => $amenity)
 
-                                          <tr>
-                                              <td>
-                                                  <button type="button" class="btn btn-inverse-info">{{$key+1}}</button>
-                                              </td>
-                                              <td>{{$amenity->name}}</td>
-                                              <td>
-                                                  @if($amenity->status === 1)
-                                                      <div class="form-check form-switch">
-                                                          <input
-                                                              class="form-check-input change-status"
-                                                              type="checkbox" id="activeChecked"
-                                                              data-id="{{$amenity->id}}"
-                                                              checked>
-                                                      </div>
-                                                  @else
-                                                      <div class="form-check form-switch">
-                                                          <input
-                                                              class="form-check-input change-status"
-                                                              type="checkbox"
-                                                              data-id="{{$amenity->id}}"
-                                                              id="inActiveChecked">
-                                                      </div>
-                                                  @endif
-                                              </td>
-                                              <td>
-                                                  <a href="{{route('admin.amenity.edit', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-primary"> <i data-feather="edit"></i></a>
-                                                  <a href="{{route('admin.amenity.destroy', Crypt::encryptString($amenity->id))}}" class="btn btn-inverse-danger delete-item"> <i data-feather="trash"></i></a>
-                                              </td>
-                                          </tr>
-                                      @endforeach
-                                  @else
-                                      <tr>
-                                          <td colspan="100%" style="text-align: center;">
-                                              <div class="alert alert-primary" role="alert">
-                                                  <i data-feather="alert-circle"></i>
-                                                  <strong>Oops No Data Available!!! </strong> Create amenity.. <a href="{{route('admin.amenity.create')}}">Here</a>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                  @endif
-                            </tbody>
-                        </table>
-                    </div>
+                    @if($amenities->Count() > 0)
+                        {{ $dataTable->table() }}
+                    @else
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                <tr><th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td colspan="100%" style="text-align: center;">
+                                        <div class="alert alert-primary" role="alert">
+                                            <i data-feather="alert-circle"></i>
+                                            <strong>Oops No Data Available!!! </strong> Create amenities.. <a href="{{route('admin.amenity.create')}}">Here</a>                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @push('scripts')
+
     <script>
 
         // change property status
@@ -152,4 +122,5 @@
             })
         })
     </script>
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\DataTables\AmenityDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\CreateAmenityRequest;
 use App\Http\Requests\Backend\UpdateAmenityRequest;
-use App\Models\Amenities;
+use App\Models\Amenity;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,10 +21,11 @@ class AmenityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(AmenityDataTable $dataTable)
     {
-        $amenities = Amenities::all();
-        return view('admin.amenity.index',
+        $amenities = Amenity::all();
+
+        return $dataTable->render('admin.amenity.index',
             [
                 'amenities' => $amenities
             ]
@@ -45,7 +47,7 @@ class AmenityController extends Controller
     {
         $validate = $request->validated();
 
-        Amenities::create([
+        Amenity::create([
             'user_id' => Auth::id(),
             'name' => $validate['name'],
             'status' => $validate['status'],
@@ -73,7 +75,7 @@ class AmenityController extends Controller
     {
         $decrypted_id =  $this->decryptId($id);
 
-        $amenity = Amenities::findOrFail($decrypted_id);
+        $amenity = Amenity::findOrFail($decrypted_id);
 
         return view('admin.amenity.edit',
             [
@@ -91,7 +93,7 @@ class AmenityController extends Controller
 
         $decrypted_id =  $this->decryptId($id);
 
-        Amenities::findOrFail($decrypted_id)->update([
+        Amenity::findOrFail($decrypted_id)->update([
             'name' => $validate['name'],
             'status' => $validate['status'],
         ]);
@@ -111,7 +113,7 @@ class AmenityController extends Controller
     {
         $decrypted_id = $this->decryptId($id);
 
-        $amenity = Amenities::findOrFail($decrypted_id);
+        $amenity = Amenity::findOrFail($decrypted_id);
 
         if ($amenity->status === 1){
             return response([
@@ -134,7 +136,7 @@ class AmenityController extends Controller
      */
     public function updateStatus(Request $request): Response
     {
-        $amenity = Amenities::findOrFail($request->id);
+        $amenity = Amenity::findOrFail($request->id);
 
         $amenity->status = $request->status === 'true' ? 1 : 0;
         $amenity->save();

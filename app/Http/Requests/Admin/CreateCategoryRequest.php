@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\PropertyCategory;
+use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePropertyCategoryRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CreatePropertyCategoryRequest extends FormRequest
     {
         return [
             'icon' => ['required', 'string', 'min:4', 'max:10'],
-            'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.PropertyCategory::class],
+            'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.Category::class],
             'status' => ['required', 'boolean'],
         ];
     }

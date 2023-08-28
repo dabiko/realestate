@@ -16,12 +16,13 @@
     <!-- End fonts -->
 
     <!-- core:css -->
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css"/>
     <link rel="stylesheet" href="{{asset('backend/assets/vendors/core/core.css')}}">
     <!-- endinject -->
 
     <!-- Plugin css for this page -->
     {{--SweetAlert2--}}
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('backend/assets/vendors/sweetalert2/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/vendors/flatpickr/flatpickr.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css')}}">

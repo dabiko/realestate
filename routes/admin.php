@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Backend\AllUserController;
 use App\Http\Controllers\Backend\AmenityController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PropertyController;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [AdminController::class, 'AdminDashboard'])->name('dashboard');
 Route::post('logout', [AdminController::class, 'AdminLogout'])->name('logout');
+
+Route::put('user/change-status', [AllUserController::class, 'updateStatus'])->name('user.change-status');
+Route::resource('users', AllUserController::class);
 
 Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
 Route::put('profile-update', [AdminProfileController::class, 'update'])->name('profile.update');

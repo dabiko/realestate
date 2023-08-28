@@ -20,10 +20,10 @@ return new class extends Migration
             $table->text('thumbnail');
             $table->string('name');
             $table->string('slug');
-            $table->integer('lowest_price');
-            $table->integer('maximum_price');
-            $table->text('video')->nullable();
-            $table->string('type');
+            $table->integer('low_price');
+            $table->integer('max_price');
+            $table->text('video_link')->nullable();
+            $table->string('purpose');
             $table->string('tag');
             $table->text('short_desc');
             $table->text('long_desc');

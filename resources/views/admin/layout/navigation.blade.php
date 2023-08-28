@@ -28,7 +28,7 @@
                 <div class="collapse" id="category">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{route('admin.property-category.index')}}" class="nav-link">Category</a>
+                            <a href="{{route('admin.category.index')}}" class="nav-link">Category</a>
                         </li>
 
                     </ul>
@@ -65,6 +65,32 @@
                             <a href="{{route('admin.property.index')}}" class="nav-link">property</a>
                         </li>
 
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item nav-category">Authorization</li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">
+                    <i class="link-icon" data-feather="feather"></i>
+                    <span class="link-title">System Accounts</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="accounts">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.users.index')}}" class="nav-link">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.users.index')}}" class="nav-link">User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.users.index')}}" class="nav-link">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.users.index')}}" class="nav-link">Agent</a>
+                        </li>
 
                     </ul>
                 </div>

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static findOrFail(string $decrypted_id)
  * @method static where(string $string, int $int)
  */
-class Amenities extends Model
+class Amenity extends Model
 {
     use HasFactory;
 

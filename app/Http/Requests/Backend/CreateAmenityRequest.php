@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\Amenities;
+use App\Models\Amenity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class CreateAmenityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.Amenities::class],
+            'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.Amenity::class],
             'status' => ['required', 'boolean'],
         ];
     }
