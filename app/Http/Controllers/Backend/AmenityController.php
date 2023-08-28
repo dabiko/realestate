@@ -136,7 +136,8 @@ class AmenityController extends Controller
      */
     public function updateStatus(Request $request): Response
     {
-        $amenity = Amenity::findOrFail($request->id);
+        $decrypted_id = $this->decryptId($request->id);
+        $amenity = Amenity::findOrFail($decrypted_id);
 
         $amenity->status = $request->status === 'true' ? 1 : 0;
         $amenity->save();

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\Amenities;
+use App\Models\Amenity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -22,11 +22,11 @@ class UpdateAmenityRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(Amenities $amenities): array
+    public function rules(Amenity $amenity): array
     {
         return [
             'name' => ['required', 'string', 'min:4', 'max:100',
-                Rule::unique('amenities', 'id')->ignore($amenities->id)],
+                Rule::unique('amenities', 'id')->ignore($amenity->id)],
             'status' => ['required', 'boolean'],
         ];
     }

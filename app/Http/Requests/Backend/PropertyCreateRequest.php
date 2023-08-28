@@ -27,7 +27,7 @@ class PropertyCreateRequest extends FormRequest
             'name' => ['required', 'string', 'min:4', 'max:50'],
             'category_id' => ['required', 'integer'],
             'agent_id' => ['required', 'integer'],
-            'amenity_id' => ['required', 'string'],
+            'amenity_id' => ['required', 'array'],
             'video_link' => ['required', 'string'],
             'low_price' => ['required', 'integer'],
             'max_price' => ['required', 'integer'],

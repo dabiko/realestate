@@ -10,13 +10,16 @@ use App\Models\Property;
 use App\Models\Category;
 use App\Models\User;
 use App\Traits\ImageUploadTraits;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class PropertyController extends Controller
 {
@@ -42,6 +45,7 @@ class PropertyController extends Controller
         $categories = Category::where('status', 1)->get();
         $agents = User::where('status', 'active')
             ->where('role', 'agent')
+            ->latest()
             ->get();
         $amenities = Amenity::where('status', 1)->get();
 
@@ -56,28 +60,43 @@ class PropertyController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws Exception
      */
     public function store(PropertyCreateRequest $request): RedirectResponse
     {
         $validate = $request->validated();
+
+        $format_amenity = implode(",", $validate['amenity_id']);
+
+        $code = IdGenerator::generate([
+            'table' => 'properties',
+            'field' => 'code',
+            'length' => 7,
+            'prefix' => 'PROP-'
+        ]);
+
+
         $imagePath = $this->uploadImage($request, 'image', 'upload/property');
 
         Property::create([
             'thumbnail' => $imagePath,
             'user_id' => Auth::id(),
             'agent_id' => $validate['agent_id'],
-            'categories_id' => $validate['category_id'],
-            'amenities_id' => $validate['amenity_id'],
+            'category_id' => $validate['category_id'],
+            'amenity_id' => $format_amenity,
             'name' => $validate['name'],
             'slug' => Str::slug($validate['name'], '-'),
+            'code' => $code,
             'status' => $validate['status'],
             'low_price' => $validate['low_price'],
             'max_price' => $validate['max_price'],
-            'short_desc' => $validate['short_desc'],
-            'long_desc' => $validate['long_desc'],
             'video_link' => $validate['video_link'],
             'purpose' => $validate['purpose'],
             'tag' => $validate['tag'],
+            'short_desc' => $validate['short_desc'],
+            'long_desc' => $validate['long_desc'],
+            'created_at' => Carbon::now()
+
         ]);
 
 

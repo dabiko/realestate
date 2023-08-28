@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static create(array $array)
+ * @method static insertGetId(array $array)
  */
 class Property extends Model
 {

@@ -131,7 +131,7 @@ class CategoryController extends Controller
         $propertyCat->delete();
         return response([
             'status' => 'success',
-            'message' => 'Property Category Deleted successfully !!',
+            'message' => 'Category Deleted successfully !!',
         ]);
     }
 
@@ -140,7 +140,8 @@ class CategoryController extends Controller
      */
     public function updateStatus(Request $request): Response
     {
-        $propertyCat = Category::findOrFail($request->id);
+        $decrypted_id = $this->decryptId($request->id);
+        $propertyCat = Category::findOrFail($decrypted_id);
 
         $propertyCat->status = $request->status === 'true' ? 1 : 0;
         $propertyCat->save();

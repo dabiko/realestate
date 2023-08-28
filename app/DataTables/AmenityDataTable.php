@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Amenity;
+use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,6 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class AmenityDataTable extends DataTable
 {
+    use EncryptDecrypt;
     /**
      * Build DataTable class.
      *
@@ -23,7 +25,52 @@ class AmenityDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'amenity.action')
+            ->addColumn('action', function ($query){
+
+                $editBtn ="<a href='".route('admin.amenity.edit', $this->encryptId($query->id))."'>
+                               <button class='btn btn-inverse-primary'>
+                               <i class='far fa-edit'></i>
+                               </button>
+                               </a>";
+
+                $deleteBtn ="<a class='delete-item' href='".route('admin.amenity.destroy', $this->encryptId($query->id))."'>
+                              <button class='btn btn-inverse-danger'>
+                              <i class='far fa-trash-alt'></i>
+                              </button>
+                              </a>";
+
+
+
+                return $editBtn.$deleteBtn;
+            })
+            ->addColumn('status', function ($query){
+                $active   = '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 checked>
+                             </div>';
+
+                $InActive   = '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 id="inActiveChecked">
+                             </div>';
+
+                if ($query->status == 1){
+                    return $active;
+                }else{
+                    return $InActive;
+                }
+
+            })
+            ->addColumn('num', content: function ($query)  {
+                return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
+            })
+            ->rawColumns(['action', 'status', 'num'])
             ->setRowId('id');
     }
 
@@ -70,7 +117,7 @@ class AmenityDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('num'),
             Column::make('name'),
             Column::make('status'),
             Column::computed('action')

@@ -184,7 +184,7 @@
 
                         <div class="form-group mb-3">
                             <label for="amenity_id" class="form-label">{{ __('Amenity') }}</label>
-                            <select class="js-example-basic-multiple form-select @error('amenity_id') is-invalid @enderror" multiple="multiple"  data-width="100%" name="amenity_id" id="amenity_id" >
+                            <select class="js-example-basic-multiple form-select @error('amenity_id') is-invalid @enderror" multiple="multiple"  data-width="100%" name="amenity_id[]" id="amenity_id" >
                                 @foreach($amenities as $amenity)
                                     <option value="{{$amenity->id}}">{{$amenity->name}}</option>
                                 @endforeach
@@ -300,7 +300,7 @@
 
                     $('#show-image').attr('src', event.target.result);
 
-                }
+                };
 
                 reader.readAsDataURL(event.target.files['0']);
 

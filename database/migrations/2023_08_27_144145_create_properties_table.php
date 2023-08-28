@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('category_id')->constrained();
+            $table->string('amenity_id');
             $table->integer('agent_id');
-            $table->foreignId('categories_id')->constrained();
-            $table->foreignId('amenities_id')->constrained();
             $table->text('thumbnail');
             $table->string('name');
             $table->string('slug');
+            $table->string('code');
             $table->integer('low_price');
             $table->integer('max_price');
             $table->text('video_link')->nullable();

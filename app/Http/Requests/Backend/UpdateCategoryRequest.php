@@ -30,7 +30,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
                 'icon' => ['required', 'string', 'min:4', 'max:10'],
                 'name' => ['required', 'string', 'min:4', 'max:100',
-                    Rule::unique('property_categories', 'id')->ignore($category->id)],
+                    Rule::unique('categories', 'id')->ignore($category->id)],
                 'status' => ['required', 'boolean'],
         ];
     }
