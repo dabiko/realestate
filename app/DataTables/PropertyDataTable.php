@@ -14,6 +14,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Carbon\Carbon;
 
+
 class PropertyDataTable extends DataTable
 {
     use EncryptDecrypt;
@@ -46,12 +47,19 @@ class PropertyDataTable extends DataTable
                               </button>
                               </a>";
 
-                $btnOptions = '<bubtton class="btn btn-inverse-success dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-feather="chevron-down">
-                                <i class="fa-solid fa-gear fa-spin"></i>
-                               </bubtton>
+                $btnOptions = '
+
+                                    <bubtton class="btn btn-inverse-success dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-feather="chevron-down">
+                                    <i class="fa-solid fa-gear fa-spin"></i>
+                                   </bubtton>
+
                                <div class="dropdown-menu">
                                 <a class="dropdown-item" href="'.route('admin.property-gallery-index', ['property' => $this->encryptId($query->id)]).'"><i style="color:#0b6ce1;" class="fa-solid fa-image"></i></i> Gallery</a>
-                                <a class="dropdown-item" href=""> <i class="fas fa-cog"></i> Variants</a>
+                                <a class="dropdown-item" href=""> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Details</a>
+                                <a class="dropdown-item" href=""> <i style="color:#0b6ce1;" class="fa-solid fa-folder-tree"></i> Plan</a>
+                                <a class="dropdown-item" href=""> <i style="color:#0b6ce1;" class="fa-solid fa-location-dot"></i> Location</a>
+                                <a class="dropdown-item" href="'.route('admin.property-facility.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-building"></i> Facilities</a>
+                                <a class="dropdown-item" href=""> <i style="color:#0b6ce1;" class="fa-solid fa-chart-line"></i> Stattistics</a>
                                </div>';
 
                 return $viewBtn.$editBtn.$deleteBtn.$btnOptions;

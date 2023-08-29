@@ -5,7 +5,10 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Backend\AllUserController;
 use App\Http\Controllers\Backend\AmenityController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\DetailController;
+use App\Http\Controllers\Backend\FacilityController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\PropertyFacilityController;
 use App\Http\Controllers\Backend\PropertyGalleryController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +48,21 @@ Route::resource('property', PropertyController::class);
 
 Route::get('property-gallery-index/{property}', [PropertyGalleryController::class, 'index'])->name('property-gallery-index');
 Route::resource('property-gallery', PropertyGalleryController::class);
+
+Route::put('facility-change-status', [FacilityController::class, 'updateStatus'])->name('facility.change-status');
+Route::resource('facility', FacilityController::class);
+
+Route::put('detail-change-status', [DetailController::class, 'updateStatus'])->name('detail.change-status');
+Route::resource('detail', DetailController::class);
+
+
+
+
+
+
+Route::get('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility-change-status');
+Route::resource('property-facility', PropertyFacilityController::class);
+
 
 
 

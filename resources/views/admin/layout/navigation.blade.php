@@ -52,6 +52,40 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#facility" role="button" aria-expanded="false" aria-controls="facility">
+                    <i class="link-icon" data-feather="aperture"></i>
+                    <span class="link-title">Facilities</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="facility">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.facility.index')}}" class="nav-link">Facility</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#detail" role="button" aria-expanded="false" aria-controls="detail">
+                    <i class="link-icon" data-feather="aperture"></i>
+                    <span class="link-title">Details</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="detail">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.detail.index')}}" class="nav-link">Detail</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#property" role="button" aria-expanded="false" aria-controls="property">
