@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\PropertyDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PropertyCreateRequest;
+use App\Http\Requests\Backend\PropertyUpdateRequest;
 use App\Models\Amenity;
 use App\Models\Property;
 use App\Models\Category;
 use App\Models\User;
+use App\Traits\EncryptDecrypt;
 use App\Traits\ImageUploadTraits;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
@@ -24,6 +26,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 class PropertyController extends Controller
 {
     use ImageUploadTraits;
+    use EncryptDecrypt;
     /**
      * Display a listing of the resource.
      */
@@ -71,7 +74,7 @@ class PropertyController extends Controller
         $code = IdGenerator::generate([
             'table' => 'properties',
             'field' => 'code',
-            'length' => 7,
+            'length' => 8,
             'prefix' => 'PROP-'
         ]);
 
@@ -87,7 +90,6 @@ class PropertyController extends Controller
             'name' => $validate['name'],
             'slug' => Str::slug($validate['name'], '-'),
             'code' => $code,
-            'status' => $validate['status'],
             'low_price' => $validate['low_price'],
             'max_price' => $validate['max_price'],
             'video_link' => $validate['video_link'],
@@ -95,7 +97,7 @@ class PropertyController extends Controller
             'tag' => $validate['tag'],
             'short_desc' => $validate['short_desc'],
             'long_desc' => $validate['long_desc'],
-            'created_at' => Carbon::now()
+            'created_at' => now()
 
         ]);
 
@@ -120,24 +122,135 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
-        //
+        $decrypted_id =  $this->decryptId($id);
+
+        $property = Property::findOrFail($decrypted_id);
+        $categories = Category::where('status', 1)->get();
+        $agents = User::where('status', 'active')
+            ->where('role', 'agent')
+            ->latest()
+            ->get();
+        $amenities = Amenity::where('status', 1)->get();
+
+        $array_amenity = explode(",", $property->amenity_id);
+
+        return view('admin.property.edit',
+            [
+                'property' => $property,
+                'categories' => $categories,
+                'agents' => $agents,
+                'amenities' => $amenities,
+                'array_amenity' => $array_amenity,
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PropertyUpdateRequest $request, string $id): RedirectResponse
     {
-        //
+
+        $validate = $request->validated();
+
+        $decrypted_id =  $this->decryptId($id);
+
+        $property = Property::findOrFail($decrypted_id);
+
+        $format_amenity = implode(",", $validate['amenity_id']);
+
+
+        $imagePath = $this->updatePropertyImage($request, 'image', 'upload/property', $property->thumbnail);
+        $updatePath =  empty(!$request->image) ? $imagePath : $property->thumbnail;
+
+        Property::findOrFail($decrypted_id)->update([
+            'thumbnail' => $updatePath,
+            'user_id' => $property->user_id,
+            'agent_id' => $validate['agent_id'],
+            'category_id' => $validate['category_id'],
+            'amenity_id' => $format_amenity,
+            'name' => $validate['name'],
+            'slug' => Str::slug($validate['name'], '-'),
+            'code' => $property->code,
+            'status' => $property->status,
+            'low_price' => $validate['low_price'],
+            'max_price' => $validate['max_price'],
+            'video_link' => $validate['video_link'],
+            'purpose' => $validate['purpose'],
+            'tag' => $validate['tag'],
+            'short_desc' => $validate['short_desc'],
+            'long_desc' => $validate['long_desc'],
+            'updated_at' => now()
+        ]);
+
+        return Redirect::route('admin.property.index')
+            ->with(
+                [
+                    'status' => 'success',
+                    'message' => 'property Updated Successfully!!'
+                ]
+            );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Response
     {
-        //
+
+        $decrypted_id = $this->decryptId($id);
+
+        $property = Property::findOrFail($decrypted_id);
+
+        if ($property->is_approved === 1){
+            return response([
+                'status' => 'error',
+                'title' => 'Cant delete '.$property->name,
+                'message' => 'This Property is still active and live. Deactivate before deleting',
+            ]);
+        }
+
+        $property->delete();
+        return response([
+            'status' => 'success',
+            'message' => 'Property Deleted successfully !!',
+        ]);
     }
+
+    /**
+     * Update the status resource in storage.
+     */
+    public function checkIsApproved(Request $request): Response
+    {
+        $decrypted_id = $this->decryptId($request->id);
+        $property = Property::findOrFail($decrypted_id);
+
+        return response([
+            'status' => 'success',
+            'response' =>  $property->is_approved,
+
+        ]);
+    }
+
+
+    /**
+     * Update the status resource in storage.
+     */
+    public function updateStatus(Request $request): Response
+    {
+        $decrypted_id = $this->decryptId($request->id);
+        $property = Property::findOrFail($decrypted_id);
+
+        $property->is_approved = $request->status === 'true' ? 1 : 0;
+        $property->save();
+
+        return response([
+            'status' => 'success',
+            'message' => $request->status === 'true' ? 'Project Approved' : 'Project Suspended',
+        ]);
+    }
+
+
 }

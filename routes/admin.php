@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\AllUserController;
 use App\Http\Controllers\Backend\AmenityController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\PropertyGalleryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,9 +38,14 @@ Route::resource('category', CategoryController::class);
 Route::put('amenity/change-status', [AmenityController::class, 'updateStatus'])->name('amenity.change-status');
 Route::resource('amenity', AmenityController::class);
 
-
+Route::get('property/check-approved', [PropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [PropertyController::class, 'updateStatus'])->name('property.change-status');
 Route::resource('property', PropertyController::class);
+
+
+Route::get('property-gallery-index/{property}', [PropertyGalleryController::class, 'index'])->name('property-gallery-index');
+Route::resource('property-gallery', PropertyGalleryController::class);
+
 
 
 

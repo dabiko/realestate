@@ -1,21 +1,21 @@
 <?php
 
-function checkPropertyType( string $type): string
+/**
+ * @param $message, provided  to alert the Error for Invalid Token
+ ** @param $title, for error tittle
+ */
+function warningMessage($title,$message): string
 {
-    return match ($type) {
-        'buy' => 'Buy',
-        'sale' => 'Sale',
-        'rent' => 'Rent',
-        default => 'None',
-    };
-}
-
-function checkPropertyTag( string $type): string
-{
-    return match ($type) {
-        'featured' => 'Featured',
-        'hot' => 'Hot',
-        default => 'None',
-    };
+    return '<script>
+        swal.fire({
+              title: \''.$title.'\',
+              text: \''.$message.'\',
+              type: \'warning\',
+              timer: 9000,
+              showCancelButton: false,
+              confirmButtonColor: \'#d33\',
+              confirmButtonText: \'OK !!\'
+        })
+    </script>';
 }
 

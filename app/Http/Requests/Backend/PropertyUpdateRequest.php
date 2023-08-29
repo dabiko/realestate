@@ -5,8 +5,9 @@ namespace App\Http\Requests\Backend;
 use App\Models\Property;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PropertyCreateRequest extends FormRequest
+class PropertyUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +22,12 @@ class PropertyCreateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(): array
+    public function rules(Property $property): array
     {
         return [
-            'image' => ['required', 'image'],
-            'name' => ['required', 'string', 'min:4', 'max:50', 'unique:'.Property::class],
+            'image' => ['nullable', 'image'],
+            'name' => ['required', 'string', 'min:4', 'max:50',
+                Rule::unique('properties', 'id')->ignore($property->id)],
             'category_id' => ['required', 'integer'],
             'agent_id' => ['required', 'integer'],
             'amenity_id' => ['required', 'array'],

@@ -11,15 +11,22 @@ $(document).ready(function(){
 
         let deleteUrl = $(this).attr('href');
 
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-inverse-success',
+                cancelButton: 'btn btn-inverse-danger'
+            },
+            buttonsStyling: true
+        })
 
-        Swal.fire({
+
+        swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#2DBE6C',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, delete it!',
+            reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
 

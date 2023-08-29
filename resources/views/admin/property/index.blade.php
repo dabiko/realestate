@@ -46,7 +46,9 @@
 
 
                                   @if($properties->Count() > 0)
+
                                       {{ $dataTable->table() }}
+
                                   @else
                                     <div class="table-responsive">
                                         <table id="dataTableExample" class="table">
@@ -90,7 +92,7 @@
     <script>
 
         // change property status
-        $(document).ready(function(){
+        $(document).ready(function (message){
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -116,6 +118,9 @@
                                 icon: data.status,
                                 title: data.message,
                             })
+                            window.setTimeout(function(){
+                                location.reload();
+                            } ,1000);
                         }else if(data.status === 'error'){
                             Swal.fire({
                                 icon: 'error',
@@ -131,6 +136,131 @@
 
                 })
             })
+
+            $('body').on('click', '.approve-project', function (event){
+
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{route('admin.property.check-approved')}}",
+                    method: 'GET',
+                    data: {
+                        id: id,
+                    },
+                    success: function (data){
+                        if(data.status === 'success'){
+                            let textInfo = data.response === 1 ? 'Do you want to Deactivate this project' : 'Do you want to approve this project';
+                            let cancelInfo =  data.response === 1 ? 'This project is still approved' : 'This project is still pending approval';
+                            let confirmText =  data.response === 1 ? 'Yes, Deactivate !' : 'Yes, Approve !';
+
+                            let successTitle =  data.response === 1 ? 'Deactivating Project' : 'Approving Project';
+                            let successMessage =  data.response === 1 ? 'Deactivating in <b></b>' : 'Approving in <b></b>';
+
+                            let isChecked =  data.response === 1 ? 'false' : 'true';
+
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-inverse-success',
+                                    cancelButton: 'btn btn-inverse-danger'
+                                },
+                                buttonsStyling: true
+                            })
+
+                            swalWithBootstrapButtons.fire({
+                                title: 'Are you sure?',
+                                text: textInfo,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: confirmText,
+                                cancelButtonText: 'No, cancel!',
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: "{{route('admin.property.change-status')}}",
+                                        method: 'PUT',
+                                        data: {
+                                            status: isChecked,
+                                            id: id,
+                                        },
+                                        success: function (data){
+                                            if(data.status === 'success'){
+                                                let timerInterval
+                                                Swal.fire({
+                                                    title: successTitle,
+                                                    html: successMessage,
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    didOpen: () => {
+                                                        Swal.showLoading()
+                                                        const b = Swal.getHtmlContainer().querySelector('b')
+                                                        timerInterval = setInterval(() => {
+                                                            b.textContent = Swal.getTimerLeft()
+                                                        }, 100)
+                                                    },
+                                                    willClose: () => {
+                                                        clearInterval(timerInterval)
+                                                    }
+                                                }).then((result) => {
+                                                    /* Read more about handling dismissals below */
+                                                    if (result.dismiss === Swal.DismissReason.timer) {
+                                                        console.log('I was closed by the timer')
+                                                    }
+                                                })
+                                                window.setTimeout(function(){
+                                                    location.reload();
+                                                } ,3000);
+
+                                            }else if(data.status === 'error'){
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: data.message,
+                                                    showConfirmButton: true,
+                                                })
+                                            }
+
+                                        },
+                                        error: function (xhr, status, error){
+                                            console.log(error);
+                                        }
+
+                                    })
+
+                                } else if (
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                    swalWithBootstrapButtons.fire(
+                                        'Cancelled',
+                                         cancelInfo,
+                                        'info'
+                                    )
+                                }
+                            })
+
+                        }else if(data.status === 'error'){
+                            Swal.fire({
+                                icon: 'error',
+                                title: data.message,
+                                showConfirmButton: true,
+                            })
+                        }
+
+                    },
+                    error: function (xhr, status, error){
+                        console.log(error);
+                    }
+
+                })
+            });
+
+
+            $('body').on('click', '.no_video', function (event){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No video available',
+                    text: 'Upload a new video and add the link to this property',
+                })
+            });
         })
 
     </script>

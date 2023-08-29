@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static create(array $array)
  * @method static insertGetId(array $array)
+ * @method static findOrFail(string $decrypted_id)
+
  */
 class Property extends Model
 {
@@ -16,13 +18,18 @@ class Property extends Model
 
     protected $guarded = [];
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
-         return $this->belongsTo (PropertyCategory::class);
+         return $this->belongsTo (Category::class);
     }
 
-    public function agent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo (User::class);
+    }
+
+    public function amenity(): BelongsTo
+    {
+        return $this->belongsTo (Amenity::class);
     }
 }

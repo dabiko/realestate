@@ -12,6 +12,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Carbon\Carbon;
 
 class PropertyDataTable extends DataTable
 {
@@ -26,7 +27,8 @@ class PropertyDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
-                $viewBtn ="<a  class='view-property' href='".route('admin.property.show', $this->encryptId($query->id))."'>
+
+                $viewBtn ="<a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'  class='view-property'>
                               <button class='btn btn-inverse-info'>
                               <i class='far fa-eye'></i>
                               </button>
@@ -45,58 +47,182 @@ class PropertyDataTable extends DataTable
                               </a>";
 
                 $btnOptions = '<bubtton class="btn btn-inverse-success dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-feather="chevron-down">
-                                 <i class="fas fa-cog"></i>
+                                <i class="fa-solid fa-gear fa-spin"></i>
                                </bubtton>
                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href=""> <i class="fas fa-cog"></i> Gallery</a>
+                                <a class="dropdown-item" href="'.route('admin.property-gallery-index', ['property' => $this->encryptId($query->id)]).'"><i style="color:#0b6ce1;" class="fa-solid fa-image"></i></i> Gallery</a>
                                 <a class="dropdown-item" href=""> <i class="fas fa-cog"></i> Variants</a>
                                </div>';
 
                 return $viewBtn.$editBtn.$deleteBtn.$btnOptions;
             })
             ->addColumn('image', function ($query){
-                return "<img style='border-radius: 2px; width:50%; height:50%;'  src='".asset($query->thumbnail)."' alt='image'></img>";
+
+                if ($query->is_approved === 1){
+
+                    $approval   = '<bubtton  disabled class="btn btn-inverse-success">
+                                <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
+                                Yes
+                               </bubtton>';
+                }else{
+
+                    $approval   = '<bubtton  disabled class="btn btn-inverse-warning">
+                              <i class="fas fa-clock fa-spin"></i>
+                                Pending
+                               </bubtton>';
+                }
+
+
+                if ($query->tag == 'featured'){
+
+                    $tag   = '<i class="btn btn-inverse-warning">Featured</i>';
+                }else{
+
+                    $tag   = '<i class="btn btn-inverse-success">Hot</i>';
+                }
+
+                if ($query->purpose == 'buy'){
+
+                    $purpose   = '<i class="btn btn-inverse-success">Buy</i>';
+                }elseif($query->purpose == 'sale'){
+
+                    $purpose   = '<i class="btn btn-inverse-primary">Sale</i>';
+                }else{
+
+                    $purpose   = '<i class="btn btn-inverse-info">Rent</i>';
+                }
+
+                if ($query->is_approved === 1){
+
+                    $approved   = '
+                                 <label class="form-label">Suspend Project</label>
+                                <div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 checked>
+                             </div>';
+                }else{
+
+                    $approved   = '
+                            <label class="form-label">Activate Project</label>
+                            <div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 id="inActiveChecked">
+                             </div>';
+                }
+
+                $created_on = Carbon::parse($query->created_at)->diffForHumans();
+                $updated_on = Carbon::parse($query->updated_at)->diffForHumans();
+
+                return "
+                       <a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'>
+                       <img class='mb-2' style='border-radius: 2px; width:50%; height:50%;'  src='".asset($query->thumbnail)."' alt='image'></img>
+                        <h6>$query->name</h6>
+                       </a>
+
+                       <div class='modal fade' id='exampleModal-".$query->id."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                              <div class='modal-dialog-centered modal-dialog modal-lg'>
+                                <div class='modal-content'>
+                                  <div class='modal-header'>
+                                    <h5 class='modal-title' id='exampleModalLabel-".$query->id."'>$query->name $approval $tag $purpose  </h5>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='btn-close'></button>
+                                  </div>
+                                  <div class='modal-body'>
+                                    <img class='mb-3' style='border-radius: 2px; width:100%; height:100%;' src='".asset($query->thumbnail)."'  alt='property image'/>
+                                               <div class='row form-group mb-3'>
+                                                  <div class='col-md-3'>
+                                                      $approved
+                                                   </div>
+                                                   <div class='col-md-3'>
+                                                       <label for='recipient-name' class='form-label'>Created By</label>
+                                                        <input  value='".$query->user->name."' disabled type='text' class='form-control' name='low_price' id='low_price' value='".$query->tag."'>
+                                                   </div>
+                                                    <div class='col-md-3'>
+                                                       <label for='recipient-name' class='form-label'>Created:".$query->created_at->format( 'D-d-M-Y')."</label>
+                                                        <input value='".$created_on."' disabled type='text' class='form-control' name='low_price' id='low_price' value='".$query->tag."'>
+                                                   </div>
+                                                   <div class='col-md-3'>
+                                                       <label for='recipient-name' class='form-label'>Updated:".$query->updated_at->format( 'D-d-M-Y')."</label>
+                                                        <input value='".$updated_on."' disabled type='text' class='form-control' name='low_price' id='low_price' value='".$query->tag."'>
+                                                   </div>
+                                               </div>
+
+                                                <div class='row form-group mb-3'>
+                                                        <label for='recipient-name' class='form-label'>Short Description</label>
+                                                        <textarea  disabled class='form-control' name='low_price' id='low_price'>
+                                                        $query->short_desc
+                                                      </textarea>
+                                                 </div>
+                                                  <div class='row form-group mb-3'>
+                                                        <label for='recipient-name' class='form-label'>Long Description</label>
+                                                        <textarea maxlength='100' rows='8' disabled id='tinymceExample' class='form-control' name='low_price' id='low_price'>
+                                                        $query->long_desc
+                                                      </textarea>
+                                                 </div>
+                                  </div>
+                                  <div class='modal-footer'>
+                                    <button type='button' class='btn btn-inverse-secondary' data-bs-dismiss='modal'>Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                       </div>";
+
             })
             ->addColumn('video', function ($query){
                 $video_link = $query->video_link;
                 if (!empty($video_link)){
-                    return '<bubtton class="btn btn-inverse-danger">
+                    return '<a data-bs-toggle="modal" data-bs-target="#videoModal-'.$query->id.'" href="'.$query->video_link.'" class="btn btn-inverse-danger">
                                  <i class="fa-brands fa-youtube fa-lg"></i>
-                               </bubtton>';
+                               </a>
+
+                                     <div class="modal fade" id="videoModal-'.$query->id.'" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog-centered modal-dialog  modal-lg">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="videoModalLabel">'.$query->name.'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <iframe  width="100%" height="100%"
+                                                 src="'.$query->video_link.'" allowfullscreen>
+                                              </iframe>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>';
                 }else{
-                    return '<bubtton  disabled class="btn btn-inverse-secondary">
+                    return '<a  disabled class="btn btn-inverse-secondary no_video">
                                 <i class="fa-brands fa-youtube fa-lg"></i>
                                </bubtton>';
                 }
             })
-            ->addColumn('purpose', function ($query){
-                return match ($query->purpose) {
-                    'buy' => '<i class="btn btn-inverse-success">Buy</i>',
-                    'sale' => '<i class="btn btn-inverse-primary">Sale</i>',
-                    'rent' => '<i class="btn btn-inverse-info">Rent</i>',
-                    default => '<i class="btn btn-inverse-warning">None</i>',
-                };
-            })
 
-            ->addColumn('tag', function ($query){
-                return match ($query->tag) {
-                    'hot' => '<i class="btn btn-inverse-success">Hot</i>',
-                    'featured' => '<i class="btn btn-inverse-warning">Featured</i>',
-                    default => '<i class="btn btn-inverse-warning">None</i>',
-                };
-            })
             ->addColumn('is approved', function ($query){
-                $approved   = '<bubtton  disabled class="btn btn-inverse-success">
-                                <i class="fa-solid fa-square-check"></i>
+                $approved   = '<bubtton
+                                  class="btn btn-inverse-success approve-project"
+                                  data-id="'.$this->encryptId($query->id).'"
+                                  >
+                               <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
+                                Yes
+                               </bubtton>';
+
+                $pending   = '<bubtton
+                                  class="btn btn-inverse-warning approve-project"
+                                  data-id="'.$this->encryptId($query->id).'"
+                                  >
+                                <i class="fas fa-clock fa-spin"></i>
                                 Pending
                                </bubtton>';
 
-                $pending   = '<bubtton  disabled class="btn btn-inverse-warning">
-                              <i class="fas fa-clock"></i>
-                                Pending
-                               </bubtton>';
-
-                if ($query->is_approved == 1){
+                if ($query->is_approved === 1){
                     return $approved;
                 }else{
                     return $pending;
@@ -104,33 +230,46 @@ class PropertyDataTable extends DataTable
 
             })
             ->addColumn('status', function ($query){
-                $active   = '<div class="form-check form-switch">
+                if ($query->is_approved === 1){
+
+                    return    '
+                                 <label class="form-label">Suspend</label>
+                                <div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox" id="activeChecked"
-                                 data-id="'.$query->id.'"
+                                 data-id="'.$this->encryptId($query->id).'"
                                  checked>
                              </div>';
+                }else{
 
-                $InActive   = '<div class="form-check form-switch">
+                    return    '
+                            <label class="form-label">Activate</label>
+                            <div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox"
-                                 data-id="'.$query->id.'"
+                                 data-id="'.$this->encryptId($query->id).'"
                                  id="inActiveChecked">
                              </div>';
-
-                if ($query->status == 1){
-                    return $active;
-                }else{
-                    return $InActive;
                 }
-
             })
-            ->addColumn('code', content: function ($query)  {
-                return "<a><button type='button' class='btn btn-inverse-info'>$query->code</button></a>";
+            ->addColumn('code', function ($query)  {
+                return "<a>
+                        <button type='button' class='mb-2 btn btn-inverse-info'>$query->code</button>
+                         <h6 style='text-align: justify'>".$query->category->name."</h6>
+                        </a>";
             })
-            ->rawColumns(['image', 'action', 'status', 'purpose', 'tag', 'code', 'video', 'is approved'])
+            ->addColumn('low price', function ($query)  {
+                return '<i style="color: #FF3366" class="fa-solid fa-arrow-down-long fa-beat-fade"></i> '.$query->low_price;
+            })
+            ->addColumn('max price', function ($query)  {
+                return '<i style="color: #05A34A" class="fa-solid fa-arrow-up-long fa-beat-fade"></i> '.$query->max_price;
+            })
+            ->addColumn('category', function ($query)  {
+                return $query->category->name;
+            })
+            ->rawColumns(['image', 'action', 'status', 'purpose', 'max price', 'low price', 'code', 'video', 'is approved'])
             ->setRowId('id');
     }
 
@@ -178,16 +317,13 @@ class PropertyDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('code')->width(100),
-            Column::make('name')->width(200),
-            Column::make('image'),
-            Column::make('video'),
-            Column::make('low_price'),
-            Column::make('max_price'),
-            Column::make('purpose'),
-            Column::make('is approved'),
-            Column::make('tag'),
-            Column::make('status'),
+            Column::make('code')->width(50),
+            Column::make('image')->width(100),
+            Column::make('video')->width(20),
+            Column::make('low price')->width(20),
+            Column::make('max price')->width(20),
+            Column::make('is approved')->width(20),
+//            Column::make('status')->width(10),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
