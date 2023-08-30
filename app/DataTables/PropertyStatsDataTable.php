@@ -2,9 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\PropertyGallery;
+use App\Models\PropertyStats;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -12,11 +13,9 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Support\Carbon;
 
-class PropertyGalleryDataTable extends DataTable
-{
-    use EncryptDecrypt;
+class PropertyStatsDataTable extends DataTable
+{    use EncryptDecrypt;
     /**
      * Build DataTable class.
      *
@@ -27,7 +26,7 @@ class PropertyGalleryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('image', function ($query){
-                    return "
+                return "
                 <a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'>
                    <img  class='mb-2' style='border-radius: 2px; width:50%; height:50%;' src='".asset($query->image)."' alt='image'></img>
                  <h6>".$query->property->name."</h6>
@@ -79,7 +78,7 @@ class PropertyGalleryDataTable extends DataTable
                               </button>
                               </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-gallery.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route('admin.property-stats.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger''>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -105,19 +104,19 @@ class PropertyGalleryDataTable extends DataTable
                         <button type='button' class='mb-2 btn btn-inverse-info'>$query->id</button>
                        </a>";
             })
-            ->rawColumns(['id', 'image', 'created_at', 'updated_at', 'action'])
+            ->rawColumns(['num', 'image', 'created_at', 'updated_at', 'action'])
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param PropertyGallery $model
+     * @param PropertyStats $model
      * @return QueryBuilder
      */
-    public function query(PropertyGallery $model): QueryBuilder
+    public function query(PropertyStats $model): QueryBuilder
     {
-        return $model->where('property_id', $this->decryptId(request()->property))->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -128,11 +127,11 @@ class PropertyGalleryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('propertygallery-table')
+                    ->setTableId('propertystats-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -152,8 +151,7 @@ class PropertyGalleryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
+            Column::make('num'),
             Column::make('image'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -172,6 +170,6 @@ class PropertyGalleryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PropertyGallery_' . date('YmdHis');
+        return 'PropertyStats_' . date('YmdHis');
     }
 }

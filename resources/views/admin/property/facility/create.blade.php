@@ -60,7 +60,7 @@
                                     <select class="js-example-basic-single form-select  @error('facility') is-invalid @enderror"  data-width="100%" name="facility" id="facility" >
                                         <option selected disabled>Select status</option>
                                         @foreach($facilities as $facility)
-                                            <option value="{{$facility->id}}">{{$facility->name}}</option>
+                                            <option value="{{Crypt::encryptString($facility->id)}}">{{$facility->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('facility')
@@ -82,7 +82,10 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="distance" class="form-label"> Distance  <code>( Km ) * </code></label>
-                                    <input type="text" name="distance" id="distance" class="form-control" placeholder="Distance (Km)">
+                                    <input type="text" name="distance" id="distance" class="form-control  @error('distance') is-invalid @enderror" value="{{old('distance')}}" placeholder="Distance (Km)">
+                                    @error('distance')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -114,7 +117,6 @@
                                     <option selected disabled>Select status</option>
                                     <option  value="1">{{__('Active')}}</option>
                                     <option  value="0">{{__('Inactive')}}</option>
-
                                 </select>
                                 @error('status')
                                 <span class="text-danger">{{ $message }}</span>

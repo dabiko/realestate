@@ -7,22 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @method static where(string $string, $id)
  * @method static create(array $array)
  * @method static findOrFail(string $decrypted_id)
  */
-class PropertyFacility extends Model
+class PropertyVariantItem extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function property(): BelongsTo
+    public function variant(): BelongsTo
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(PropertyVariant::class);
     }
-
-    public function facility(): BelongsTo
-    {
-        return $this->belongsTo(Facility::class);
-    }
-
 }

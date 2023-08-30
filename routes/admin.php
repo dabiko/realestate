@@ -10,6 +10,9 @@ use App\Http\Controllers\Backend\FacilityController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyFacilityController;
 use App\Http\Controllers\Backend\PropertyGalleryController;
+use App\Http\Controllers\Backend\PropertyStatsController;
+use App\Http\Controllers\Backend\PropertyVariantController;
+use App\Http\Controllers\Backend\PropertyVariantItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,13 +58,26 @@ Route::resource('facility', FacilityController::class);
 Route::put('detail-change-status', [DetailController::class, 'updateStatus'])->name('detail.change-status');
 Route::resource('detail', DetailController::class);
 
+Route::get('property-stats-index/{property}', [PropertyStatsController::class, 'index'])->name('property-stats-index');
+Route::resource('property-stats', PropertyStatsController::class);
 
 
-
-
-
-Route::get('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility-change-status');
+Route::put('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
 Route::resource('property-facility', PropertyFacilityController::class);
+
+Route::put('property-variant/change-status', [PropertyVariantController::class, 'updateStatus'])->name('property-variant.change-status');
+Route::get('property-variant-index/{property}', [PropertyVariantController::class, 'index'])->name('property-variant-index');
+Route::resource('property-variant', PropertyVariantController::class);
+
+
+Route::get('variant-item/{propertyId}/{variantId}', [PropertyVariantItemController::class, 'index'])->name('variant-item.index');
+Route::get('variant-item/create/{propertyId}/{variantId}', [PropertyVariantItemController::class, 'create'])->name('variant-item.create');
+Route::put('variant-item/status', [PropertyVariantItemController::class, 'updateStatus'])->name('variant-item.change-status');
+
+Route::get('variant-item-edit/{variantItemId}', [PropertyVariantItemController::class, 'edit'])->name('variant-item.edit');
+Route::put('variant-item-update/{variantItemId}', [PropertyVariantItemController::class, 'update'])->name('variant-item.update');
+Route::delete('variant-item-delete/{variantItemId}', [PropertyVariantItemController::class, 'destroy'])->name('variant-item.destroy');
+Route::post('variant-item', [PropertyVariantItemController::class, 'store'])->name('variant-item.store');
 
 
 

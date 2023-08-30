@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\PropertyFacility;
+use App\Models\PropertyVariant;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,9 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PropertyFacilityDataTable extends DataTable
-{
-    use EncryptDecrypt;
+class PropertyVariantDataTable extends DataTable
+{ use EncryptDecrypt;
     /**
      * Build DataTable class.
      *
@@ -26,58 +25,53 @@ class PropertyFacilityDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
-
-                $viewBtn ="<a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'  class='view-property'>
-                              <button class='btn btn-inverse-info'>
-                              <i class='far fa-eye'></i>
-                              </button>
-                              </a>";
-
-                $editBtn ="<a href='".route('admin.property-facility.edit', $this->encryptId($query->id))."'>
-                               <button class='btn btn-inverse-primary'>
+                $optionBtn ="<a href='".route('admin.variant-item.index', ['propertyId' => $this->encryptId($query->property_id), 'variantId' => $this->encryptId($query->id)])."'>
+                               <button class='btn btn-inverse-info''>
+                               <i class='far fa-eye'></i> Variant Items
+                               </button>
+                               </a>";
+                $editBtn ="<a href='".route('admin.property-variant.edit', $this->encryptId($query->id))."'>
+                               <button class='btn btn-inverse-primary''>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
-
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-facility.destroy', $this->encryptId($query->id))."'>
-                              <button class='btn btn-inverse-danger'>
+                $deleteBtn ="<a class='delete-item' href='".route('admin.property-variant.destroy', $this->encryptId($query->id))."'>
+                              <button class='btn btn-inverse-danger''>
                               <i class='far fa-trash-alt'></i>
                               </button>
                               </a>";
 
-                return $viewBtn.$editBtn.$deleteBtn;
-            })
-            ->addColumn('property', function ($query){
-                return $query->property->name;
-            })
-            ->addColumn('facility', function ($query){
-                return $query->facility->name;
+                return $optionBtn.$editBtn.$deleteBtn;
             })
             ->addColumn('status', function ($query){
-                if ($query->status === 1){
-
-                    return    '
-                                <div class="form-check form-switch">
+                $active   = '<div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox" id="activeChecked"
                                  data-id="'.$this->encryptId($query->id).'"
                                  checked>
                              </div>';
-                }else{
 
-                    return   '
-                            <div class="form-check form-switch">
+                $InActive   = '<div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox"
                                  data-id="'.$this->encryptId($query->id).'"
                                  id="inActiveChecked">
                              </div>';
+
+                if ($query->status == 1){
+                    return $active;
+                }else{
+                    return $InActive;
                 }
+
             })
-            ->addColumn('num', content: function ($query)  {
-                return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
+            ->addColumn('num', function ($query){
+
+                return "<a>
+                        <button type='button' class='mb-2 btn btn-inverse-info'>$query->id</button>
+                       </a>";
             })
             ->rawColumns(['action', 'status', 'num'])
             ->setRowId('id');
@@ -86,12 +80,14 @@ class PropertyFacilityDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param PropertyFacility $model
+     * @param PropertyVariant $model
      * @return QueryBuilder
      */
-    public function query(PropertyFacility $model): QueryBuilder
+    public function query(PropertyVariant $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('property_id', $this->decryptId(request()->property))
+            ->newQuery()
+            ->orderBy('id', 'ASC');
     }
 
     /**
@@ -102,11 +98,11 @@ class PropertyFacilityDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('propertyfacility-table')
+                    ->setTableId('propertyvariant-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -126,12 +122,9 @@ class PropertyFacilityDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('num'),
-            Column::make('property'),
-            Column::make('facility'),
             Column::make('name'),
-            Column::make('distance'),
-            Column::make('rating'),
             Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
@@ -148,6 +141,6 @@ class PropertyFacilityDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PropertyFacility_' . date('YmdHis');
+        return 'PropertyVariant_' . date('YmdHis');
     }
 }
