@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'index'])->name('home');
 
-Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
+Route::get('admin/login', [AdminController::class, 'AdminLogin'])
+    ->name('admin.login')
+    ->middleware(RedirectIfAuthenticated::class);
 
-Route::get('user/login', [UserController::class, 'login'])->name('user.login');
+Route::get('user/login', [UserController::class, 'login'])
+    ->name('user.login')
+    ->middleware(RedirectIfAuthenticated::class);
 
 
 //Route::middleware('auth')->group(function () {

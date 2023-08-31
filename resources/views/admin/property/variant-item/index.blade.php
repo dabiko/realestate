@@ -26,7 +26,6 @@
             </a>
         </div>
 
-
     </div>
 
 
@@ -216,6 +215,19 @@
                 })
             })
         })
+
+        $(document).ready(function(){
+            let counter = 0;
+            $(document).on("click",".addeventmore",function(){
+                let whole_extra_item_add = $("#whole_extra_item_add").html();
+                $(this).closest(".add_item").append(whole_extra_item_add);
+                counter++;
+            });
+            $(document).on("click",".removeeventmore",function(event){
+                $(this).closest("#whole_extra_item_delete").remove();
+                counter -= 1
+            });
+        });
 
     </script>
 

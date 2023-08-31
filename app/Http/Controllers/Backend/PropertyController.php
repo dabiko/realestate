@@ -221,10 +221,6 @@ class PropertyController extends Controller
             ]);
         }
 
-
-
-
-
         if ($property->is_approved === 1){
             return response([
                 'status' => 'error',
