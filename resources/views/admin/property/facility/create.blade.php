@@ -17,13 +17,13 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">{{$property->name}} Facility</h4>
+            <h4 class="mb-3 mb-md-0">Create Facility :  {{$property->name}} </h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
             <a href="{{route('admin.property-facility.index', ['property' => request()->property])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="arrow-left-circle"></i>
-                    Property Facility Table
+                     Facility Table
                 </button>
             </a>
         </div>
@@ -93,16 +93,17 @@
                                 <div class="  mb-3">
                                     <label for="rating" class="form-label">{{ __('Rating') }}</label>
                                     <select class="js-example-basic-single form-select  @error('rating') is-invalid @enderror"  data-width="100%" name="rating" id="rating" >
-                                        <option selected disabled>Select status</option>
-                                        <option  value="1">{{__('Active')}}</option>
-                                        <option  value="1.5">{{__('Inactive')}}</option>
-                                        <option  value="2">{{__('Inactive')}}</option>
-                                        <option  value="2.5">{{__('Inactive')}}</option>
-                                        <option  value="3">{{__('Inactive')}}</option>
-                                        <option  value="3.5">{{__('Inactive')}}</option>
-                                        <option  value="4">{{__('Inactive')}}</option>
-                                        <option  value="4.5">{{__('Inactive')}}</option>
-                                        <option  value="5">{{__('Inactive')}}</option>
+                                        <option selected disabled>Select rating</option>
+                                        <option  value="0">{{__('0')}}</option>
+                                        <option  value="1">{{__('1')}}</option>
+                                        <option  value="1.5">{{__('1.5')}}</option>
+                                        <option  value="2">{{__('2')}}</option>
+                                        <option  value="2.5">{{__('2.5')}}</option>
+                                        <option  value="3">{{__('3')}}</option>
+                                        <option  value="3.5">{{__('3.5')}}</option>
+                                        <option  value="4">{{__('4')}}</option>
+                                        <option  value="4.5">{{__('4.5')}}</option>
+                                        <option  value="5">{{__('5')}}</option>
                                     </select>
                                     @error('rating')
                                     <span class="text-danger">{{ $message }}</span>
@@ -123,7 +124,7 @@
                                 @enderror
                             </div>
 
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-inverse-primary">
                                 <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}
                         </button>
                     </form>

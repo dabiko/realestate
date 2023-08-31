@@ -6,6 +6,7 @@ use App\DataTables\PropertyLocationDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PropertyLocationCreateRequest;
 use App\Http\Requests\Backend\PropertyLocationUpdateRequest;
+use App\Models\Facility;
 use App\Models\Property;
 use App\Models\PropertyLocation;
 use App\Traits\EncryptDecrypt;
@@ -96,9 +97,11 @@ class PropertyLocationController extends Controller
 
         $property_location = PropertyLocation::findOrFail($decrypted_id);
 
+
         return view('admin.property.location.edit',
             [
                 'property_location' => $property_location,
+
 
             ]
         );

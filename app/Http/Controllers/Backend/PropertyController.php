@@ -9,6 +9,10 @@ use App\Http\Requests\Backend\PropertyUpdateRequest;
 use App\Models\Amenity;
 use App\Models\Property;
 use App\Models\Category;
+use App\Models\PropertyDetail;
+use App\Models\PropertyFacility;
+use App\Models\PropertyLocation;
+use App\Models\PropertyPlan;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use App\Traits\ImageUploadTraits;
@@ -203,6 +207,23 @@ class PropertyController extends Controller
         $decrypted_id = $this->decryptId($id);
 
         $property = Property::findOrFail($decrypted_id);
+        $details = PropertyDetail::where('property_id', $decrypted_id)->count();
+        $plans = PropertyPlan::where('property_id', $decrypted_id)->count();
+        $locations = PropertyLocation::where('property_id', $decrypted_id)->count();
+        $facility = PropertyFacility::where('property_id', $decrypted_id)->count();
+
+        if ($details > 0 || $plans > 0 || $locations > 0 || $facility > 0){
+            return response([
+                'status' => 'error',
+                'title' => 'Cant delete this Property',
+                'message' => 'It contains information on Details, location , plan and facilities.
+                 Delete all sub variant items before deleting this property',
+            ]);
+        }
+
+
+
+
 
         if ($property->is_approved === 1){
             return response([

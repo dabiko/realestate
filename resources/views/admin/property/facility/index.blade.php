@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | {{$property->name}} Facility
+    {{ config('app.name') }} | {{$property->name}}
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">{{$property->name}} Facility</h4>
+            <h4 class="mb-3 mb-md-0">Facility : {{$property->name}} </h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
             <a href="{{route('admin.property.index')}}">
@@ -28,7 +28,7 @@
             <a href="{{route('admin.property-facility.create', ['property' => Crypt::encryptString($property->id)])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                    Property facility
+                     facility
                 </button>
             </a>
 
@@ -52,17 +52,47 @@
 
 
                                   @if($property_facility->Count() > 0)
+                                      @if($count > 0)
+                                             {{ $dataTable->table() }}
+                                      @else
+                                              <div class="table-responsive">
+                                <table id="dataTableExample" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Num</th>
+                                        <th>Facility</th>
+                                        <th>Name</th>
+                                        <th>Distance</th>
+                                        <th>Rating</th>
+                                        <th>Status</th>
+                                        <th >Action</th>
 
-                                      {{ $dataTable->table() }}
-
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="100%" style="text-align: center;">
+                                            <div class="alert alert-primary" role="alert">
+                                                <i data-feather="alert-circle"></i>
+                                                Oops No Data Available!!! <strong>{{$property->name}} </strong> Add facilities
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                      @endif
                                   @else
                                     <div class="table-responsive">
                                         <table id="dataTableExample" class="table">
                                             <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Property Name</th>
-                                                <th>Image</th>
+                                                <th>Num</th>
+                                                <th>Facility</th>
+                                                <th>Name</th>
+                                                <th>Distance</th>
+                                                <th>Rating</th>
+                                                <th>Status</th>
                                                 <th >Action</th>
 
                                             </tr>
@@ -72,7 +102,7 @@
                                                       <td colspan="100%" style="text-align: center;">
                                                               <div class="alert alert-primary" role="alert">
                                                                   <i data-feather="alert-circle"></i>
-                                                                  <strong>Oops No Data Available!!! </strong> Add Gallery images
+                                                                  Oops No Data Available!!! <strong>{{$property->name}} </strong> Add facilities
                                                               </div>
                                                       </td>
                                                   </tr>

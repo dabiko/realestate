@@ -27,11 +27,7 @@ class PropertyFacilityDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $viewBtn ="<a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'  class='view-property'>
-                              <button class='btn btn-inverse-info'>
-                              <i class='far fa-eye'></i>
-                              </button>
-                              </a>";
+
 
                 $editBtn ="<a href='".route('admin.property-facility.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
@@ -45,7 +41,7 @@ class PropertyFacilityDataTable extends DataTable
                               </button>
                               </a>";
 
-                return $viewBtn.$editBtn.$deleteBtn;
+                return $editBtn.$deleteBtn;
             })
             ->addColumn('property', function ($query){
                 return $query->property->name;
@@ -79,7 +75,119 @@ class PropertyFacilityDataTable extends DataTable
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
-            ->rawColumns(['action', 'status', 'num'])
+            ->addColumn('distance', content: function ($query)  {
+                return "<a><i style='color:#3BB54B' class='fa-solid fa-people-arrows fa-fade'></i> $query->distance <b>KM</b></a>";
+            })
+            ->addColumn('rating', content: function ($query)  {
+                $noStar = '<span>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                          </span>';
+
+               $oneStar = '<span>
+                           <i style="color: #FED900;" class="fa-solid fa-star " ></i>
+                          </span>';
+
+                $oneHalfStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                          </span>';
+
+                $twoStar = '<span>
+                           <i style="color: #FED900;" class="fa-solid fa-star " ></i>
+                            <i style="color: #FED900;" class="fa-solid fa-star " ></i>
+                          </span>';
+
+                $twoHalfStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                          </span>';
+
+                $threeStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                          </span>';
+
+                $threeHalfStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                          </span>';
+
+                $fourStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                          </span>';
+
+
+                $fourHalfStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                          </span>';
+
+                $fiveStar = '<span>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                           <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                          </span>';
+
+
+               if ($query->rating == 1){
+
+                   return $oneStar;
+
+               }elseif ($query->rating == 1.5){
+
+                   return $oneHalfStar;
+
+               }elseif ($query->rating == 2){
+
+                   return $twoStar;
+
+               }elseif ($query->rating == 2.5){
+
+                   return $twoHalfStar;
+
+               }elseif ($query->rating == 3){
+
+                   return $threeStar;
+
+               }elseif ($query->rating == 3.5){
+
+                   return $threeHalfStar;
+
+               }elseif ($query->rating == 4){
+
+                   return $fourStar;
+
+               }elseif ($query->rating == 4.5){
+
+                   return $fourHalfStar;
+
+               }elseif ($query->rating == 5){
+
+                   return $fiveStar;
+
+               }else{
+
+                   return $noStar;
+               }
+
+            })
+            ->rawColumns(['rating', 'action', 'distance', 'status', 'num'])
             ->setRowId('id');
     }
 
@@ -127,7 +235,6 @@ class PropertyFacilityDataTable extends DataTable
     {
         return [
             Column::make('num'),
-            Column::make('property'),
             Column::make('facility'),
             Column::make('name'),
             Column::make('distance'),

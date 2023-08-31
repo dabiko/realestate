@@ -28,8 +28,8 @@ class PropertyFacilityCreateRequest extends FormRequest
             'property_id' => ['required', 'string'],
             'facility' => ['required', 'string'],
             'distance' => ['required', 'string'],
-            'rating' =>   ['nullable', 'string'],
-            'status' =>   ['nullable', 'integer'],
+            'rating' =>   ['required', 'string'],
+            'status' =>   ['required', 'integer'],
         ];
     }
 }

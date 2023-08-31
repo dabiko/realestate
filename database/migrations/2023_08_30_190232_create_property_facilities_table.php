@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('property_id')->constrained();
             $table->string('name');
             $table->string('distance');
-            $table->string('rating');
-            $table->boolean('status');
+            $table->string('rating')->default(0);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
