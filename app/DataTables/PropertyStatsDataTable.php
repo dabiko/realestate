@@ -116,7 +116,8 @@ class PropertyStatsDataTable extends DataTable
      */
     public function query(PropertyStats $model): QueryBuilder
     {
-        return $model->newQuery();
+        //return $model->newQuery();
+        return $model->where('property_id', $this->decryptId(request()->property))->newQuery();
     }
 
     /**

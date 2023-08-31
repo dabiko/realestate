@@ -26,12 +26,14 @@ class PropertyGalleryController extends Controller
         $decrypted_id = $this->decryptId($request->property);
 
         $property = Property::findOrFail($decrypted_id);
+        $count = PropertyGallery::where('property_id', $decrypted_id)->count();
         $propertyGallery = PropertyGallery::all();
 
         return $dataTable->render('admin.property.gallery.index',
             [
                 'property' => $property,
-                'propertyGallery' => $propertyGallery
+                'propertyGallery' => $propertyGallery,
+                'count' => $count
             ]
         );
     }

@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 use App\Http\Requests\Admin\UpdateProfileRequest;
+use App\Http\Requests\Backend\PropertyPlanCreateRequest;
+use App\Http\Requests\Backend\PropertyPlanUpdateRequest;
 use App\Http\Requests\Backend\PropertyUpdateRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
 use Illuminate\Http\Request;
@@ -12,6 +14,19 @@ trait ImageUploadTraits
 
 
     public function uploadImage(Request $request, $input, $path): string
+    {
+        if($request->hasFile($input)){
+            $image = $request->{$input};
+            $extension = $image->getClientOriginalExtension();
+            $imgName = 'media_'.uniqid().'.'.$extension;
+
+            $image->move(public_path($path), $imgName);
+            return  $path.'/'.$imgName;
+        }
+        return '';
+    }
+
+    public function uploadPlanImage(PropertyPlanCreateRequest $request, $input, $path): string
     {
         if($request->hasFile($input)){
             $image = $request->{$input};
@@ -68,6 +83,28 @@ trait ImageUploadTraits
     }
 
     public function updatePropertyImage(PropertyUpdateRequest $request, $input, $path, $oldPath=null): string
+    {
+        if($request->hasFile($input)){
+
+            if(File::exists(public_path($oldPath))){
+                File::delete(public_path($oldPath));
+            }
+
+            $image = $request->{$input};
+            $extension = $image->getClientOriginalExtension();
+            $imgName = 'media_'.uniqid().'.'.$extension;
+
+            $image->move(public_path($path), $imgName);
+            return  $path.'/'.$imgName;
+
+        }else{
+
+            return 'No image provided';
+        }
+
+    }
+
+    public function updatePlanImage(PropertyPlanUpdateRequest $request, $input, $path, $oldPath=null): string
     {
         if($request->hasFile($input)){
 

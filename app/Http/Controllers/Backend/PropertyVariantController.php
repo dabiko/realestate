@@ -27,12 +27,14 @@ class PropertyVariantController extends Controller
         $decrypted_id = $this->decryptId($request->property);
 
         $property = Property::findOrFail($decrypted_id);
+        $count = PropertyVariant::where('property_id', $decrypted_id)->count();
         $propertyVariant = PropertyVariant::all();
 
         return $dataTable->render('admin.property.variant.index',
             [
                 'property' => $property,
-                'propertyVariant' => $propertyVariant
+                'propertyVariant' => $propertyVariant,
+                'count' => $count
             ]
         );
     }
@@ -144,6 +146,14 @@ class PropertyVariantController extends Controller
                 'title' => 'Cant delete this variant',
                 'message' => 'It contains '.$variant_item.' variant items. Delete  variant items before deleting
                                   the variant',
+            ]);
+        }
+
+        if ($variant_id->status === 1){
+            return response([
+                'status' => 'error',
+                'title' => 'Cant delete'.$variant_id->name.' variant',
+                'message' => 'This variant is still active. Deactivate it before deleting',
             ]);
         }
 

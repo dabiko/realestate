@@ -98,8 +98,34 @@
 
                                   @if($propertyVariant->Count() > 0)
 
-                                      {{ $dataTable->table() }}
+                                          @if($count > 0)
+                                               {{ $dataTable->table() }}
+                                          @else
+                                               <div class="table-responsive">
+                                <table id="dataTableExample" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Property Name</th>
+                                        <th> Variant</th>
+                                        <th>Status</th>
+                                        <th >Action</th>
 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="100%" style="text-align: center;">
+                                            <div class="alert alert-primary" role="alert">
+                                                <i data-feather="alert-circle"></i>
+                                                Oops No Data Available for  <strong>{{$property->name}} !!! </strong> Add Variants
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                          @endif
                                   @else
                                     <div class="table-responsive">
                                         <table id="dataTableExample" class="table">

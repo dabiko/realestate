@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | Property Details
+    {{ config('app.name') }} | Property Location
 @endsection
 
 @section('content')
@@ -17,13 +17,13 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create Details : {{$property->name}}</h4>
+            <h4 class="mb-3 mb-md-0">Create Location : {{$property->name}}</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('admin.property-detail.index', ['property' => request()->property])}}">
+            <a href="{{route('admin.property-location.index', ['property' => request()->property])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                    <i class="btn-icon-prepend" data-feather="arrow-left"></i>
-                    Details Table
+                    <i class="btn-icon-prepend" data-feather="arrow-left-circle"></i>
+                    Location Table
                 </button>
             </a>
         </div>
@@ -32,8 +32,8 @@
 
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('admin.property.index', ['property' => request()->property])}}">Detail  Table</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Detail</li>
+            <li class="breadcrumb-item"><a href="{{route('admin.property-location.index', ['property' => request()->property])}}">Location  Table</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Location</li>
         </ol>
     </nav>
 
@@ -44,7 +44,7 @@
                     <form
                         id="propertyForm"
                         method="POST"
-                        action="{{route('admin.property-detail.store')}}"
+                        action="{{route('admin.property-location.store')}}"
                     >
 
                             @csrf
@@ -52,15 +52,12 @@
 
                         <div class="row mb-3">
 
+
                             <div class="form-group col-md-6">
-                                <label for="detail_id" class="form-label">{{ __(' Name') }}</label>
-                                <select class="js-example-basic-single form-select @error('detail_id') is-invalid @enderror" data-width="100%" name="detail_id" id="detail_id" >
-                                    <option selected disabled>Select name</option>
-                                    @foreach($details as $detail)
-                                        <option value="{{$detail->id}}">{{$detail->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('detail_id')
+                                <label for="name" class="form-label">{{ __(' Name') }}</label>
+                                <input class=" form-control @error('name') is-invalid @enderror" name="name" id="name" >
+
+                                @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -76,9 +73,7 @@
 
                         </div>
 
-                            <div class="row mb-3">
-
-                                <div class="form-group">
+                                <div class="form-group mb-3  ">
                                     <label for="status" class="form-label">{{ __('Status') }}</label>
                                     <select class="form-select @error('status') is-invalid @enderror" name="status" id="status" >
                                         <option selected disabled>Select status</option>
@@ -90,9 +85,7 @@
                                     @enderror
                                 </div>
 
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-inverse-primary">
                                 <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}
                             </button>
 
@@ -103,4 +96,9 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+
+    </script>
+@endpush
 

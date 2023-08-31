@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static create(array $array)
  * @method static findOrFail(string $decrypted_id)
+ * @method where(string $string, string $decryptId)
  */
 class PropertyStats extends Model
 {

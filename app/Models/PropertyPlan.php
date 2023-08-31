@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @method static where(string $string, string $property_id)
  * @method static create(array $array)
  * @method static findOrFail(string $decrypted_id)
- * @method static where(string $string, int $int)
  */
-class Detail extends Model
+class PropertyPlan extends Model
 {
     use HasFactory;
 

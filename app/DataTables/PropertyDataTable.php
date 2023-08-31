@@ -56,6 +56,10 @@ class PropertyDataTable extends DataTable
                                <div class="dropdown-menu">
                                 <a class="dropdown-item" href="'.route('admin.property-gallery-index', ['property' => $this->encryptId($query->id)]).'"><i style="color:#0b6ce1;" class="fa-solid fa-image"></i></i> Gallery</a>
                                 <a class="dropdown-item" href="'.route('admin.property-variant-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Variants</a>
+                                <a class="dropdown-item" href="'.route('admin.property-detail.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Details</a>
+                                <a class="dropdown-item" href="'.route('admin.property-plan.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-folder-tree"></i> Plan</a>
+                                <a class="dropdown-item" href="'.route('admin.property-location.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-location-dot"></i> Location</a>
+                                <a class="dropdown-item" href="'.route('admin.property-facility.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-building"></i> Facilities</a>
                                 <a class="dropdown-item" href="'.route('admin.property-stats-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-chart-line"></i> Stattistics</a>
                                </div>';
 

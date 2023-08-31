@@ -27,13 +27,15 @@ class PropertyVariantItemController extends Controller
 
         $property = Property::findOrFail($property_Id);
         $variant = PropertyVariant::findOrFail($variant_Id);
+        $count = PropertyVariantItem::where('property_variant_id', $variant_Id)->count();
         $variantItems = PropertyVariantItem::all();
 
         return $dataTable->render('admin.property.variant-item.index',
             [
                 'property' => $property,
                 'variant' => $variant,
-                'variantItems' => $variantItems
+                'variantItems' => $variantItems,
+                 'count' => $count
             ]
         );
     }

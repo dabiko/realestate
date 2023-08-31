@@ -15,7 +15,7 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Details : {{$property->name}}</h4>
+            <h4 class="mb-3 mb-md-0">Plan : {{$property->name}}</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
             <a href="{{route('admin.property.index')}}">
@@ -25,7 +25,7 @@
                 </button>
             </a>
 
-            <a href="{{route('admin.property-detail.create', ['property' => request()->property])}}">
+            <a href="{{route('admin.property-plan.create', ['property' => request()->property])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                     Create
@@ -38,7 +38,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.property.index')}}">Property</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Property Details</li>
+            <li class="breadcrumb-item active" aria-current="page">Plan</li>
         </ol>
     </nav>
 
@@ -46,11 +46,11 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h class="card-title">Details</h>
+                    <h class="card-title">Plans</h>
                     <p class="text-muted mb-3">Add read text here.....</p>
 
 
-                                  @if($propertyDetail->Count() > 0)
+                                  @if($propertyPlan->Count() > 0)
                                       @if($count > 0)
                                          {{ $dataTable->table() }}
                                       @else
@@ -59,8 +59,9 @@
                                     <thead>
                                     <tr>
                                         <th>Num</th>
-                                        <th>Detail Name</th>
-                                        <th>Value</th>
+                                        <th>Name</th>
+                                        <th>image</th>
+                                        <th>Description</th>
                                         <th>Status</th>
                                         <th>Action</th>
 
@@ -80,30 +81,31 @@
                             </div>
                                       @endif
                                   @else
-                                    <div class="table-responsive">
-                                        <table id="dataTableExample" class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>Num</th>
-                                                <th>Detail Name</th>
-                                                <th>Value</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                          <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                <tr>
+                                    <th>Num</th>
+                                    <th>Name</th>
+                                    <th>image</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
 
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                  <tr>
-                                                      <td colspan="100%" style="text-align: center;">
-                                                              <div class="alert alert-primary" role="alert">
-                                                                  <i data-feather="alert-circle"></i>
-                                                                  <strong>Oops No Data Available!!! </strong> property Detail
-                                                              </div>
-                                                      </td>
-                                                  </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td colspan="100%" style="text-align: center;">
+                                        <div class="alert alert-primary" role="alert">
+                                            <i data-feather="alert-circle"></i>
+                                            Oops No Data Available!!!   <strong>{{$property->name}}</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                                   @endif
 
                 </div>
@@ -128,7 +130,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{route('admin.property-detail.change-status')}}",
+                    url: "{{route('admin.property-plan.change-status')}}",
                     method: 'PUT',
                     data: {
                         status: isChecked,

@@ -27,12 +27,14 @@ class PropertyStatsController extends Controller
         $decrypted_id = $this->decryptId($request->property);
 
         $property = Property::findOrFail($decrypted_id);
+        $count = PropertyStats::where('property_id', $decrypted_id)->count();
         $propertyStats = PropertyStats::all();
 
         return $dataTable->render('admin.property.stats.index',
             [
                 'property' => $property,
-                'propertyStats' => $propertyStats
+                'propertyStats' => $propertyStats,
+                'count' => $count
             ]
         );
     }

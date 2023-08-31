@@ -8,8 +8,11 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\PropertyDetailController;
 use App\Http\Controllers\Backend\PropertyFacilityController;
 use App\Http\Controllers\Backend\PropertyGalleryController;
+use App\Http\Controllers\Backend\PropertyLocationController;
+use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
 use App\Http\Controllers\Backend\PropertyVariantController;
 use App\Http\Controllers\Backend\PropertyVariantItemController;
@@ -44,6 +47,12 @@ Route::resource('category', CategoryController::class);
 Route::put('amenity/change-status', [AmenityController::class, 'updateStatus'])->name('amenity.change-status');
 Route::resource('amenity', AmenityController::class);
 
+Route::put('facility-change-status', [FacilityController::class, 'updateStatus'])->name('facility.change-status');
+Route::resource('facility', FacilityController::class);
+
+Route::put('detail-change-status', [DetailController::class, 'updateStatus'])->name('detail.change-status');
+Route::resource('detail', DetailController::class);
+
 Route::get('property/check-approved', [PropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [PropertyController::class, 'updateStatus'])->name('property.change-status');
 Route::resource('property', PropertyController::class);
@@ -52,18 +61,30 @@ Route::resource('property', PropertyController::class);
 Route::get('property-gallery-index/{property}', [PropertyGalleryController::class, 'index'])->name('property-gallery-index');
 Route::resource('property-gallery', PropertyGalleryController::class);
 
-Route::put('facility-change-status', [FacilityController::class, 'updateStatus'])->name('facility.change-status');
-Route::resource('facility', FacilityController::class);
+Route::put('property-detail-change-status', [PropertyDetailController::class, 'updateStatus'])->name('property-detail.change-status');
+Route::resource('property-detail', PropertyDetailController::class);
 
-Route::put('detail-change-status', [DetailController::class, 'updateStatus'])->name('detail.change-status');
-Route::resource('detail', DetailController::class);
+Route::put('property-plan-change-status', [PropertyPlanController::class, 'updateStatus'])->name('property-plan.change-status');
+Route::resource('property-plan', PropertyPlanController::class);
+
+Route::put('property-location-change-status', [PropertyLocationController::class, 'updateStatus'])->name('property-location.change-status');
+Route::resource('property-location', PropertyLocationController::class);
+
+Route::put('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
+Route::resource('property-facility', PropertyFacilityController::class);
 
 Route::get('property-stats-index/{property}', [PropertyStatsController::class, 'index'])->name('property-stats-index');
 Route::resource('property-stats', PropertyStatsController::class);
 
 
-Route::put('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
-Route::resource('property-facility', PropertyFacilityController::class);
+
+
+
+
+
+
+
+
 
 Route::put('property-variant/change-status', [PropertyVariantController::class, 'updateStatus'])->name('property-variant.change-status');
 Route::get('property-variant-index/{property}', [PropertyVariantController::class, 'index'])->name('property-variant-index');

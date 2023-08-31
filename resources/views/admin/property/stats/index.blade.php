@@ -85,9 +85,33 @@
 
 
                                   @if($propertyStats->Count() > 0)
+                                        @if($count > 0)
+                                            {{ $dataTable->table() }}
+                                        @else
+                                            <div class="table-responsive">
+                                <table id="dataTableExample" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Property Name</th>
+                                        <th>Image</th>
+                                        <th >Action</th>
 
-                                      {{ $dataTable->table() }}
-
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="100%" style="text-align: center;">
+                                            <div class="alert alert-primary" role="alert">
+                                                <i data-feather="alert-circle"></i>
+                                                <strong>Oops No Data Available!!! </strong> Add Statistics images
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                        @endif
                                   @else
                                     <div class="table-responsive">
                                         <table id="dataTableExample" class="table">

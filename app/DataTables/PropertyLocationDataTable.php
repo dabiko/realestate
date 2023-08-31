@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\PropertyDetail;
+use App\Models\PropertyLocation;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PropertyDetailDataTable extends DataTable
+class PropertyLocationDataTable extends DataTable
 {
     use EncryptDecrypt;
     /**
@@ -27,19 +27,14 @@ class PropertyDetailDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $viewBtn ="<a href='".route('admin.property-detail.show', $this->encryptId($query->id))."'>
-                               <button class='btn btn-inverse-info'>
-                               <i class='far fa-eye'></i>
-                               </button>
-                               </a>";
 
-                $editBtn ="<a href='".route('admin.property-detail.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route('admin.property-location.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-detail.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route('admin.property-location.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -47,7 +42,7 @@ class PropertyDetailDataTable extends DataTable
 
 
 
-                return $viewBtn.$editBtn.$deleteBtn;
+                return $editBtn.$deleteBtn;
             })
             ->addColumn('status', function ($query){
                 $active   = '<div class="form-check form-switch">
@@ -76,20 +71,18 @@ class PropertyDetailDataTable extends DataTable
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
-            ->addColumn('name', content: function ($query)  {
-                return $query->detail->name;
-            })
-            ->rawColumns(['action', 'status', 'num'])
+
+            ->rawColumns( ['action', 'status', 'num' ])
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param PropertyDetail $model
+     * @param PropertyLocation $model
      * @return QueryBuilder
      */
-    public function query(PropertyDetail $model): QueryBuilder
+    public function query(PropertyLocation $model): QueryBuilder
     {
         return $model->where('property_id', $this->decryptId(request()->property))
             ->newQuery()->orderBy('id', 'ASC');
@@ -103,7 +96,7 @@ class PropertyDetailDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('propertydetail-table')
+                    ->setTableId('propertylocation-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -127,6 +120,7 @@ class PropertyDetailDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('num'),
             Column::make('name'),
             Column::make('value'),
@@ -146,6 +140,6 @@ class PropertyDetailDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PropertyDetail_' . date('YmdHis');
+        return 'PropertyLocation_' . date('YmdHis');
     }
 }
