@@ -102,9 +102,11 @@ class PropertyDataTable extends DataTable
                     $purpose   = '<i class="btn btn-inverse-info">Rent</i>';
                 }
 
-                if ($query->is_approved === 1){
+                if (Auth::user()->role === 'admin'){
 
-                    $approved   = '
+                    if ($query->is_approved === 1){
+
+                        $approved   = '
                                  <label class="form-label">Suspend Project</label>
                                 <div class="form-check form-switch">
                                  <input
@@ -113,9 +115,9 @@ class PropertyDataTable extends DataTable
                                  data-id="'.$this->encryptId($query->id).'"
                                  checked>
                              </div>';
-                }else{
+                    }else{
 
-                    $approved   = '
+                        $approved   = '
                             <label class="form-label">Activate Project</label>
                             <div class="form-check form-switch">
                                  <input
@@ -124,7 +126,37 @@ class PropertyDataTable extends DataTable
                                  data-id="'.$this->encryptId($query->id).'"
                                  id="inActiveChecked">
                              </div>';
+                    }
+
+                }else{
+
+                    if ($query->is_approved === 1){
+
+                        $approved   = '
+                                 <label class="form-label">Activated</label>
+                                <div class="form-check form-switch">
+                                 <input
+                                 disabled
+                                 class="form-check-input"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 checked>
+                             </div>';
+                    }else{
+
+                        $approved   = '
+                            <label class="form-label">Pending Activation</label>
+                            <div class="form-check form-switch">
+                                 <input
+                                 disabled
+                                 class="form-check-input"
+                                 type="checkbox"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 id="inActiveChecked">
+                             </div>';
+                    }
                 }
+
 
                 $created_on = Carbon::parse($query->created_at)->diffForHumans();
                 $updated_on = Carbon::parse($query->updated_at)->diffForHumans();
@@ -139,7 +171,7 @@ class PropertyDataTable extends DataTable
                               <div class='modal-dialog-centered modal-dialog modal-lg'>
                                 <div class='modal-content'>
                                   <div class='modal-header'>
-                                    <h5 class='modal-title' id='exampleModalLabel-".$query->id."'>$query->name $approval $tag $purpose  </h5>
+                                    <h5 class='modal-title' id='exampleModalLabel-".$query->id."'>$query->name &ensp; $approval &ensp; $tag &ensp; $purpose  </h5>
                                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='btn-close'></button>
                                   </div>
                                   <div class='modal-body'>
@@ -216,7 +248,9 @@ class PropertyDataTable extends DataTable
             })
 
             ->addColumn('is approved', function ($query){
-                $approved   = '<bubtton
+
+                if (Auth::user()->role === 'admin'){
+                    $approved   = '<bubtton
                                   class="btn btn-inverse-success approve-project"
                                   data-id="'.$this->encryptId($query->id).'"
                                   >
@@ -224,7 +258,7 @@ class PropertyDataTable extends DataTable
                                 Yes
                                </bubtton>';
 
-                $pending   = '<bubtton
+                    $pending   = '<bubtton
                                   class="btn btn-inverse-warning approve-project"
                                   data-id="'.$this->encryptId($query->id).'"
                                   >
@@ -232,11 +266,35 @@ class PropertyDataTable extends DataTable
                                 Pending
                                </bubtton>';
 
-                if ($query->is_approved === 1){
-                    return $approved;
+                    if ($query->is_approved === 1){
+                        return $approved;
+                    }else{
+                        return $pending;
+                    }
                 }else{
-                    return $pending;
+                    $approved   = '<bubtton
+                                  class="btn btn-inverse-success"
+                                  data-id="'.$this->encryptId($query->id).'"
+                                  >
+                               <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
+                                Yes
+                               </bubtton>';
+
+                    $pending   = '<bubtton
+                                  class="btn btn-inverse-warning"
+                                  data-id="'.$this->encryptId($query->id).'"
+                                  >
+                                <i class="fas fa-clock fa-spin"></i>
+                                Pending
+                               </bubtton>';
+
+                    if ($query->is_approved === 1){
+                        return $approved;
+                    }else{
+                        return $pending;
+                    }
                 }
+
 
             })
             ->addColumn('status', function ($query){
