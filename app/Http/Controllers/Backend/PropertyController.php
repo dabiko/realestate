@@ -83,7 +83,7 @@ class PropertyController extends Controller
         ]);
 
 
-        $imagePath = $this->uploadImage($request, 'image', 'upload/property');
+        $imagePath = $this->uploadImage($request, 'image', 'upload/property/admin');
 
         Property::create([
             'thumbnail' => $imagePath,
@@ -166,7 +166,7 @@ class PropertyController extends Controller
         $format_amenity = implode(",", $validate['amenity_id']);
 
 
-        $imagePath = $this->updatePropertyImage($request, 'image', 'upload/property', $property->thumbnail);
+        $imagePath = $this->updatePropertyImage($request, 'image', 'upload/property/admin', $property->thumbnail);
         $updatePath =  empty(!$request->image) ? $imagePath : $property->thumbnail;
 
         Property::findOrFail($decrypted_id)->update([

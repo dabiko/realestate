@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static create(array $array)
  * @method static insertGetId(array $array)
- * @method static findOrFail(string $decrypted_id)
-
+ * @method static findOrFail(string $decrypted_id)*@method where(string$string, $id)
+ * @method where(string $string, int|string|null $id)
  */
 class Property extends Model
 {

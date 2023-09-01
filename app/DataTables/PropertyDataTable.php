@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Property;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -35,13 +36,13 @@ class PropertyDataTable extends DataTable
                               </button>
                               </a>";
 
-                $editBtn ="<a href='".route('admin.property.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route(Auth::user()->role.'.property.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -54,13 +55,13 @@ class PropertyDataTable extends DataTable
                                    </bubtton>
 
                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="'.route('admin.property-gallery-index', ['property' => $this->encryptId($query->id)]).'"><i style="color:#0b6ce1;" class="fa-solid fa-image"></i></i> Gallery</a>
-                                <a class="dropdown-item" href="'.route('admin.property-variant-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Variants</a>
-                                <a class="dropdown-item" href="'.route('admin.property-detail.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Details</a>
-                                <a class="dropdown-item" href="'.route('admin.property-plan.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-folder-tree"></i> Plan</a>
-                                <a class="dropdown-item" href="'.route('admin.property-location.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-location-dot"></i> Location</a>
-                                <a class="dropdown-item" href="'.route('admin.property-facility.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-building"></i> Facilities</a>
-                                <a class="dropdown-item" href="'.route('admin.property-stats-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-chart-line"></i> Stattistics</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-gallery-index', ['property' => $this->encryptId($query->id)]).'"><i style="color:#0b6ce1;" class="fa-solid fa-image"></i></i> Gallery</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-variant-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Variants</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-detail.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-circle-info"></i> Details</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-plan.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-folder-tree"></i> Plan</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-location.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-location-dot"></i> Location</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-facility.index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-building"></i> Facilities</a>
+                                <a class="dropdown-item" href="'.route(Auth::user()->role.'.property-stats-index', ['property' => $this->encryptId($query->id)]).'"> <i style="color:#0b6ce1;" class="fa-solid fa-chart-line"></i> Stattistics</a>
                                </div>';
 
                 return $viewBtn.$editBtn.$deleteBtn.$btnOptions;
@@ -290,8 +291,15 @@ class PropertyDataTable extends DataTable
      */
     public function query(Property $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->orderBy('id', 'ASC');
+        if (Auth::user()->role === 'admin'){
+
+            return $model->newQuery()->orderBy('id', 'ASC');
+
+        }else{
+
+            return $model->where('agent_id', Auth::id())->newQuery()->orderBy('id', 'ASC');
+
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\PropertyStats;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -78,7 +79,7 @@ class PropertyStatsDataTable extends DataTable
                               </button>
                               </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-stats.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property-stats.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger''>
                               <i class='far fa-trash-alt'></i>
                               </button>

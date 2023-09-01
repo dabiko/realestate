@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -28,6 +29,14 @@ Route::get('user/login', [UserController::class, 'login'])
     ->name('user.login')
     ->middleware(RedirectIfAuthenticated::class);
 
+Route::get('agent/login', [AgentController::class, 'AgentLogin'])
+    ->name('agent.login')
+    ->middleware(RedirectIfAuthenticated::class);
+
+Route::get('agent/register', [AgentController::class, 'AgentRegister'])
+    ->name('agent.register')
+    ->middleware(RedirectIfAuthenticated::class);
+Route::post('agent/process-registration', [AgentController::class, 'processRegistration'])->name('agent-process-registration');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

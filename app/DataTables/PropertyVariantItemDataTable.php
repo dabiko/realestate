@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\PropertyVariantItem;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -14,7 +15,8 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class PropertyVariantItemDataTable extends DataTable
-{ use EncryptDecrypt;
+{
+    use EncryptDecrypt;
     /**
      * Build DataTable class.
      *
@@ -26,12 +28,12 @@ class PropertyVariantItemDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $editBtn ="<a href='".route('admin.variant-item.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route(Auth::user()->role.'.variant-item.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary''>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
-                $deleteBtn ="<a class='delete-item' href='".route('admin.variant-item.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.variant-item.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger''>
                               <i class='far fa-trash-alt'></i>
                               </button>

@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\PropertyGallery;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -79,7 +80,7 @@ class PropertyGalleryDataTable extends DataTable
                               </button>
                               </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-gallery.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property-gallery.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger''>
                               <i class='far fa-trash-alt'></i>
                               </button>

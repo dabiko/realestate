@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\PropertyFacility;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -29,13 +30,13 @@ class PropertyFacilityDataTable extends DataTable
 
 
 
-                $editBtn ="<a href='".route('admin.property-facility.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route(Auth::user()->role.'.property-facility.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-facility.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property-facility.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -199,7 +200,8 @@ class PropertyFacilityDataTable extends DataTable
      */
     public function query(PropertyFacility $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('property_id', $this->decryptId(request()->property))
+            ->newQuery()->orderBy('id', 'ASC');
     }
 
     /**

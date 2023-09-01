@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\PropertyDetail;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -27,19 +28,19 @@ class PropertyDetailDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $viewBtn ="<a href='".route('admin.property-detail.show', $this->encryptId($query->id))."'>
+                $viewBtn ="<a href='".route(Auth::user()->role.'.property-detail.show', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-info'>
                                <i class='far fa-eye'></i>
                                </button>
                                </a>";
 
-                $editBtn ="<a href='".route('admin.property-detail.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route(Auth::user()->role.'.property-detail.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-detail.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property-detail.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>

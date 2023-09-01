@@ -60,7 +60,7 @@ class PropertyGalleryController extends Controller
             ],
         ]);
 
-        $imgPaths = $this->uploadMultiImage($request, 'image', 'upload/property/gallery');
+        $imgPaths = $this->uploadMultiImage($request, 'image', 'upload/property/agent/gallery');
         $property_id = $this->decryptId($request->property_id);
 
         foreach ($imgPaths as $path){

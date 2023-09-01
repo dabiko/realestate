@@ -24,7 +24,7 @@ class PropertyDetailCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'detail_id' => ['required', 'integer', 'unique:'.PropertyDetail::class],
+            'detail_id' => ['required', 'integer'],
             'property_id' => ['required', 'string'],
             'value' => ['required', 'string'],
             'status' => ['required', 'integer'],

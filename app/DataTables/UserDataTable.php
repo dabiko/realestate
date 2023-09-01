@@ -13,7 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UserDataTable extends DataTable
+class
+UserDataTable extends DataTable
 {
     use EncryptDecrypt;
     /**
@@ -25,22 +26,104 @@ class UserDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
-                $viewBtn ="";
 
                 $editBtn ="<a class='m-1 btn btn-inverse-primary' href='".route('admin.users.edit', $this->encryptId($query->id))."'>
                               <i class='far fa-edit'></i>
                             </a>";
 
-                $deleteBtn ="<a class='m-1 btn btn-inverse-danger' href='".route('admin.users.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='m-1 btn btn-inverse-danger delete-item' href='".route('admin.users.destroy', $this->encryptId($query->id))."'>
                              <i class='far fa-trash-alt'></i>
                             </a>";
 
-                return $viewBtn.$editBtn.$deleteBtn;
+                return $editBtn.$deleteBtn;
             })
             ->addColumn('photo', function ($query){
-                return "<img width='70px;' src='".asset($query->thump_img)."' alt='image'></img>";
+
+                $admin = "<a href='javascript:void(0)' class='btn btn-inverse-primary'>$query->role</a>";
+                $agent = "<a href='javascript:void(0)' class='btn btn-inverse-info'>$query->role</a>";
+                $user = "<a href='javascript:void(0)' class='btn btn-inverse-success'>$query->role</a>";
+                $error = "<a href='javascript:void(0)' class='btn btn-inverse-danger'>$query->role</a>";
+
+                if ($query->role == 'admin'){
+
+                    return "
+                    <img class='mb-2' style='border-radius: 2px; width:50%; height:50%;' src='".asset($query->photo)."' alt='image'></img>
+                    <p>$admin</p>
+                    ";
+
+                }elseif($query->role == 'agent'){
+
+                    return "
+                       <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
+                          <p>$agent</p>
+                       ";
+
+                }elseif($query->role == 'user'){
+
+                    return "
+                    <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
+                    <p>$user</p>
+                    ";
+
+                }else{
+                    return $error;
+                }
+
             })
-            ->rawColumns(['photo', 'action', 'status', 'type'])
+            ->addColumn('username', function ($query){
+
+                if ($query->status == 'active'){
+                   return '<p>'.$query->username.'</p>
+                            <p>
+                                <bubtton  disabled class="btn btn-inverse-success">
+                                <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
+                                Active
+                               </bubtton>
+                            </p>';
+                }else{
+                    return '<p>'.$query->username.'</p>
+                                <p>
+                                <bubtton disabled class="btn btn-inverse-warning">
+                                   <i class="fas fa-clock fa-spin"></i>
+                                Inactive
+                               </bubtton>
+                               </p>';
+                }
+
+            })
+            ->addColumn('status', function ($query){
+
+                if ($query->status == 'active'){
+
+                    $activated   = '
+
+                                <div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 checked>
+                             </div>';
+                }else{
+
+                    $activated   = '
+
+                            <div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 id="inActiveChecked">
+                             </div>';
+                }
+
+                return $activated;
+
+            })
+            ->addColumn('num', content: function ($query)  {
+                return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
+            })
+            ->rawColumns(['username', 'photo', 'action', 'status', 'num'])
             ->setRowId('id');
     }
 
@@ -49,7 +132,16 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        if (request()->role == 'All'){
+
+            return $model->newQuery()->orderBy('id', 'ASC');
+
+        }else{
+
+            return $model->where('role', request()->role)
+                ->newQuery()->orderBy('id', 'ASC');
+
+        }
     }
 
     /**
@@ -81,11 +173,10 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('num'),
             Column::make('photo'),
             Column::make('name'),
             Column::make('username'),
-            Column::make('role'),
             Column::make('email'),
             Column::make('status'),
             Column::computed('action')

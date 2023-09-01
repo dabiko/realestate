@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\PropertyPlan;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -33,13 +34,13 @@ class PropertyPlanDataTable extends DataTable
                                </button>
                                </a>";
 
-                $editBtn ="<a href='".route('admin.property-plan.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route(Auth::user()->role.'.property-plan.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.property-plan.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.property-plan.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>

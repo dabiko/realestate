@@ -48,7 +48,7 @@ class PropertyDetailController extends Controller
         $property_id = $this->decryptId(request()->property);
 
         $property = Property::findOrFail($property_id);
-        $details = Detail::where('status', 1);
+        $details = Detail::where('status', 1)->get();
 
         return View('admin.property.detail.create',
              [

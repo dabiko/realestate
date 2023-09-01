@@ -108,22 +108,22 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">
                     <i class="link-icon" data-feather="feather"></i>
-                    <span class="link-title">System Accounts</span>
+                    <span class="link-title">Manage Accounts</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse" id="accounts">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index')}}" class="nav-link">All</a>
+                            <a href="{{route('admin.users.index', ['role' => 'All'])}}" class="nav-link">All</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index')}}" class="nav-link">User</a>
+                            <a href="{{route('admin.users.index', ['role' => 'User'])}}" class="nav-link">User</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index')}}" class="nav-link">Admin</a>
+                            <a href="{{route('admin.users.index', ['role' => 'Admin'])}}" class="nav-link">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index')}}" class="nav-link">Agent</a>
+                            <a href="{{route('admin.users.index', ['role' => 'Agent'])}}" class="nav-link">Agent</a>
                         </li>
 
                     </ul>
