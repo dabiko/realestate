@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Agent;
 
+use App\DataTables\PackagePlanDataTable;
 use App\DataTables\PropertyDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PropertyCreateRequest;
 use App\Http\Requests\Backend\PropertyUpdateRequest;
 use App\Models\Amenity;
 use App\Models\Category;
+use App\Models\PackagePlan;
 use App\Models\Property;
 use App\Models\PropertyDetail;
 use App\Models\PropertyFacility;
@@ -16,12 +18,14 @@ use App\Models\PropertyPlan;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use App\Traits\ImageUploadTraits;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -45,24 +49,46 @@ class AgentPropertyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create(): View
+    public function history(PackagePlanDataTable $dataTable)
     {
-        $categories = Category::where('status', 1)->get();
-        $agents = User::where('id', Auth::id())
-            ->where('role', 'agent')
-            ->latest()
-            ->get();
-        $amenities = Amenity::where('status', 1)->get();
-
-        return view('agent.property.create',
+        //$properties = Property::all();
+        $package = PackagePlan::where('user_id', Auth::id())->get();
+        return $dataTable->render('agent.package.history.index',
             [
-                'categories' => $categories,
-                'agents' => $agents,
-                'amenities' => $amenities
+                'package' => $package
             ]
         );
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): RedirectResponse | View
+    {
+        $categories = Category::where('status', 1)->get();
+        $agent = User::where('id', Auth::id())
+            ->where('role', 'agent')
+            ->first();
+
+        $amenities = Amenity::where('status', 1)->get();
+
+        if ($agent->credit == 1 || $agent->credit == 7){
+
+            return Redirect::route('agent.packages');
+
+        }else{
+
+            return view('agent.property.create',
+                [
+                    'categories' => $categories,
+                    'agent' => $agent,
+                    'amenities' => $amenities
+                ]
+            );
+        }
+
     }
 
     /**
@@ -105,6 +131,11 @@ class AgentPropertyController extends Controller
 
         ]);
 
+        $user = User::findOrFail(Auth::id());
+
+        User::where('id',$user->id)->update([
+            'credit' => DB::raw('1 + '.$user->credit)
+        ]);
 
         return Redirect::route('agent.property.index')
             ->with(
@@ -266,5 +297,114 @@ class AgentPropertyController extends Controller
             'status' => 'success',
             'message' => $request->status === 'true' ? 'Project Approved' : 'Project Suspended',
         ]);
+    }
+
+    public function package(): View
+    {
+        $agent = User::where('id', Auth::id())
+            ->where('role', 'agent')
+            ->first();
+
+        return View('agent.package.packages',
+            [
+                'agent' => $agent
+            ]
+        );
+    }
+
+    public function business(): View
+    {
+        $agent = User::where('id', Auth::id())
+            ->where('role', 'agent')
+            ->first();
+
+        return View('agent.package.business.business-package',
+            [
+                'agent' => $agent
+            ]
+        );
+    }
+
+    public function professional(): View
+    {
+        $agent = User::where('id', Auth::id())
+            ->where('role', 'agent')
+            ->first();
+
+        return View('agent.package.professional.professional-package',
+            [
+                'agent' => $agent
+            ]
+        );
+    }
+
+    public function processBusiness(Request $request): RedirectResponse
+    {
+
+        PackagePlan::create([
+            'user_id' => Auth::id(),
+            'name' => 'Business',
+            'credit' => '3',
+            'invoice' => 'HOMES'.mt_rand(10000000,99999999),
+            'amount' => '20'
+        ]);
+
+        $user = User::findOrFail(Auth::id());
+
+        User::where('id',$user->id)->update([
+            'credit' => DB::raw('3 + '.$user->credit)
+        ]);
+
+        return Redirect::route('agent.packages')
+            ->with([
+                'status' => 'success',
+                'message' => 'Business Package Purchased'
+            ]);
+    }
+
+    public function processProfessional(Request $request): RedirectResponse
+    {
+
+        PackagePlan::create([
+            'user_id' => Auth::id(),
+            'name' => 'Professional',
+            'credit' => '10',
+            'invoice' => 'HOMES'.mt_rand(10000000,99999999),
+            'amount' => '50'
+        ]);
+
+        $user = User::findOrFail(Auth::id());
+
+        User::where('id',$user->id)->update([
+            'credit' => DB::raw('10 + '.$user->credit)
+        ]);
+
+        return Redirect::route('agent.packages')
+            ->with([
+                'status' => 'success',
+                'message' => 'professional Package Purchased'
+            ]);
+    }
+
+
+    public function invoice(string $id): Response
+    {
+        $decrypted_id = $this->decryptId($id);
+
+        $package_plan = PackagePlan::where('id', $decrypted_id)->first();
+
+        $pdf = Pdf::loadView('agent.package.print.index',
+            [
+                'package_plan' => $package_plan
+            ]
+        )
+            ->setPaper('a4')
+            ->setOption([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+                'defaultFont' => 'sans-serif'
+            ]);
+
+        return $pdf->download($package_plan->name.'_'.$package_plan->invoice.'_'.'invoice.pdf');
     }
 }

@@ -21,7 +21,7 @@
                 <li class="nav-item nav-category">Main</li>
                 <li class="nav-item">
                     <a href="{{route('agent.dashboard')}}" class="nav-link">
-                        <i class="link-icon" data-feather="box"></i>
+                        <i class="link-icon" data-feather="home"></i>
                         <span class="link-title">Dashboard</span>
                     </a>
                 </li>
@@ -29,7 +29,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#property" role="button" aria-expanded="false" aria-controls="property">
-                        <i class="link-icon" data-feather="home"></i>
+                        <i class="link-icon" data-feather="layers"></i>
                         <span class="link-title">Properties</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
@@ -38,11 +38,25 @@
                             <li class="nav-item">
                                 <a href="{{route('agent.property.index')}}" class="nav-link">property</a>
                             </li>
-
-
                         </ul>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('agent.packages')}}" class="nav-link">
+                        <i class="link-icon" data-feather="package"></i>
+                        <span class="link-title">Packages</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('agent.package.history')}}" class="nav-link">
+                        <i class="link-icon" data-feather="shield"></i>
+                        <span class="link-title">History</span>
+                    </a>
+                </li>
+
+
 
                 <li class="nav-item">
                     <a href="pages/apps/calendar.html" class="nav-link">

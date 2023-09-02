@@ -33,8 +33,18 @@ Route::get('password', [AgentProfileController::class, 'index'])->name('password
 Route::put('password-update', [AgentProfileController::class, 'passwordUpdate'])->name('password.update');
 
 
+Route::get('package', [AgentPropertyController::class, 'package'])->name('packages');
+Route::get('package/history', [AgentPropertyController::class, 'history'])->name('package.history');
+Route::get('package/business', [AgentPropertyController::class, 'business'])->name('buy.business');
+Route::get('package/process-business', [AgentPropertyController::class, 'processBusiness'])->name('process.business');
+Route::get('package/process-professional', [AgentPropertyController::class, 'processProfessional'])->name('process.professional');
+Route::get('package/professional', [AgentPropertyController::class, 'professional'])->name('buy.professional');
+
+Route::get('package/invoice-print/{id}', [AgentPropertyController::class, 'invoice'])->name('package.invoice-print');
+
 Route::get('property/check-approved', [AgentPropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [AgentPropertyController::class, 'updateStatus'])->name('property.change-status');
+
 Route::resource('property', AgentPropertyController::class);
 
 Route::get('property-gallery-index/{property}', [AgentPropertyGalleryController::class, 'index'])->name('property-gallery-index');

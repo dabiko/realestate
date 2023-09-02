@@ -90,11 +90,8 @@
                         <div class="row mb-3">
                             <div class="form-group col-md-6">
                                 <label for="agent_id" class="form-label">{{ __('Agent') }}</label>
-                                <select class="js-example-basic-single form-select @error('agent_id') is-invalid @enderror" data-width="100%" name="agent_id" id="agent_id" >
-
-                                    @foreach($agents as $agent)
+                                <select class="js-example-basic-single form-control @error('agent_id') is-invalid @enderror" data-width="100%" name="agent_id" id="agent_id" >
                                         <option value="{{$agent->id}}">{{$agent->name}}</option>
-                                    @endforeach
                                 </select>
                                 @error('agent_id')
                                 <span class="text-danger">{{ $message }}</span>
