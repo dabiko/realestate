@@ -28,6 +28,11 @@ class Property extends Model
         return $this->belongsTo (User::class);
     }
 
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo (User::class, 'agent_id');
+    }
+
     public function amenity(): BelongsTo
     {
         return $this->belongsTo (Amenity::class);

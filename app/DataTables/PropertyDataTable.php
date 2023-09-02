@@ -250,21 +250,21 @@ class PropertyDataTable extends DataTable
             ->addColumn('is approved', function ($query){
 
                 if (Auth::user()->role === 'admin'){
-                    $approved   = '<bubtton
+                    $approved   = '<button
                                   class="btn btn-inverse-success approve-project"
                                   data-id="'.$this->encryptId($query->id).'"
                                   >
                                <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
                                 Yes
-                               </bubtton>';
+                               </button> <p>'.$query->agent->name.'</p>';
 
-                    $pending   = '<bubtton
+                    $pending   = '<button
                                   class="btn btn-inverse-warning approve-project"
                                   data-id="'.$this->encryptId($query->id).'"
                                   >
                                 <i class="fas fa-clock fa-spin"></i>
                                 Pending
-                               </bubtton>';
+                               </button><p>'.$query->agent->name.'</p>';
 
                     if ($query->is_approved === 1){
                         return $approved;

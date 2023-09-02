@@ -29,12 +29,48 @@ class PackagePlanDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-              return "<a href='".route('agent.package.invoice-print', $this->encryptId($query->id))."'>
+              return "
+              <a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'  class='view-property'>
+                              <button class='btn btn-inverse-info'>
+                              <i class='far fa-eye'></i>
+                              </button>
+                              </a>
+
+                                    <div class='modal fade' id='exampleModal-".$query->id."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                              <div class='modal-dialog-centered modal-dialog modal-lg'>
+                                <div class='modal-content'>
+                                  <div class='modal-header'>
+                                    <h5 class='modal-title' id='exampleModalLabel-".$query->id."'>".$query->user->name." &ensp;  </h5>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='btn-close'></button>
+                                  </div>
+                                  <div class='modal-body'>
+                                    <img class='mb-3' style='border-radius: 2px; width:50%; height:50%;' src='".asset($query->user->photo)."'  alt='property image'/>
+                                    <hr>
+                                    <div>
+                                        <span style='text-align: left'>
+                                            <p><b>Username :  </b>".$query->user->username."</p>
+                                             <p><b>Phone :  </b>".$query->user->phone."</p>
+                                              <p><b>Email :  </b>".$query->user->email."</p>
+                                               <p><b> Package :  </b>".$query->name." Package</p>
+                                                <p><b>Email :  </b>".$query->user->email."</p>
+                                        </span>
+
+
+                                  </div>
+                                  </div>
+                                  <div class='modal-footer'>
+                                    <button type='button' class='btn btn-inverse-secondary' data-bs-dismiss='modal'>Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                       </div>
+
+              <a href='".route(Auth::user()->role.'.package.invoice-print', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='fa-solid fa-print fa-fade'></i>
                                </button>
                                </a>
-                               <a href='".route('agent.package.invoice-print', $this->encryptId($query->id))."'>
+                               <a href='".route(Auth::user()->role.'.package.invoice-print', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-success'>
                                <i class='fa-solid fa-download fa-fade'></i>
                                </button>
@@ -55,7 +91,12 @@ class PackagePlanDataTable extends DataTable
             })
             ->addColumn('updated_at', content: function ($query)  {
 
-                return Carbon::parse($query->updated_at)->diffForHumans();
+                return "<p>".date_format( $query->updated_at,'l d, M Y' )."</p><p>".Carbon::parse($query->updated_at)->diffForHumans()."</p>" ;
+
+            })
+            ->addColumn('user', content: function ($query)  {
+
+                return $query->user->name;
             })
             ->rawColumns(['action', 'invoice', 'created_at', 'updated_at', 'num'])
             ->setRowId('id');
@@ -69,7 +110,18 @@ class PackagePlanDataTable extends DataTable
      */
     public function query(PackagePlan $model): QueryBuilder
     {
-        return $model->where('user_id', Auth::id())->newQuery();
+        if (Auth::user()->role === 'admin'){
+
+            return $model->newQuery()
+                ->orderBy('id', 'ASC');
+
+        }else{
+
+            return $model->where('user_id', Auth::id())
+                ->newQuery()
+                ->orderBy('id', 'ASC');
+
+        }
     }
 
     /**
@@ -103,21 +155,44 @@ class PackagePlanDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        if (Auth::user()->role === 'admin'){
 
-            Column::make('num'),
-            Column::make('invoice'),
-            Column::make('name'),
-            Column::make('credit'),
-            Column::make('amount'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-        ];
+            return [
+
+                Column::make('num'),
+                Column::make('invoice'),
+                Column::make('user'),
+                Column::make('name'),
+                Column::make('credit'),
+                Column::make('amount'),
+                Column::make('created_at'),
+                Column::make('updated_at'),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            ];
+
+        }else{
+
+            return [
+
+                Column::make('num'),
+                Column::make('invoice'),
+                Column::make('name'),
+                Column::make('credit'),
+                Column::make('amount'),
+                Column::make('created_at'),
+                Column::make('updated_at'),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            ];
+        }
+
     }
 
     /**

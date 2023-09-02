@@ -19,6 +19,9 @@ return new class extends Migration
             $table->integer('agent_id');
             $table->text('thumbnail');
             $table->string('name');
+            $table->integer('beds');
+            $table->integer('bath');
+            $table->integer('size');
             $table->string('slug');
             $table->string('code');
             $table->integer('low_price');

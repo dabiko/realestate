@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
+use App\Models\Category;
 use App\Models\User;
 use App\Traits\ImageUploadTraits;
 use Illuminate\Http\RedirectResponse;
@@ -17,10 +18,6 @@ use Illuminate\View\View;
 class UserController extends Controller
 {
     use ImageUploadTraits;
-    public function index(): View
-    {
-        return view('frontend.index');
-    }
 
     public function dashboard(): View
     {

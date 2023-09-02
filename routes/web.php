@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PagesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -19,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [UserController::class, 'index'])->name('home');
-
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])
     ->name('admin.login')
     ->middleware(RedirectIfAuthenticated::class);
@@ -37,6 +37,10 @@ Route::get('agent/register', [AgentController::class, 'AgentRegister'])
     ->name('agent.register')
     ->middleware(RedirectIfAuthenticated::class);
 Route::post('agent/process-registration', [AgentController::class, 'processRegistration'])->name('agent-process-registration');
+
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('categories', [PagesController::class, 'categories'])->name('categories');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

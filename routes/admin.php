@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AmenityController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
+use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyDetailController;
 use App\Http\Controllers\Backend\PropertyFacilityController;
@@ -75,6 +76,10 @@ Route::resource('property-facility', PropertyFacilityController::class);
 
 Route::get('property-stats-index/{property}', [PropertyStatsController::class, 'index'])->name('property-stats-index');
 Route::resource('property-stats', PropertyStatsController::class);
+
+Route::get('packages', [PackageController::class, 'index'])->name('package.history.index');
+Route::get('package/invoice-print/{id}', [PackageController::class, 'invoice'])->name('package.invoice-print');
+
 
 
 

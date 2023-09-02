@@ -14,7 +14,7 @@
             <li class="nav-item nav-category">Main</li>
             <li class="nav-item">
                 <a href="{{route('admin.dashboard')}}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
+                    <i class="link-icon" data-feather="home"></i>
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
@@ -71,7 +71,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#detail" role="button" aria-expanded="false" aria-controls="detail">
-                    <i class="link-icon" data-feather="aperture"></i>
+                    <i class="link-icon" data-feather="list"></i>
                     <span class="link-title">Details</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -80,8 +80,6 @@
                         <li class="nav-item">
                             <a href="{{route('admin.detail.index')}}" class="nav-link">Detail</a>
                         </li>
-
-
                     </ul>
                 </div>
             </li>
@@ -104,10 +102,17 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a href="{{route('admin.package.history.index')}}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Package History</span>
+                </a>
+            </li>
+
             <li class="nav-item nav-category">Authorization</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">
-                    <i class="link-icon" data-feather="feather"></i>
+                    <i class="link-icon" data-feather="lock"></i>
                     <span class="link-title">Manage Accounts</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
