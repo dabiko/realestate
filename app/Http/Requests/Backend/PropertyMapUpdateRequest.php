@@ -24,6 +24,7 @@ class PropertyMapUpdateRequest extends FormRequest
     {
         return [
             'property_id' => ['required', 'string'],
+            'map_id' => ['nullable', 'string'],
             'longitude' => ['required', 'string'],
             'latitude' => ['required', 'string'],
         ];

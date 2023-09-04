@@ -107,12 +107,8 @@
                                 <h4>Amenities</h4>
                             </div>
                             <ul class="list clearfix">
-                                @php
-                                    $amenity_id = explode(',', $property->amenity_id);
-                                    $amenity = \App\Models\Amenity::all('id');
-                                @endphp
-                                @foreach($amenity_id as $amenity)
-                                        <li>{{$amenity}}</li>
+                                @foreach($amenities as $amenity)
+                                        <li>{{$amenity->amenity->name}}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -122,13 +118,28 @@
                                 <h4>Floor Plan</h4>
                             </div>
                             <ul class="accordion-box">
-                                @foreach($plans as $key => $plan)
-                                    <li class="accordion block active-block">
-                                        <div class="acc-btn active">
+
+                                <li class="accordion block active-block">
+                                    <div class="acc-btn active">
+                                        <div class="icon-outer"><i class="fas fa-angle-down"></i></div>
+                                        <h5>{{$plansActive->name}}</h5>
+                                    </div>
+                                    <div class="acc-content current">
+                                        <div class="content-box">
+                                            <p>{{$plansActive->short_desc}}</p>
+                                            <figure class="image-box">
+                                                <img src="{{asset($plansActive->image)}}" alt="">
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </li>
+                                @foreach($plans as $plan)
+                                    <li class="accordion block">
+                                        <div class="acc-btn">
                                             <div class="icon-outer"><i class="fas fa-angle-down"></i></div>
                                             <h5>{{$plan->name}}</h5>
                                         </div>
-                                        <div class="acc-content current">
+                                        <div class="acc-content">
                                             <div class="content-box">
                                                 <p>{{$plan->short_desc}}</p>
                                                 <figure class="image-box">
@@ -138,6 +149,8 @@
                                         </div>
                                     </li>
                                 @endforeach
+
+
 
                             </ul>
                         </div>
@@ -158,7 +171,7 @@
                                     id="contact-google-map"
                                     data-map-lat="40.712776"
                                     data-map-lng="-74.005974"
-                                    data-icon-path="assets/images/icons/map-marker.png"
+                                    data-icon-path="{{asset('frontend/assets/images/icons/map-marker.png')}}"
                                     data-map-title="Brooklyn, New York, United Kingdom"
                                     data-map-zoom="12"
                                     data-markers='{"marker-1": [40.712776, -74.005974, "<h4>Branch Office</h4><p>77/99 New York</p>","assets/images/icons/map-marker.png"]}'>
@@ -172,6 +185,119 @@
                                 <h4>What’s Nearby?</h4>
                             </div>
                             <div class="inner-box">
+
+                                    @foreach($facilities as $facility)
+                                        @php
+                                            $facility_item = \App\Models\PropertyFacilityItem::where('property_facility_id',$facility->facility_id)
+                                            ->where('status',1)
+                                            ->get();
+                                        @endphp
+                                    <div class="single-item">
+                                        <div class="icon-box">{!! $facility->facility->icon !!}</div>
+                                        <div class="inner">
+                                            <h5>{{$facility->facility->name}} : </h5>
+
+
+                                                    @foreach($facility_item as $item)
+                                                            <div class="box clearfix">
+                                                                    <div class="text pull-left">
+                                                                        <h6>{{$item->name}} <span>({{$item->distance}}km)</span></h6>
+                                                                    </div>
+                                                                @if($item->rating == 1)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 1.5)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-40"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 2)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 2.5)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-40"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+
+                                                                    </ul>
+                                                                @elseif ($item->rating == 3)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 3.5)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-40"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 4)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 4.5)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-40"></i></li>
+                                                                    </ul>
+                                                                @elseif ($item->rating == 5)
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                        <li><i class="icon-39"></i></li>
+                                                                    </ul>
+                                                                @else
+
+                                                                    <ul class="rating pull-right clearfix">
+                                                                        <li><p>0</p></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                        <li><i class="fa-regular fa-star"></i></li>
+                                                                    </ul>
+                                                                @endif
+                                                            </div>
+                                                    @endforeach
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                    @endforeach
+
 
 
                             </div>
@@ -361,11 +487,7 @@
 
         </div>
     </section>
-
-
-
     @include('frontend.layout.subscription')
-
-
 @endsection
+
 

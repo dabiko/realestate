@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Amenity;
 use App\Models\Category;
 use App\Models\Property;
+use App\Models\PropertyAmenity;
 use App\Models\PropertyDetail;
+use App\Models\PropertyFacility;
 use App\Models\PropertyGallery;
 use App\Models\PropertyLocation;
+use App\Models\PropertyMap;
 use App\Models\PropertyPlan;
 use App\Models\PropertyStats;
 use App\Traits\EncryptDecrypt;
@@ -44,15 +47,34 @@ class PagesController extends Controller
         //dd($amenity_id);
 
         $sliders = PropertyGallery::where('property_id',$property->id)->get();
+
         $details = PropertyDetail::where('property_id',$property->id)
             ->where('status', 1)
             ->get();
-        $amenities = Amenity::where('id',$property->amenity_id)->get();
-        $plans = PropertyPlan::where('property_id',$property->id)
+
+        $amenities = PropertyAmenity::where('property_id',$property->id)
             ->where('status', 1)
             ->get();
+
+        $plansActive = PropertyPlan::where('property_id',$property->id)
+            ->where('status', 1)
+            ->where('is_default', 1)
+            ->first();
+
+        $plans = PropertyPlan::where('property_id',$property->id)
+            ->where('status', 1)
+            ->where('is_default', 0)
+            ->get();
+
         $locations = PropertyLocation::where('property_id',$property->id)
             ->where('status', 1)
+            ->get();
+
+        $facilities = PropertyFacility::where('property_id',$property->id)
+            ->where('status', 1)
+            ->get();
+
+        $maps = PropertyMap::where('property_id',$property->id)
             ->get();
 
         $stats = PropertyStats::where('property_id',$property->id)->get();
@@ -63,9 +85,12 @@ class PagesController extends Controller
                 'sliders'  => $sliders,
                 'details'  => $details,
                 'amenities'  => $amenities,
+                'plansActive'  => $plansActive,
                 'plans'  => $plans,
                 'locations' => $locations,
-                'stats' => $stats
+                'facilities' => $facilities,
+                'stats' => $stats,
+                'maps' => $maps
 
             ]
         );

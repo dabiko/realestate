@@ -84,28 +84,42 @@ class PropertyFacilityItemDataTable extends DataTable
 
                 $oneStar = '<span>
                            <i style="color: #FED900;" class="fa-solid fa-star " ></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
                           </span>';
 
                 $oneHalfStar = '<span>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                            <i class="fa-regular fa-star"></i>
+                             <i class="fa-regular fa-star"></i>
+                              <i class="fa-regular fa-star"></i>
                           </span>';
 
                 $twoStar = '<span>
                            <i style="color: #FED900;" class="fa-solid fa-star " ></i>
                             <i style="color: #FED900;" class="fa-solid fa-star " ></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
                           </span>';
 
                 $twoHalfStar = '<span>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                           <i class="fa-regular fa-star"></i>
+                           <i class="fa-regular fa-star"></i>
                           </span>';
 
                 $threeStar = '<span>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                            <i class="fa-regular fa-star"></i>
+                             <i class="fa-regular fa-star"></i>
                           </span>';
 
                 $threeHalfStar = '<span>
@@ -113,6 +127,8 @@ class PropertyFacilityItemDataTable extends DataTable
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i style="color: #FED900;" class="fa-solid fa-star-half-stroke "></i>
+                            <i class="fa-regular fa-star"></i>' .
+                    '
                           </span>';
 
                 $fourStar = '<span>
@@ -120,6 +136,7 @@ class PropertyFacilityItemDataTable extends DataTable
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
                            <i  style="color: #FED900;" class="fa-solid fa-star "></i>
+                            <i class="fa-regular fa-star"></i>
                           </span>';
 
 

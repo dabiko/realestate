@@ -56,10 +56,12 @@
                                @enderror
                            </div>
 
+                           <input id="property_id" class="form-control" name="property_id" type="hidden" value="{{Crypt::encryptString($property->id)}}">
+                           <input id="map_id" class="form-control" name="map_id" type="hidden" value="{{Crypt::encryptString($coordinates?->id)}}">
+
                            <div class="col-md-6 ">
                                <label for="longitude" class="form-label">{{ __('Longitude') }} | <code><a href="https://www.latlong.net/" target="_blank">Click here to get the exact coordinates *</a></code></label>
                                <input id="longitude" value="{{$coordinates?->longitude}}" class="form-control @error('longitude') is-invalid @enderror" name="longitude" type="text">
-                               <input id="property_id" class="form-control" name="property_id" type="hidden" value="{{Crypt::encryptString($property->id)}}">
                                @error('longitude')
                                <span class="text-danger">{{ $message }}</span>
                                @enderror

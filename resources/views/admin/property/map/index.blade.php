@@ -42,24 +42,22 @@
                         @method('post')
                         @csrf
 
-                        <div id="preview_img" class="d-flex align-items-center mb-3">
-
-                        </div>
-
                        <div class="row mb-3">
 
                            <div class="col-md-6">
                                <label for="latitude" class="form-label">{{ __('Latitude') }} | <code><a href="https://www.latlong.net/" target="_blank">Click here to get the exact coordinates *</a></code></label>
-                               <input id="latitude"  value="{{$coordinates->latitude}}" class="form-control @error('latitude') is-invalid @enderror" name="latitude" type="text">
+                               <input id="latitude"  value="{{$coordinates?->latitude}}" class="form-control @error('latitude') is-invalid @enderror" name="latitude" type="text">
                                @error('latitude')
                                <span class="text-danger">{{ $message }}</span>
                                @enderror
                            </div>
 
+                           <input id="property_id" class="form-control" name="property_id" type="hidden" value="{{Crypt::encryptString($property->id)}}">
+                           <input id="map_id" class="form-control" name="map_id" type="hidden" value="{{Crypt::encryptString($coordinates?->id)}}">
+
                            <div class="col-md-6 ">
                                <label for="longitude" class="form-label">{{ __('Longitude') }} | <code><a href="https://www.latlong.net/" target="_blank">Click here to get the exact coordinates *</a></code></label>
-                               <input id="longitude" value="{{$coordinates->longitude}}" class="form-control @error('longitude') is-invalid @enderror" name="longitude" type="text">
-                               <input id="property_id" class="form-control" name="property_id" type="hidden" value="{{Crypt::encryptString($property->id)}}">
+                               <input id="longitude" value="{{$coordinates?->longitude}}" class="form-control @error('longitude') is-invalid @enderror" name="longitude" type="text">
                                @error('longitude')
                                <span class="text-danger">{{ $message }}</span>
                                @enderror

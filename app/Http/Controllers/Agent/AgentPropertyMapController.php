@@ -54,14 +54,29 @@ class AgentPropertyMapController extends Controller
 
         $property_id = $this->decryptId($validate['property_id']);
 
-        PropertyMap::updateOrCreate(
-            ['id' => 1],
-            [
+        $map_id = $this->decryptId($validate['map_id']);
+
+        if (empty($map_id)){
+            PropertyMap::create([
                 'property_id' => $property_id,
                 'longitude' => $validate['longitude'],
                 'latitude' => $validate['latitude']
-            ]
-        );
+            ]);
+        }else{
+            PropertyMap::findOrFail($map_id)->update([
+                'property_id' => $property_id,
+                'longitude' => $validate['longitude'],
+                'latitude' => $validate['latitude']
+            ]);
+        }
+//        PropertyMap::updateOrCreate(
+//            ['id' => 1],
+//            [
+//                'property_id' => $property_id,
+//                'longitude' => $validate['longitude'],
+//                'latitude' => $validate['latitude']
+//            ]
+//        );
 
         return Redirect::route('agent.property-map.index', ['property' => $validate['property_id']])
             ->with([
