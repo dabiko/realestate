@@ -178,4 +178,22 @@ class PropertyPlanController extends Controller
         ]);
     }
 
+
+    /**
+     * Update the status resource in storage.
+     */
+    public function updateDefault(Request $request): Response
+    {
+        $decrypted_id = $this->decryptId($request->id);
+        $property_plan = PropertyPlan::findOrFail($decrypted_id);
+
+        $property_plan->is_default = $request->status === 'true' ? 1 : 0;
+        $property_plan->save();
+
+        return response([
+            'status' => 'success',
+            'message' => $request->status === 'true' ? $property_plan->name.' set to default' : $property_plan->name.' removed from default',
+        ]);
+    }
+
 }

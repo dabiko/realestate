@@ -159,6 +159,42 @@
                 })
             })
 
+            $('body').on('click', '.change-default', function (event){
+                // event.preventDefault();
+
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{route('admin.property-plan.change-default')}}",
+                    method: 'PUT',
+                    data: {
+                        status: isChecked,
+                        id: id,
+                    },
+                    success: function (data){
+                        if(data.status === 'success'){
+                            ToastCenter.fire({
+                                icon: data.status,
+                                title: data.message,
+                            })
+
+                        }else if(data.status === 'error'){
+                            Swal.fire({
+                                icon: 'error',
+                                title: data.message,
+                                showConfirmButton: true,
+                            })
+                        }
+
+                    },
+                    error: function (xhr, status, error){
+                        console.log(error);
+                    }
+
+                })
+            })
+
         })
 
 

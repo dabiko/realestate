@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_plans', function (Blueprint $table) {
+        Schema::create('property_maps', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained();
-            $table->string('name');
-            $table->string('short_desc');
-            $table->string('image');
-            $table->string('is_default')->default(0);
-            $table->boolean('status');
+            $table->string('longitude');
+            $table->string('latitude');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_plans');
+        Schema::dropIfExists('property_maps');
     }
 };

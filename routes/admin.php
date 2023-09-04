@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\PropertyFacilityController;
 use App\Http\Controllers\Backend\PropertyFacilityItemController;
 use App\Http\Controllers\Backend\PropertyGalleryController;
 use App\Http\Controllers\Backend\PropertyLocationController;
+use App\Http\Controllers\Backend\PropertyMapController;
 use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
 use App\Http\Controllers\Backend\PropertyVariantController;
@@ -68,10 +69,14 @@ Route::put('property-detail-change-status', [PropertyDetailController::class, 'u
 Route::resource('property-detail', PropertyDetailController::class);
 
 Route::put('property-plan-change-status', [PropertyPlanController::class, 'updateStatus'])->name('property-plan.change-status');
+Route::put('property-plan-change-default', [PropertyPlanController::class, 'updateDefault'])->name('property-plan.change-default');
+
 Route::resource('property-plan', PropertyPlanController::class);
 
 Route::put('property-location-change-status', [PropertyLocationController::class, 'updateStatus'])->name('property-location.change-status');
 Route::resource('property-location', PropertyLocationController::class);
+
+Route::resource('property-map', PropertyMapController::class);
 
 Route::put('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
 Route::resource('property-facility', PropertyFacilityController::class);

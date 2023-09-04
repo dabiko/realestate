@@ -74,6 +74,30 @@ class PropertyPlanDataTable extends DataTable
                 }
 
             })
+            ->addColumn('default', function ($query){
+                $default   = '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-default"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 checked>
+                             </div>';
+
+                $noDefault   = '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-default"
+                                 type="checkbox"
+                                 data-id="'.$this->encryptId($query->id).'"
+                                 id="inActiveChecked">
+                             </div>';
+
+                if ($query->is_default == 1){
+                    return $default;
+                }else{
+                    return $noDefault;
+                }
+
+            })
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
@@ -112,7 +136,7 @@ class PropertyPlanDataTable extends DataTable
                        </div>";
             })
 
-            ->rawColumns(['image', 'action', 'status', 'num', 'description'])
+            ->rawColumns(['image', 'action', 'status', 'default', 'num', 'description'])
             ->setRowId('id');
     }
 
@@ -164,6 +188,7 @@ class PropertyPlanDataTable extends DataTable
             Column::make('num'),
             Column::make('image'),
             Column::make('description'),
+            Column::make('default'),
             Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
