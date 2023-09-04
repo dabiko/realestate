@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Agent\AgentProfileController;
+use App\Http\Controllers\Agent\AgentPropertyAmenityController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Agent\AgentPropertyDetailController;
 use App\Http\Controllers\Agent\AgentPropertyFacilityController;
+use App\Http\Controllers\Agent\AgentPropertyFacilityItemController;
 use App\Http\Controllers\Agent\AgentPropertyGalleryController;
 use App\Http\Controllers\Agent\AgentPropertyLocationController;
+use App\Http\Controllers\Agent\AgentPropertyMapController;
 use App\Http\Controllers\Agent\AgentPropertyPlanController;
 use App\Http\Controllers\Agent\AgentPropertyStatsController;
 use App\Http\Controllers\Agent\AgentPropertyVariantController;
@@ -54,32 +57,36 @@ Route::put('property-detail-change-status', [AgentPropertyDetailController::clas
 Route::resource('property-detail', AgentPropertyDetailController::class);
 
 Route::put('property-plan-change-status', [AgentPropertyPlanController::class, 'updateStatus'])->name('property-plan.change-status');
+Route::put('property-plan-change-default', [AgentPropertyPlanController::class, 'updateDefault'])->name('property-plan.change-default');
 Route::resource('property-plan', AgentPropertyPlanController::class);
 
 Route::put('property-location-change-status', [AgentPropertyLocationController::class, 'updateStatus'])->name('property-location.change-status');
 Route::resource('property-location', AgentPropertyLocationController::class);
 
+Route::resource('property-map', AgentPropertyMapController::class);
+
+
 Route::put('property-facility-change-status', [AgentPropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
 Route::resource('property-facility', AgentPropertyFacilityController::class);
 
+
+Route::get('facility-item/{propertyId}/{facilityId}', [AgentPropertyFacilityItemController::class, 'index'])->name('facility-item.index');
+Route::get('property-facility-item/create/{propertyId}/{facilityId}', [AgentPropertyFacilityItemController::class, 'create'])->name('property-facility-item.create');
+Route::put('property-facility-item/status', [AgentPropertyFacilityItemController::class, 'updateStatus'])->name('property-facility-item.change-status');
+
+
+Route::get('facility-item-edit/{facilityItemId}', [AgentPropertyFacilityItemController::class, 'edit'])->name('property-facility-item.edit');
+Route::put('facility-item-update/{facilityItemId}', [AgentPropertyFacilityItemController::class, 'update'])->name('property-facility-item.update');
+Route::delete('facility-item-delete/{facilityItemId}', [AgentPropertyFacilityItemController::class, 'destroy'])->name('property-facility-item.destroy');
+Route::post('facility-item', [AgentPropertyFacilityItemController::class, 'store'])->name('property-facility-item.store');
+
+
+Route::put('property-amenity-change-status', [AgentPropertyAmenityController::class, 'updateStatus'])->name('property-amenity.change-status');
+Route::resource('property-amenity', AgentPropertyAmenityController::class);
+
+
 Route::get('property-stats-index/{property}', [AgentPropertyStatsController::class, 'index'])->name('property-stats-index');
 Route::resource('property-stats', AgentPropertyStatsController::class);
-
-Route::put('property-variant/change-status', [AgentPropertyVariantController::class, 'updateStatus'])->name('property-variant.change-status');
-Route::get('property-variant-index/{property}', [AgentPropertyVariantController::class, 'index'])->name('property-variant-index');
-Route::resource('property-variant', AgentPropertyVariantController::class);
-
-
-Route::get('variant-item/{propertyId}/{variantId}', [AgentPropertyVariantItemController::class, 'index'])->name('variant-item.index');
-Route::get('variant-item/create/{propertyId}/{variantId}', [AgentPropertyVariantItemController::class, 'create'])->name('variant-item.create');
-Route::put('variant-item/status', [AgentPropertyVariantItemController::class, 'updateStatus'])->name('variant-item.change-status');
-
-Route::get('variant-item-edit/{variantItemId}', [AgentPropertyVariantItemController::class, 'edit'])->name('variant-item.edit');
-Route::put('variant-item-update/{variantItemId}', [AgentPropertyVariantItemController::class, 'update'])->name('variant-item.update');
-Route::delete('variant-item-delete/{variantItemId}', [AgentPropertyVariantItemController::class, 'destroy'])->name('variant-item.destroy');
-Route::post('variant-item', [AgentPropertyVariantItemController::class, 'store'])->name('variant-item.store');
-
-
 
 
 

@@ -17,13 +17,13 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create Facility :  {{$property->name}} </h4>
+            <h4 class="mb-3 mb-md-0"> Create Item :  {{$property_facility->facility->name}} </h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('agent.property-facility.index', ['property' => request()->property])}}">
+            <a href="{{route('agent.facility-item.index', ['propertyId' => request()->propertyId, 'facilityId' => request()->facilityId])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="arrow-left-circle"></i>
-                     Facility Table
+                     Facility Item Table
                 </button>
             </a>
         </div>
@@ -32,8 +32,8 @@
 
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('agent.property.index', ['property' => request()->property])}}">Property Table</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Create facility</li>
+            <li class="breadcrumb-item"><a href="{{route('agent.facility-item.index', ['propertyId' => request()->propertyId, 'facilityId' => request()->facilityId])}}">Facility Item Table</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create item</li>
         </ol>
     </nav>
 
@@ -44,7 +44,7 @@
                     <form
                         id="propertyForm"
                         method="POST"
-                        action="{{route('agent.property-facility.store')}}"
+                        action="{{route('agent.property-facility-item.store')}}"
 
                     >
 
@@ -52,21 +52,9 @@
                             @method('POST')
 
                         <input type="hidden" name="property_id" id="property_id" class="form-control" value="{{Crypt::encryptString($property->id)}}">
+                        <input type="hidden" name="property_facility_id" id="property_facility_id" class="form-control" value="{{Crypt::encryptString($property_facility->id)}}">
 
-
-                            <div class="row mb-3">
-                                <div class=" col-md-6 ">
-                                    <label for="facility" class="form-label">{{ __('Facility Category') }}</label>
-                                    <select class="js-example-basic-single form-select  @error('facility') is-invalid @enderror"  data-width="100%" name="facility" id="facility" >
-                                        <option selected disabled>Select status</option>
-                                        @foreach($facilities as $facility)
-                                            <option value="{{Crypt::encryptString($facility->id)}}">{{$facility->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('facility')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                        <div class="row mb-3">
 
                                 <div class="form-group col-md-6 ">
                                     <label  class="mb-2" for="name">{{__('Facility Name')}}</label>
@@ -75,18 +63,32 @@
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="distance" class="form-label"> Distance  <code>( Km ) * </code></label>
+                                        <input type="text" name="distance" id="distance" class="form-control  @error('distance') is-invalid @enderror" value="{{old('distance')}}" placeholder="Distance (Km)">
+                                        @error('distance')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
                             </div>
 
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="distance" class="form-label"> Distance  <code>( Km ) * </code></label>
-                                    <input type="text" name="distance" id="distance" class="form-control  @error('distance') is-invalid @enderror" value="{{old('distance')}}" placeholder="Distance (Km)">
-                                    @error('distance')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                        <div class="row mb-3">
+
+                            <div class="  col-md-6">
+                                <label for="status" class="form-label">{{ __('Status') }}</label>
+                                <select class="form-select  @error('status') is-invalid @enderror" name="status" id="status" >
+                                    <option selected disabled>Select status</option>
+                                    <option  value="1">{{__('Active')}}</option>
+                                    <option  value="0">{{__('Inactive')}}</option>
+                                </select>
+                                @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="row col-md-6">
@@ -112,17 +114,6 @@
                             </div>
                         </div>
 
-                            <div class="  mb-3">
-                                <label for="status" class="form-label">{{ __('Status') }}</label>
-                                <select class="form-select  @error('status') is-invalid @enderror" name="status" id="status" >
-                                    <option selected disabled>Select status</option>
-                                    <option  value="1">{{__('Active')}}</option>
-                                    <option  value="0">{{__('Inactive')}}</option>
-                                </select>
-                                @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
 
                         <button type="submit" class="btn btn-inverse-primary">
                                 <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}

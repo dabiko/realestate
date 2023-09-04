@@ -25,14 +25,61 @@
                 </button>
             </a>
 
-            <a href="{{route('agent.property-facility.create', ['property' => Crypt::encryptString($property->id)])}}">
-                <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                    <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                     facility
-                </button>
-            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form
+                        id="propertyForm"
+                        method="POST"
+                        action="{{route('agent.property-facility.store')}}"
+
+                    >
+                        @csrf
+                        @method('POST')
+
+                        <input type="hidden" name="property_id" id="property_id" class="form-control" value="{{Crypt::encryptString($property->id)}}">
+
+                        <div class="row mb-3">
+                            <div class="form-group col-md-6 ">
+                                <label for="facility_id" class="form-label">{{ __('Facility') }}</label>
+                                <select class="js-example-basic-multiple form-select @error('facility_id') is-invalid @enderror"   data-width="100%" name="facility_id" id="facility_id" >
+                                    <option selected disabled>Select facility</option>
+                                    @foreach($facilities as $facility)
+                                        <option   value="{{$facility->id}}">{{$facility->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('facility_id')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="  mb-3">
+                                    <label for="status" class="form-label">{{ __('Status') }}</label>
+                                    <select class="form-select  @error('status') is-invalid @enderror" name="status" id="status" >
+                                        <option selected disabled>Select status</option>
+                                        <option  value="1">{{__('Active')}}</option>
+                                        <option  value="0">{{__('Inactive')}}</option>
+                                    </select>
+                                    @error('status')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
 
 
+                        <button type="submit" class="btn btn-inverse-primary">
+                            <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}
+                        </button>
+                    </form>
+
+
+                </div>
+            </div>
         </div>
     </div>
 

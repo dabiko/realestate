@@ -25,7 +25,7 @@ class PropertyAmenityCreateRequest extends FormRequest
     {
         return [
             'property_id' => ['required', 'string' ],
-            'amenity_id' => ['required', 'integer', 'unique:'.PropertyAmenity::class],
+            'amenity_id' => ['required', 'integer'],
             'status' => ['required', 'boolean'],
         ];
     }

@@ -25,7 +25,7 @@ class PropertyFacilityCreateRequest extends FormRequest
     {
         return [
             'property_id' => ['required', 'string'],
-            'facility_id' => ['required', 'integer', 'unique:'.PropertyFacility::class],
+            'facility_id' => ['required', 'integer'],
             'status' =>   ['required', 'integer'],
         ];
     }

@@ -25,16 +25,19 @@ class AgentPropertyFacilityController extends Controller
     public function index(PropertyFacilityDataTable $dataTable)
     {
         $property_id = $this->decryptId(request()->property);
+
         $property = Property::findOrFail($property_id);
         $count = PropertyFacility::where('property_id', $property_id)->count();
         $property_facility = PropertyFacility::all();
+        $facilities = Facility::where('status', 1)->get();
 
 
         return $dataTable->render('agent.property.facility.index',
             [
                 'property' => $property,
                 'property_facility' => $property_facility,
-                'count' => $count
+                'count' => $count,
+                'facilities' => $facilities,
             ]
         );
     }
@@ -68,14 +71,10 @@ class AgentPropertyFacilityController extends Controller
         $validate = $request->validated();
 
         $property_id = $this->decryptId($validate['property_id']);
-        $facility_id = $this->decryptId($validate['facility']);
 
         PropertyFacility::create([
-            'facility_id' => $facility_id,
+            'facility_id' => $validate['facility_id'],
             'property_id' => $property_id,
-            'name' => $validate['name'],
-            'distance' => $validate['distance'],
-            'rating' => $validate['rating'],
             'status' => $validate['status'],
         ]);
 
@@ -97,59 +96,31 @@ class AgentPropertyFacilityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(string $id)
     {
 
-        $decrypted_id =  $this->decryptId($id);
-
-        $property_facility = PropertyFacility::findOrFail($decrypted_id);
-        $facilities = Facility::all();
-
-        return view('agent.property.facility.edit',
-            [
-                'property_facility' => $property_facility,
-                'facilities' => $facilities,
-
-            ]
-        );
+       //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PropertyFacilityUpdateRequest $request, string $id): RedirectResponse
+    public function update(Request $request, string $id)
     {
-        $validate = $request->validated();
-        $facility_id = $this->decryptId($validate['facility']);
-
-        $decrypted_id = $this->decryptId($id);
-
-        PropertyFacility::findOrFail($decrypted_id)->update([
-            'facility_id' => $facility_id,
-            'name' => $validate['name'],
-            'distance' => $validate['distance'],
-            'rating' => $validate['rating'],
-            'status' => $validate['status'],
-        ]);
-
-        return Redirect::route('agent.property-facility.index', ['property' => $validate['property_id'] ])
-            ->with([
-                'status' => 'success',
-                'message' => 'Facility updated successfully'
-            ]);
+      //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+        public function destroy(string $id): Response
     {
 
         $decrypted_id = $this->decryptId($id);
 
         $property_facility = PropertyFacility::findOrFail($decrypted_id);
 
-        if ($property_facility->status === 1){
+        if ($property_facility->status == 1){
             return response([
                 'status' => 'error',
                 'title' => 'Cant delete '.$property_facility->name,

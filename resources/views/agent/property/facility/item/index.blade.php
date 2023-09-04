@@ -1,6 +1,6 @@
 @extends('agent.layout.master')
 @section('title')
-    {{ config('app.name') }} | {{$property->name}}
+    {{ config('app.name') }} | Facilities Item
 @endsection
 
 @section('content')
@@ -15,30 +15,32 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Plan : {{$property->name}}</h4>
+            <h4 class="mb-3 mb-md-0"> Facility Item : {{$property_facility->facility->name}} </h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('agent.property.index')}}">
+            <a href="{{route('agent.property-facility.index', ['property' => request()->propertyId])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="arrow-left-circle"></i>
-                     Property Table
+                    Facilities Tale
                 </button>
             </a>
 
-            <a href="{{route('agent.property-plan.create', ['property' => request()->property])}}">
+            <a href="{{route('agent.property-facility-item.create', ['propertyId' => request()->propertyId, 'facilityId' => request()->facilityId])}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                    Create
+                    Item
                 </button>
             </a>
+
 
         </div>
     </div>
 
+
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('agent.property.index')}}">Property</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Plan</li>
+            <li class="breadcrumb-item"><a href="{{route('agent.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Facility</li>
         </ol>
     </nav>
 
@@ -46,22 +48,21 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h class="card-title">Plans</h>
+                    <h6 class="card-title"> Facilities</h6>
                     <p class="text-muted mb-3">Add read text here.....</p>
 
-
-                                  @if($propertyPlan->Count() > 0)
-                                      @if($count > 0)
-                                         {{ $dataTable->table() }}
-                                      @else
-                                            <div class="table-responsive">
+                    @if($facilityItems->Count() > 0)
+                        @if($count > 0)
+                            {{ $dataTable->table() }}
+                        @else
+                            <div class="table-responsive">
                                 <table id="dataTableExample" class="table">
                                     <thead>
                                     <tr>
                                         <th>Num</th>
                                         <th>Name</th>
-                                        <th>image</th>
-                                        <th>Description</th>
+                                        <th>Distance</th>
+                                        <th>Rating</th>
                                         <th>Status</th>
                                         <th>Action</th>
 
@@ -72,25 +73,25 @@
                                         <td colspan="100%" style="text-align: center;">
                                             <div class="alert alert-primary" role="alert">
                                                 <i data-feather="alert-circle"></i>
-                                                Oops No Data Available!!!   <strong>{{$property->name}}</strong>
+                                                Oops No Data Available!!! <strong>{{$property->name}} </strong> Add facilities
                                             </div>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                                      @endif
-                                  @else
-                                          <div class="table-responsive">
+                        @endif
+                    @else
+                        <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>
                                 <tr>
                                     <th>Num</th>
                                     <th>Name</th>
-                                    <th>image</th>
-                                    <th>Description</th>
+                                    <th>Distance</th>
+                                    <th>Rating</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th >Action</th>
 
                                 </tr>
                                 </thead>
@@ -99,24 +100,25 @@
                                     <td colspan="100%" style="text-align: center;">
                                         <div class="alert alert-primary" role="alert">
                                             <i data-feather="alert-circle"></i>
-                                            Oops No Data Available!!!   <strong>{{$property->name}}</strong>
+                                            Oops No Data Available!!! <strong>{{$property->name}} </strong> Add facilities
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                                  @endif
-
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
-        // change property Details status
-        $(document).ready(function (message){
+
+        // change property status
+        $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -130,7 +132,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{route('agent.property-plan.change-status')}}",
+                    url: "{{route('agent.property-facility-item.change-status')}}",
                     method: 'PUT',
                     data: {
                         status: isChecked,
@@ -142,43 +144,6 @@
                                 icon: data.status,
                                 title: data.message,
                             })
-
-                        }else if(data.status === 'error'){
-                            Swal.fire({
-                                icon: 'error',
-                                title: data.message,
-                                showConfirmButton: true,
-                            })
-                        }
-
-                    },
-                    error: function (xhr, status, error){
-                        console.log(error);
-                    }
-
-                })
-            })
-
-            $('body').on('click', '.change-default', function (event){
-                // event.preventDefault();
-
-                let isChecked = $(this).is(':checked');
-                let id = $(this).data('id');
-
-                $.ajax({
-                    url: "{{route('agent.property-plan.change-default')}}",
-                    method: 'PUT',
-                    data: {
-                        status: isChecked,
-                        id: id,
-                    },
-                    success: function (data){
-                        if(data.status === 'success'){
-                            ToastCenter.fire({
-                                icon: data.status,
-                                title: data.message,
-                            })
-
                         }else if(data.status === 'error'){
                             Swal.fire({
                                 icon: 'error',
@@ -195,9 +160,6 @@
                 })
             })
         })
-
-
     </script>
 
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

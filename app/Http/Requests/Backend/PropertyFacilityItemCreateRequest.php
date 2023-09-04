@@ -24,7 +24,7 @@ class PropertyFacilityItemCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'unique:'.PropertyFacilityItem::class],
+            'name' => ['required', 'string'],
             'property_id' => ['required', 'string'],
             'property_facility_id' => ['required', 'string'],
             'distance' => ['required', 'string'],

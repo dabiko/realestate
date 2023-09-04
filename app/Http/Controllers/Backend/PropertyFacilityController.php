@@ -95,46 +95,17 @@ class PropertyFacilityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(string $id)
     {
-
-        $decrypted_id =  $this->decryptId($id);
-
-        $property_facility = PropertyFacility::findOrFail($decrypted_id);
-        $facilities = Facility::all();
-
-        return view('admin.property.facility.edit',
-            [
-                'property_facility' => $property_facility,
-                'facilities' => $facilities,
-
-            ]
-        );
+         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PropertyFacilityUpdateRequest $request, string $id): RedirectResponse
+    public function update(Request $request, string $id)
     {
-        $validate = $request->validated();
-        $facility_id = $this->decryptId($validate['facility']);
-
-        $decrypted_id = $this->decryptId($id);
-
-        PropertyFacility::findOrFail($decrypted_id)->update([
-            'facility_id' => $facility_id,
-            'name' => $validate['name'],
-            'distance' => $validate['distance'],
-            'rating' => $validate['rating'],
-            'status' => $validate['status'],
-        ]);
-
-        return Redirect::route('admin.property-facility.index', ['property' => $validate['property_id'] ])
-            ->with([
-                'status' => 'success',
-                'message' => 'Facility updated successfully'
-            ]);
+       //
     }
 
     /**
