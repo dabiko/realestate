@@ -156,6 +156,35 @@
                         </div>
 
                         <div class="row mb-3">
+
+                            <div class="form-group col-md-6 ">
+                                <label  class="mb-2" for="beds">{{__('Beds Rooms')}}</label>
+                                <input type="text" class="form-control @error('beds') is-invalid @enderror" name="beds" id="beds" value="{{$property->beds}}">
+                                @error('beds')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6 ">
+                                <label  class="mb-2" for="bath">{{__('Bathrooms')}}</label>
+                                <input type="text" class="form-control @error('bath') is-invalid @enderror" name="bath" id="bath" value="{{$property->bath}}">
+                                @error('bath')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+
+                            <div class="form-group col-md-6 ">
+                                <label  class="mb-2" for="size">{{__('Size')}}</label>
+                                <input type="text" class="form-control @error('size') is-invalid @enderror" name="size" id="size" value="{{$property->size}}">
+                                @error('size')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6">
                                 <label for="short_desc" class="form-label">{{ __('Short Description') }}</label>
                                 <textarea class="form-control @error('short_desc') is-invalid @enderror" name="short_desc" id="short_desc" >
                                       {{$property->short_desc}}
@@ -164,7 +193,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
 
+                            </div>
                         </div>
+
 
                         <div class="form-group mb-3">
                             <label for="amenity_id" class="form-label">{{ __('Amenity') }}</label>

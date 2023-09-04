@@ -72,6 +72,9 @@ class FacilityDataTable extends DataTable
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
+            ->addColumn('icon', content: function ($query)  {
+                return "<button type='button' class='btn btn-inverse-success'>$query->icon</button>";
+            })
             ->addColumn('created_at', content: function ($query)  {
 
                 return  Carbon::parse($query->created_at)->diffForHumans();
@@ -80,7 +83,7 @@ class FacilityDataTable extends DataTable
 
                 return Carbon::parse($query->updated_at)->diffForHumans();
             })
-            ->rawColumns(['action', 'created_at', 'updated_at', 'status', 'num'])
+            ->rawColumns(['icon', 'action', 'created_at', 'updated_at', 'status', 'num'])
             ->setRowId('id');
     }
 
@@ -130,6 +133,7 @@ class FacilityDataTable extends DataTable
         return [
 
             Column::make('num'),
+            Column::make('icon'),
             Column::make('name'),
             Column::make('status'),
             Column::make('created_at'),

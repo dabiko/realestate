@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facilities', function (Blueprint $table) {
+        Schema::create('property_amenities', function (Blueprint $table) {
             $table->id();
-            $table->text('icon');
-            $table->string('name');
-            $table->boolean('status');
+            $table->foreignId('property_id')->constrained();
+            $table->foreignId('amenity_id')->constrained();
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facilities');
+        Schema::dropIfExists('property_amenities');
     }
 };

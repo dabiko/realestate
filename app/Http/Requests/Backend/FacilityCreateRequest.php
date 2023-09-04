@@ -25,6 +25,7 @@ class FacilityCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.Facility::class],
+            'icon' => ['required', 'string'],
             'status' => ['required', 'boolean'],
         ];
     }

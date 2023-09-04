@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('property_facilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('facility_id')->constrained();
             $table->foreignId('property_id')->constrained();
-            $table->string('name');
-            $table->string('distance');
-            $table->string('rating')->default(0);
+            $table->foreignId('facility_id')->constrained();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

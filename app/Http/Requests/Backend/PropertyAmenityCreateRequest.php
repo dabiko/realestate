@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\PropertyVariantItem;
+use App\Models\PropertyAmenity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PropertyVariantItemCreateRequest extends FormRequest
+class PropertyAmenityCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,22 @@ class PropertyVariantItemCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'property_id' => ['required', 'string'],
-            'property_variant_id' => ['required', 'string'],
-            'name' => ['required', 'string','min:4', 'max:100', 'unique:'.PropertyVariantItem::class],
+            'property_id' => ['required', 'string' ],
+            'amenity_id' => ['required', 'integer', 'unique:'.PropertyAmenity::class],
             'status' => ['required', 'boolean'],
+        ];
+    }
+
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'amenity_id.unique' => 'This amenity is already existing. You can only modify',
         ];
     }
 }

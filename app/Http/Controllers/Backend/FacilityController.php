@@ -49,6 +49,7 @@ class FacilityController extends Controller
         $validate = $request->validated();
 
         Facility::create([
+            'icon' => $validate['icon'],
             'name' => $validate['name'],
             'status' => $validate['status'],
         ]);
@@ -93,6 +94,7 @@ class FacilityController extends Controller
         $decrypted_id =  $this->decryptId($id);
 
         Facility::findOrFail($decrypted_id)->update([
+            'icon' => $validate['icon'],
             'name' => $validate['name'],
             'status' => $validate['status'],
         ]);

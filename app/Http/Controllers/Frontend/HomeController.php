@@ -17,9 +17,10 @@ class HomeController extends Controller
             ->orderBy('id', 'ASC')
             ->get();
 
-        $featured_property = Property::where('status', 1)
+        $featured_property = Property::where('is_approved', 1)
             ->where('tag', 'featured')
             ->limit(3)
+            ->orderBy('id', 'ASC')
             ->get();
 
         return view('frontend.index',

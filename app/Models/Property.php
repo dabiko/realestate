@@ -37,4 +37,6 @@ class Property extends Model
     {
         return $this->belongsTo (Amenity::class);
     }
+
+
 }

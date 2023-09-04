@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\PropertyVariantItem;
+use App\Models\PropertyAmenity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PropertyVariantItemUpdateRequest extends FormRequest
+class PropertyAmenityUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class PropertyVariantItemUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(PropertyVariantItem $propertyVariantItem): array
+    public function rules(PropertyAmenity $propertyAmenity): array
     {
         return [
-            'name' => ['required', 'string','min:4', 'max:100',
-                Rule::unique('property_variant_items', 'id')->ignore($propertyVariantItem->id)],
+            'property_id' => ['required', 'string' ],
+            'amenity_id' => ['required', 'array', Rule::unique('property_amenity', 'id')->ignore($propertyAmenity->id)],
             'status' => ['required', 'boolean'],
         ];
     }

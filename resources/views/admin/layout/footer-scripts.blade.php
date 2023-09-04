@@ -28,6 +28,5 @@
 <script src="{{asset('backend/assets/custom/action-script.js')}}"></script>
 <script src="{{asset('backend/assets/js/select2.js')}}"></script>
 <script src="{{asset('backend/assets/js/tinymce.js')}}"></script>
-{{--<script src="{{asset('backend./assets/js/bootstrap-maxlength.js')}}"></script>--}}
 
 <!-- End custom js for this page -->

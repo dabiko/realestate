@@ -8,9 +8,11 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
 use App\Http\Controllers\Backend\PackageController;
+use App\Http\Controllers\Backend\PropertyAmenityController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyDetailController;
 use App\Http\Controllers\Backend\PropertyFacilityController;
+use App\Http\Controllers\Backend\PropertyFacilityItemController;
 use App\Http\Controllers\Backend\PropertyGalleryController;
 use App\Http\Controllers\Backend\PropertyLocationController;
 use App\Http\Controllers\Backend\PropertyPlanController;
@@ -74,44 +76,23 @@ Route::resource('property-location', PropertyLocationController::class);
 Route::put('property-facility-change-status', [PropertyFacilityController::class, 'updateStatus'])->name('property-facility.change-status');
 Route::resource('property-facility', PropertyFacilityController::class);
 
+
+Route::get('facility-item/{propertyId}/{facilityId}', [PropertyFacilityItemController::class, 'index'])->name('facility-item.index');
+Route::get('property-facility-item/create/{propertyId}/{facilityId}', [PropertyFacilityItemController::class, 'create'])->name('property-facility-item.create');
+Route::put('property-facility-item/status', [PropertyFacilityItemController::class, 'updateStatus'])->name('property-facility-item.change-status');
+
+
+Route::get('facility-item-edit/{facilityItemId}', [PropertyFacilityItemController::class, 'edit'])->name('property-facility-item.edit');
+Route::put('facility-item-update/{facilityItemId}', [PropertyFacilityItemController::class, 'update'])->name('property-facility-item.update');
+Route::delete('facility-item-delete/{facilityItemId}', [PropertyFacilityItemController::class, 'destroy'])->name('property-facility-item.destroy');
+Route::post('facility-item', [PropertyFacilityItemController::class, 'store'])->name('property-facility-item.store');
+
+
+Route::put('property-amenity-change-status', [PropertyAmenityController::class, 'updateStatus'])->name('property-amenity.change-status');
+Route::resource('property-amenity', PropertyAmenityController::class);
+
 Route::get('property-stats-index/{property}', [PropertyStatsController::class, 'index'])->name('property-stats-index');
 Route::resource('property-stats', PropertyStatsController::class);
 
 Route::get('packages', [PackageController::class, 'index'])->name('package.history.index');
 Route::get('package/invoice-print/{id}', [PackageController::class, 'invoice'])->name('package.invoice-print');
-
-
-
-
-
-
-
-
-
-
-
-
-Route::put('property-variant/change-status', [PropertyVariantController::class, 'updateStatus'])->name('property-variant.change-status');
-Route::get('property-variant-index/{property}', [PropertyVariantController::class, 'index'])->name('property-variant-index');
-Route::resource('property-variant', PropertyVariantController::class);
-
-
-Route::get('variant-item/{propertyId}/{variantId}', [PropertyVariantItemController::class, 'index'])->name('variant-item.index');
-Route::get('variant-item/create/{propertyId}/{variantId}', [PropertyVariantItemController::class, 'create'])->name('variant-item.create');
-Route::put('variant-item/status', [PropertyVariantItemController::class, 'updateStatus'])->name('variant-item.change-status');
-
-Route::get('variant-item-edit/{variantItemId}', [PropertyVariantItemController::class, 'edit'])->name('variant-item.edit');
-Route::put('variant-item-update/{variantItemId}', [PropertyVariantItemController::class, 'update'])->name('variant-item.update');
-Route::delete('variant-item-delete/{variantItemId}', [PropertyVariantItemController::class, 'destroy'])->name('variant-item.destroy');
-Route::post('variant-item', [PropertyVariantItemController::class, 'store'])->name('variant-item.store');
-
-
-
-
-
-
-
-
-
-
-

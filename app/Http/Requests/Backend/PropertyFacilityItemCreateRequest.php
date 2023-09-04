@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Backend;
 
-use App\Models\PropertyFacility;
+use App\Models\PropertyFacilityItem;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PropertyFacilityCreateRequest extends FormRequest
+class PropertyFacilityItemCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,15 @@ class PropertyFacilityCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string', 'unique:'.PropertyFacilityItem::class],
             'property_id' => ['required', 'string'],
-            'facility_id' => ['required', 'integer', 'unique:'.PropertyFacility::class],
+            'property_facility_id' => ['required', 'string'],
+            'distance' => ['required', 'string'],
+            'rating' =>   ['required', 'string'],
             'status' =>   ['required', 'integer'],
         ];
     }
+
 
     /**
      * Get the error messages for the defined validation rules.
@@ -38,7 +42,7 @@ class PropertyFacilityCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'facility_id.unique' => 'This facility is already existing. You can only modify',
+            'name.unique' => ':input is already existing. You can only modify',
         ];
     }
 }

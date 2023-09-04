@@ -41,6 +41,8 @@ Route::post('agent/process-registration', [AgentController::class, 'processRegis
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('categories', [PagesController::class, 'categories'])->name('categories');
+Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

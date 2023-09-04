@@ -46,14 +46,26 @@
                             @csrf
                             @method('POST')
 
+                        <div class="row mb-3">
 
-                            <div class="form-group mb-3">
+                            <div class="form-group col-md-6 ">
+                                <label  class="mb-2" for="icon">{{__('Icon')}}</label>
+                                <input type="text" class="form-control @error('icon') is-invalid @enderror" name="icon" id="icon" value="{{old('icon')}}">
+                                @error('icon')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6 ">
                                 <label  class="mb-1" for="name">{{__('Name')}}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{old('name')}}">
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+
+                        </div>
+
 
                         <div class="mb-3">
                             <label for="status" class="form-label">{{ __('Status') }}</label>

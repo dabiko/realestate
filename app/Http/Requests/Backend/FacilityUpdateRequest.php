@@ -27,6 +27,7 @@ class FacilityUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:4', 'max:100',
                 Rule::unique('facilities', 'id')->ignore($facility->id)],
+            'icon' => ['required', 'string'],
             'status' => ['required', 'boolean'],
         ];
     }

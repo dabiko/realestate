@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\PropertyVariantItem;
+use App\Models\PropertyAmenity;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +14,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PropertyVariantItemDataTable extends DataTable
+class PropertyAmenityDataTable extends DataTable
 {
     use EncryptDecrypt;
     /**
@@ -28,21 +28,20 @@ class PropertyVariantItemDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $editBtn ="<a href='".route(Auth::user()->role.'.variant-item.edit', $this->encryptId($query->id))."'>
-                               <button class='btn btn-inverse-primary''>
-                               <i class='far fa-edit'></i>
-                               </button>
-                               </a>";
-                $deleteBtn ="<a class='delete-item' href='".route(Auth::user()->role.'.variant-item.destroy', $this->encryptId($query->id))."'>
-                              <button class='btn btn-inverse-danger''>
+                return "<a class='delete-item' href='".route(Auth::user()->role.'.property-amenity.destroy', $this->encryptId($query->id))."'>
+                              <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
                               </a>";
 
-                return $editBtn.$deleteBtn;
+            })
+            ->addColumn('amenity', function ($query){
+                return $query->amenity->name;
             })
             ->addColumn('status', function ($query){
-                $active   = '<div class="form-check form-switch">
+
+                $active = '
+                                <div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox" id="activeChecked"
@@ -50,7 +49,8 @@ class PropertyVariantItemDataTable extends DataTable
                                  checked>
                              </div>';
 
-                $InActive   = '<div class="form-check form-switch">
+                $inactive = '
+                            <div class="form-check form-switch">
                                  <input
                                  class="form-check-input change-status"
                                  type="checkbox"
@@ -59,34 +59,33 @@ class PropertyVariantItemDataTable extends DataTable
                              </div>';
 
                 if ($query->status == 1){
-                    return $active;
+
+                    return   $active;
+
                 }else{
-                    return $InActive;
+
+                    return   $inactive;
+
                 }
 
             })
-            ->addColumn('item name', function ($query){
-                return $query->name;
+            ->addColumn('num', content: function ($query)  {
+                return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
-            ->addColumn('num', function ($query){
-
-                return "<a>
-                        <button type='button' class='mb-2 btn btn-inverse-info'>$query->id</button>
-                       </a>";
-            })
-            ->rawColumns(['action',  'status', 'num'])
+            ->rawColumns([ 'action', 'status', 'num'])
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param PropertyVariantItem $model
+     * @param PropertyAmenity $model
      * @return QueryBuilder
      */
-    public function query(PropertyVariantItem $model): QueryBuilder
+    public function query(PropertyAmenity $model): QueryBuilder
     {
-        return $model->where('property_variant_id', $this->decryptId(request()->variantId))->newQuery();
+        return $model->where('property_id', $this->decryptId(request()->property))
+            ->newQuery()->orderBy('id', 'ASC');
     }
 
     /**
@@ -97,7 +96,7 @@ class PropertyVariantItemDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('propertyvariantitem-table')
+                    ->setTableId('propertyamenity-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -121,9 +120,8 @@ class PropertyVariantItemDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
             Column::make('num'),
-            Column::make('item name'),
+            Column::make('amenity'),
             Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
@@ -140,6 +138,6 @@ class PropertyVariantItemDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PropertyVariantItem_' . date('YmdHis');
+        return 'PropertyAmenity_' . date('YmdHis');
     }
 }

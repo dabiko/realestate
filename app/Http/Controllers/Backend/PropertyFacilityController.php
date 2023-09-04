@@ -28,13 +28,15 @@ class PropertyFacilityController extends Controller
         $property = Property::findOrFail($property_id);
         $count = PropertyFacility::where('property_id', $property_id)->count();
         $property_facility = PropertyFacility::all();
+        $facilities = Facility::where('status', 1)->get();
 
 
         return $dataTable->render('admin.property.facility.index',
             [
                 'property' => $property,
                 'property_facility' => $property_facility,
-                'count' => $count
+                'count' => $count,
+                'facilities' => $facilities,
             ]
         );
     }
@@ -68,14 +70,10 @@ class PropertyFacilityController extends Controller
         $validate = $request->validated();
 
         $property_id = $this->decryptId($validate['property_id']);
-        $facility_id = $this->decryptId($validate['facility']);
 
         PropertyFacility::create([
-            'facility_id' => $facility_id,
+            'facility_id' => $validate['facility_id'],
             'property_id' => $property_id,
-            'name' => $validate['name'],
-            'distance' => $validate['distance'],
-            'rating' => $validate['rating'],
             'status' => $validate['status'],
         ]);
 
