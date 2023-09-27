@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Frontend\AgentDetailsController;
 use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PagesController;
@@ -45,6 +46,8 @@ Route::post('agent/process-registration', [AgentController::class, 'processRegis
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('categories', [PagesController::class, 'categories'])->name('categories');
 Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
+Route::get('agent/details/{id}', [PagesController::class, 'agentDetails'])->name('agent.details');
+
 
 Route::get('wishlist', [WishlistController::class, 'property'])->name('wishlist');
 Route::post('wishlist-add/{id}', [WishlistController::class, 'addWishlist'])->name('wishlist-add');
@@ -91,6 +94,5 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
 
 
     Route::post('property-message', [PropertyMessageController::class, 'propertyMessage'])->name('property.message');
-
 
 });

@@ -45,8 +45,8 @@
     @include('frontend.layout.home.top-section')
 
 
-    {{--    team-section--}}
-    @include('frontend.layout.home.team-section')
+    {{--    agent-section--}}
+    @include('frontend.layout.home.agent-section')
 
 
     {{--    cta-section --}}

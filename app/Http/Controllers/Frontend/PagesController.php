@@ -14,6 +14,7 @@ use App\Models\PropertyLocation;
 use App\Models\PropertyMap;
 use App\Models\PropertyPlan;
 use App\Models\PropertyStats;
+use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -98,6 +99,51 @@ class PagesController extends Controller
                 'maps' => $maps,
                 'similar_property' => $similar_property
 
+            ]
+        );
+
+    }
+
+
+    public function agentDetails(string $id): View
+    {
+        $decrypted_id = $this->decryptId($id);
+
+        $agent = User::findOrFail($decrypted_id);
+
+        $agent_properties = Property::with(['category'])->where('user_id',$decrypted_id)->get();
+
+        $count = Property::with(['category'])->where('user_id',$decrypted_id)->count();
+
+        $sale = Property::where('user_id',$decrypted_id)
+            ->where('purpose', 'sale')
+            ->count();
+
+        $buy = Property::where('user_id',$decrypted_id)
+            ->where('purpose', 'buy')
+            ->count();
+
+        $rent = Property::where('user_id',$decrypted_id)
+            ->where('purpose', 'rent')
+            ->count();
+
+
+        $featured_properties = Property::where('user_id', '!=', $agent->id)
+            ->where('tag', 'featured')
+            ->limit(3)
+            ->orderBy('id', 'ASC')
+            ->get();
+
+
+        return view('frontend.pages.agent',
+            [
+                'agent'  => $agent,
+                'count'  => $count,
+                'sale'   => $sale,
+                'buy'    => $buy,
+                'rent'   => $rent,
+                'agent_properties'  => $agent_properties,
+                'featured_properties'  => $featured_properties,
             ]
         );
 
