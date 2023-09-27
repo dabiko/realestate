@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
     Route::delete('delete-compare/{id}', [CompareController::class, 'deleteUserCompare'])->name('delete-compare');
 
 
-    Route::post('property-message}', [PropertyMessageController::class, 'propertyMessage'])->name('property.message');
+    Route::post('property-message', [PropertyMessageController::class, 'propertyMessage'])->name('property.message');
 
 
 });

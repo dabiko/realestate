@@ -109,6 +109,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{route('admin.property.message')}}" class="nav-link">
+                    <i class="link-icon" data-feather="codepen"></i>
+                    <span class="link-title">Message</span>
+                </a>
+            </li>
+
             <li class="nav-item nav-category">Authorization</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">

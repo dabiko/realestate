@@ -14,6 +14,7 @@ use App\Models\Property;
 use App\Models\PropertyDetail;
 use App\Models\PropertyFacility;
 use App\Models\PropertyLocation;
+use App\Models\PropertyMessage;
 use App\Models\PropertyPlan;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
@@ -407,4 +408,44 @@ class AgentPropertyController extends Controller
 
         return $pdf->download($package_plan->name.'_'.$package_plan->invoice.'_'.'invoice.pdf');
     }
+
+
+    public function messages(): View
+    {
+        $agentMessages = PropertyMessage::with(['user','property'])->where('agent_id', Auth::id())->get();
+
+
+        $count = PropertyMessage::with(['user','property'])->where('agent_id', Auth::id())->count();
+
+
+        return View('agent.property.messages.index',
+            [
+                'count' => $count,
+               'agentMessages' => $agentMessages
+            ]
+        );
+
+    }
+
+    public function messageDetails(string $id): View
+    {
+        $message_id = $this->decryptId($id);
+        $agentMessages = PropertyMessage::with(['user','property'])->where('agent_id', Auth::id())->get();
+
+        $count = PropertyMessage::with(['user','property'])->where('agent_id', Auth::id())->count();
+
+        $details = PropertyMessage::findOrFail($message_id);
+
+
+        return View('agent.property.messages.index',
+            [
+                'count' => $count,
+                'agentMessages' => $agentMessages,
+                'details' => $details,
+
+            ]
+        );
+
+    }
+
 }

@@ -57,6 +57,14 @@
                 </li>
 
 
+                <li class="nav-item">
+                    <a href="{{route('agent.property.message')}}" class="nav-link">
+                        <i class="link-icon" data-feather="codepen"></i>
+                        <span class="link-title">Messages</span>
+                    </a>
+                </li>
+
+
 
                 <li class="nav-item">
                     <a href="pages/apps/calendar.html" class="nav-link">

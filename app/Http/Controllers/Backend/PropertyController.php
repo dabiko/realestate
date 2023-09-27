@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\PropertyDetail;
 use App\Models\PropertyFacility;
 use App\Models\PropertyLocation;
+use App\Models\PropertyMessage;
 use App\Models\PropertyPlan;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
@@ -267,6 +268,45 @@ class PropertyController extends Controller
             'status' => 'success',
             'message' => $request->status === 'true' ? 'Project Approved' : 'Project Suspended',
         ]);
+    }
+
+
+    public function messages(): View
+    {
+        $agentMessages = PropertyMessage::with(['user','property'])->get();
+
+
+        $count = PropertyMessage::count();
+
+
+        return View('admin.property.messages.index',
+            [
+                'count' => $count,
+                'agentMessages' => $agentMessages
+            ]
+        );
+
+    }
+
+    public function messageDetails(string $id): View
+    {
+        $message_id = $this->decryptId($id);
+        $agentMessages = PropertyMessage::with(['user','property'])->get();
+
+        $count = PropertyMessage::count();
+
+        $details = PropertyMessage::findOrFail($message_id);
+
+
+        return View('admin.property.messages.index',
+            [
+                'count' => $count,
+                'agentMessages' => $agentMessages,
+                'details' => $details,
+
+            ]
+        );
+
     }
 
 

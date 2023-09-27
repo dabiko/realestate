@@ -59,6 +59,10 @@ Route::resource('detail', DetailController::class);
 
 Route::get('property/check-approved', [PropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [PropertyController::class, 'updateStatus'])->name('property.change-status');
+
+Route::get('property-message', [PropertyController::class, 'messages'])->name('property.message');
+Route::get('message/details/{id}', [PropertyController::class, 'messageDetails'])->name('message.details');
+
 Route::resource('property', PropertyController::class);
 
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->unsignedBigInteger('agent_id');
             $table->foreignId('property_id')->constrained();
-            $table->string('message');
+            $table->text('message');
             $table->timestamps();
         });
     }

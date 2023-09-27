@@ -48,6 +48,10 @@ Route::get('package/invoice-print/{id}', [AgentPropertyController::class, 'invoi
 Route::get('property/check-approved', [AgentPropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [AgentPropertyController::class, 'updateStatus'])->name('property.change-status');
 
+Route::get('property-message', [AgentPropertyController::class, 'messages'])->name('property.message');
+Route::get('message/details/{id}', [AgentPropertyController::class, 'messageDetails'])->name('message.details');
+
+
 Route::resource('property', AgentPropertyController::class);
 
 Route::get('property-gallery-index/{property}', [AgentPropertyGalleryController::class, 'index'])->name('property-gallery-index');
