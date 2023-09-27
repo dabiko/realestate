@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @method static where(string $string, string $property_id)
+ * @method static where(string $string, int|string|null $id)
  * @method static create(array $array)
- * @method static findOrFail(string $decrypted_id)
+ * @method static count()
  */
-class PropertyLocation extends Model
+class Wishlist extends Model
 {
     use HasFactory;
 
@@ -20,5 +20,10 @@ class PropertyLocation extends Model
     public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class);
+    }
+
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'agent_id');
     }
 }

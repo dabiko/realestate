@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PagesController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -43,6 +45,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('categories', [PagesController::class, 'categories'])->name('categories');
 Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
 
+Route::get('wishlist', [WishlistController::class, 'property'])->name('wishlist');
+Route::post('wishlist-add/{id}', [WishlistController::class, 'addWishlist'])->name('wishlist-add');
+
+Route::get('compare', [CompareController::class, 'property'])->name('compare');
+Route::post('compare-add/{id}', [CompareController::class, 'addCompare'])->name('compare-add');
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,8 +70,22 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
 
     Route::get('password', [UserController::class, 'dashboard'])->name('password.change');
 
-   Route::patch('profile', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::patch('profile', [UserController::class, 'updateProfile'])->name('profile.update');
 
-   Route::patch('password', [UserController::class, 'updatePassword'])->name('password.update');
+    Route::patch('password', [UserController::class, 'updatePassword'])->name('password.update');
+
+
+    Route::get('user-wishlist', [WishlistController::class, 'userWishList'])->name('wishlist');
+
+    Route::get('get-wishlist', [WishlistController::class, 'getUserWishList'])->name('get-wishlist');
+
+    Route::delete('delete-wishlist/{id}', [WishlistController::class, 'deleteUserWishList'])->name('delete-wishlist');
+
+
+    Route::get('user-compare', [CompareController::class, 'userCompare'])->name('compare');
+
+    Route::get('get-compare', [CompareController::class, 'getUserCompare'])->name('get-compare');
+
+    Route::delete('delete-compare/{id}', [CompareController::class, 'deleteUserCompare'])->name('delete-compare');
 
 });

@@ -75,9 +75,14 @@ class PagesController extends Controller
             ->get();
 
         $maps = PropertyMap::where('property_id',$property->id)
-            ->get();
+            ->first();
 
         $stats = PropertyStats::where('property_id',$property->id)->get();
+
+        $similar_property = Property::where('id', '!=', $property->id)
+            ->limit(3)
+            ->orderBy('id', 'ASC')
+            ->get();
 
         return view('frontend.pages.property',
             [
@@ -90,7 +95,8 @@ class PagesController extends Controller
                 'locations' => $locations,
                 'facilities' => $facilities,
                 'stats' => $stats,
-                'maps' => $maps
+                'maps' => $maps,
+                'similar_property' => $similar_property
 
             ]
         );

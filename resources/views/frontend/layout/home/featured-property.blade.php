@@ -8,6 +8,15 @@
     <div class="row clearfix">
 
          @foreach($featured_property as $property)
+             @php
+                 $count_list = \App\Models\Wishlist::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                   ->where('property_id', $property->id)
+                   ->count();
+
+                 $count_compare = \App\Models\Compare::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                   ->where('property_id', $property->id)
+                   ->count();
+             @endphp
 
             <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
                 <div class="feature-block-one wow fadeInUp animated" data-wow-delay="00ms" data-wow-duration="1500ms">
@@ -32,8 +41,64 @@
                                     <h4>${{$property->low_price}}.00</h4>
                                 </div>
                                 <ul class="other-option pull-right clearfix">
-                                    <li><a href="{{route('property.details', Crypt::encryptString($property->id))}}"><i class="icon-12"></i></a></li>
-                                    <li><a href="{{route('property.details', Crypt::encryptString($property->id))}}"><i class="icon-13"></i></a></li>
+
+                                    @if($count_compare > 0)
+                                        <li id="compare-{{$property->id}}">
+                                            <a
+                                                aria-label="Add to compare"
+                                                class="action-btn "
+                                                id="{{Crypt::encryptString($property->id)}}"
+                                                onclick="addToCompare(this.id)"
+                                            >
+                                                <i
+                                                    id="list-status"
+                                                    onMouseOver="this.style.color='white'"
+                                                    onMouseOut="this.style.color='#00BB77'"
+                                                    style="color: #00BB77; " class="icon-12"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li id="compare-{{$property->id}}"><a
+                                                aria-label="Add to compare"
+                                                class="action-btn"
+                                                id="{{Crypt::encryptString($property->id)}}"
+                                                onclick="addToCompare(this.id)"
+                                            >
+                                                <i class="icon-12"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
+
+
+
+                                    @if($count_list > 0)
+                                        <li id="wishlist-{{$property->id}}">
+                                            <a
+                                                aria-label="Add to wishlist"
+                                                class="action-btn "
+                                                id="{{Crypt::encryptString($property->id)}}"
+                                                onclick="addToWishList(this.id)"
+                                            >
+                                                <i
+                                                    id="list-status"
+                                                    onMouseOver="this.style.color='white'"
+                                                    onMouseOut="this.style.color='#00BB77'"
+                                                    style="color: #00BB77; " class="icon-13"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li id="wishlist-{{$property->id}}"><a
+                                                aria-label="Add to wishlist"
+                                                class="action-btn"
+                                                id="{{Crypt::encryptString($property->id)}}"
+                                                onclick="addToWishList(this.id)"
+                                            >
+                                                <i class="icon-13"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
                                 </ul>
                             </div>
                             <p>{{$property->short_desc}}</p>
@@ -42,7 +107,7 @@
                                 <li><i class="icon-15"></i>{{$property->bath}} Baths</li>
                                 <li><i class="icon-16"></i>{{$property->size}} Sq Ft</li>
                             </ul>
-                            <div class="btn-box"><a href="{{route('property.details', Crypt::encryptString($property->id))}}" class="theme-btn btn-two">See Details</a></div>
+                            <div class="btn-box"><a href="{{route('property.details',Crypt::encryptString($property->id))}}" class="theme-btn btn-two">See Details</a></div>
                         </div>
                     </div>
                 </div>

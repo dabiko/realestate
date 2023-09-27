@@ -16,7 +16,7 @@
 <script src="{{asset('frontend/assets/js/jquery-ui.js')}}"></script>
 <script src="{{asset('frontend/assets/js/nav-tool.js')}}"></script>
 <script src="{{asset('frontend/assets/js/product-filter.js')}}"></script>
-<script src="{{asset('frontend/assets/js/timePicker.js')}}"></script>
+{{--<script src="{{asset('frontend/assets/js/timePicker.js')}}"></script>--}}
 
 <!-- map script -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-CE0deH3Jhj6GN4YvdCFZS7DpbXexzGU"></script>
@@ -25,3 +25,4 @@
 
 <!-- main-js -->
 <script src="{{asset('frontend/assets/js/script.js')}}"></script>
+<script src="{{asset('frontend/assets/custom/action.js')}}"></script>

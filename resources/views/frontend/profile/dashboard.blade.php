@@ -13,6 +13,10 @@
 
         {{ config('app.name') }} | Update Password
 
+    @elseif(Route::currentRouteName() === 'user.wishlist')
+
+        {{ config('app.name') }} | My Wishlist
+
     @else
 
         {{ config('app.name') }} | Dashboard
@@ -40,12 +44,12 @@
         </div>
     </section>
 
-    <section class="sidebar-page-container blog-details sec-pad-2">
+    <section class="property-page-section property-list">
         <div class="auto-container">
             <div class="row clearfix">
-
-
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+
+
                     <div class="blog-sidebar">
                         <div class="sidebar-widget post-widget">
                             <div class="widget-title">
@@ -61,6 +65,7 @@
                             </div>
                         </div>
 
+
                         <div class="sidebar-widget category-widget">
                             <div class="widget-title">
                                 <h4>Menu</h4>
@@ -74,22 +79,24 @@
                                     <li><a href="{{route('user.profile.edit')}}"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
                                     <li><a href="blog-details.html"><i class="fa fa-credit-card" aria-hidden="true"></i> Buy credits<span class="badge badge-info">( 10 credits)</span></a></li>
                                     <li><a href="blog-details.html"><i class="fa fa-list-alt" aria-hidden="true"></i></i> Properties </a></li>
-                                    <li><a href="blog-details.html"><i class="fa fa-indent" aria-hidden="true"></i> Add a Property  </a></li>
+                                    <li><a href="{{route('user.compare')}}"><i class="fa fa-indent" aria-hidden="true"></i> Compare  </a></li>
+                                    <li><a href="{{route('user.wishlist')}}"><i class="fa fa-indent" aria-hidden="true"></i> Wishlist  </a></li>
                                     <li><a href="{{route('user.password.change')}}"><i class="fa fa-key" aria-hidden="true"></i> Security </a></li>
 
-                                        <li>
-                                            <a href="{{route('user.logout')}}">
-                                                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
-                                                {{ __('Log Out') }}
-                                            </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{route('user.logout')}}">
+                                            <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                                            {{ __('Log Out') }}
+                                        </a>
+                                    </li>
 
                                 </ul>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
+
 
 
                 @if (Route::currentRouteName() === 'user.dashboard')
@@ -104,34 +111,28 @@
 
                     @include('frontend.profile.partials.update-password')
 
-                @endif
+                @elseif(Route::currentRouteName() === 'user.wishlist')
+                    <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                        <div class="property-content-side">
 
+                            <div class="wrapper list">
+                                <div class="deals-list-content list-item">
+                                    <div id="responseWishlist">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
 
             </div>
         </div>
     </section>
 
+
     @include('frontend.layout.subscription')
 
 @endsection
-@push('scripts')
-    <script>
 
-        $(document).ready(function () {
-            $('#image').change(function (event) {
-
-                let reader = new FileReader();
-
-                reader.onload = function (event) {
-
-                    $('#show-image').attr('src', event.target.result);
-
-                }
-
-                reader.readAsDataURL(event.target.files['0']);
-
-            })
-        })
-
-    </script>
-@endpush
