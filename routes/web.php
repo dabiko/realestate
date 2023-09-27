@@ -5,6 +5,7 @@ use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PagesController;
+use App\Http\Controllers\Frontend\PropertyMessageController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -87,5 +88,9 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
     Route::get('get-compare', [CompareController::class, 'getUserCompare'])->name('get-compare');
 
     Route::delete('delete-compare/{id}', [CompareController::class, 'deleteUserCompare'])->name('delete-compare');
+
+
+    Route::post('property-message}', [PropertyMessageController::class, 'propertyMessage'])->name('property.message');
+
 
 });

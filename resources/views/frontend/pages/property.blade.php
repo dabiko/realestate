@@ -407,23 +407,45 @@
                                 </div>
                             </div>
                             <div class="form-inner">
-                                <form action="property-details.html" method="post" class="default-form">
+
+                                @if(Session::has('status'))
+                                    <script>
+                                        ToastToRight.fire({
+                                            icon: '{{Session::get('status')}}',
+                                            title: '{{Session::get('message')}}',
+                                        })
+                                    </script>
+                                @endif
+
+                                <form action="{{route('user.property.message')}}" method="POST" class="default-form">
+
+                                    @method('POST')
+                                    @csrf
+
+                                    <input type="hidden" name="property_id" value="{{Crypt::encryptString($property->id)}}" >
+                                    <input type="hidden" name="agent_id" value="{{Crypt::encryptString($property->agent->id)}}" >
+
+
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Your name" required="">
+                                        <input disabled type="text" name="name" value="{{Auth::user() ? Auth::user()->name : 'Your name'}}" >
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" name="email" placeholder="Your Email" required="">
+                                        <input disabled type="email" name="email"  value="{{Auth::user() ? Auth::user()->email : 'Your Email'}}">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="phone" placeholder="Phone" required="">
+                                        <input disabled type="text" name="phone"  value="{{Auth::user() ? Auth::user()->phone : 'Your Phone'}}">
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="message" placeholder="Message"></textarea>
+                                        <textarea name="message" class="@error('message') is-invalid @enderror" placeholder="Message"></textarea>
+                                        @error('message')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group message-btn">
                                         <button type="submit" class="theme-btn btn-one">Send Message</button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                         <div class="calculator-widget sidebar-widget">
