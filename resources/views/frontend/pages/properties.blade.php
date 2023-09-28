@@ -143,7 +143,7 @@
                     <div class="property-content-side">
                         <div class="item-shorting clearfix">
                             <div class="left-column pull-left">
-                                <h5>Search Results: <span>Showing {{$count}} Listings</span></h5>
+                                <h5>Search Results: <span>Showing {{ count($properties) }} Listings</span></h5>
                             </div>
                             <div class="right-column pull-right clearfix">
                                 <div class="short-box clearfix">
@@ -381,12 +381,9 @@
                             </div>
                         </div>
                         <div class="pagination-wrapper">
-                            <ul class="pagination clearfix">
-                                <li><a href="property-list.html" class="current">1</a></li>
-                                <li><a href="property-list.html">2</a></li>
-                                <li><a href="property-list.html">3</a></li>
-                                <li><a href="property-list.html"><i class="fas fa-angle-right"></i></a></li>
-                            </ul>
+
+                                {{ $properties->links('vendor.pagination.custom') }}
+
                         </div>
                     </div>
                 </div>

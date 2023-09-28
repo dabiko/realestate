@@ -221,9 +221,7 @@ class PagesController extends Controller
     public function properties(): View
     {
 
-        $properties = Property::with(['agent'])->get();
-
-        $count = Property::count();
+        $properties = Property::with(['agent'])->paginate(4);
 
         $sale = Property::where('purpose', 'sale')->count();
 
@@ -233,7 +231,6 @@ class PagesController extends Controller
 
         return View('frontend.pages.properties',
             [
-                'count' => $count,
                 'properties' => $properties,
                 'sale'   => $sale,
                 'buy'    => $buy,
