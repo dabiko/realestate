@@ -2,7 +2,7 @@
 
 @section('title')
 
-    {{ config('app.name') }} | Properties for {{ request()->purpose }}
+    {{ config('app.name') }} | {{$category->name}} Properties
 
 @endsection
 
@@ -21,15 +21,14 @@
         </div>
         <div class="auto-container">
             <div class="content-box clearfix">
-                <h1>All Properties for {{ request()->purpose }}</h1>
+                <h1>All {{$category->name}} Properties </h1>
                 <ul class="bread-crumb clearfix">
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>properties for {{ request()->purpose }}</li>
+                    <li> {{$category->name}} properties  </li>
                 </ul>
             </div>
         </div>
     </section>
-
 
     <section class="property-page-section property-grid">
         <div class="auto-container">
@@ -112,12 +111,16 @@
                         </div>
                         <div class="category-widget sidebar-widget">
                             <div class="widget-title">
-                                <h5>Status Of Property</h5>
+                                <h5>Property Categories</h5>
                             </div>
                             <ul class="category-list clearfix">
-                                <li><a href="{{ $rent > 0 ? route('property.listing', ['purpose' => 'rent', ]) :  'javascript:void(0)'}}">For Rent <span>({{$rent}})</span></a></li>
-                                <li><a href="{{ $sale > 0 ? route('property.listing', ['purpose' => 'sale', ]) :  'javascript:void(0)'}}">For Sale <span>({{$sale}})</span></a></li>
-                                <li><a href="{{ $buy > 0 ? route('property.listing', ['purpose' => 'buy',   ]) :  'javascript:void(0)'}}">For Buy <span>({{$buy}})</span></a></li>
+                                @foreach($categories as $property_category)
+                                    @php
+                                        $category_count = \App\Models\Property::where('category_id',$property_category->id )->count();
+                                    @endphp
+                                    <li><a href="{{$category_count > 0 ? route('property.category', ['category' => Crypt::encryptString($property_category->id) ]) :  'javascript:void(0)'}}">{{$property_category->name}} Properties <span>({{$category_count}})</span></a></li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <div class="category-widget sidebar-widget">
@@ -393,5 +396,6 @@
             </div>
         </div>
     </section>
+
     @include('frontend.layout.subscription')
 @endsection

@@ -11,7 +11,7 @@
                         <div class="category-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="{{$category->icon}}"></i></div>
-                                <h5><a href="property-details.html">{{$category->name}}</a></h5>
+                                <h5><a href="{{$count > 0 ? route('property.category', ['category' => Crypt::encryptString($category->id) ]) :  'javascript:void(0)'}}">{{$category->name}}</a></h5>
                                 <span>{{$count}}</span>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static findOrFail(string $decrypted_id)
  * @method static where(string $string, $id)
  * @method  where(string $string, string $string, $id)
+ * @method static count()
  *
  */
 class Property extends Model

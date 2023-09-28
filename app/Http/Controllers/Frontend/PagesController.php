@@ -39,6 +39,39 @@ class PagesController extends Controller
     }
 
 
+    public function propertyCategory(): View
+    {
+        $category_id = $this->decryptId(request()->category);
+
+        $properties = Property::with(['category'])->where('status', 1)
+            ->where('category_id',$category_id)
+            ->orderBy('id', 'ASC')
+            ->get();
+
+        $count = Property::with(['category'])->where('status', 1)
+            ->where('category_id',$category_id)
+            ->count();
+
+        $categories = Category::where('status', 1)
+            ->orderBy('id', 'ASC')
+            ->get();
+
+
+        $category = Category::findOrFail($category_id);
+
+        return view('frontend.pages.property-category',
+            [
+                'count' => $count,
+                'category' => $category,
+                'properties' => $properties,
+                'categories' => $categories,
+
+            ]
+        );
+
+    }
+
+
     public function property(string $id): View
     {
         $decrypted_id = $this->decryptId($id);
@@ -190,6 +223,8 @@ class PagesController extends Controller
 
         $properties = Property::with(['agent'])->get();
 
+        $count = Property::count();
+
         $sale = Property::where('purpose', 'sale')->count();
 
         $buy = Property::where('purpose', 'buy')->count();
@@ -198,6 +233,7 @@ class PagesController extends Controller
 
         return View('frontend.pages.properties',
             [
+                'count' => $count,
                 'properties' => $properties,
                 'sale'   => $sale,
                 'buy'    => $buy,
@@ -216,6 +252,10 @@ class PagesController extends Controller
             ->where('purpose', $purpose)
             ->get();
 
+        $count = Property::with(['agent'])
+            ->where('purpose', $purpose)
+            ->count();
+
         $sale = Property::where('purpose', 'sale')->count();
 
         $buy = Property::where('purpose', 'buy')->count();
@@ -224,6 +264,7 @@ class PagesController extends Controller
 
         return View('frontend.pages.property-listing',
             [
+                'count' => $count,
                 'properties' => $properties,
                 'sale'   => $sale,
                 'buy'    => $buy,
