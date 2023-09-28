@@ -45,8 +45,13 @@ Route::post('agent/process-registration', [AgentController::class, 'processRegis
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('categories', [PagesController::class, 'categories'])->name('categories');
+
+Route::get('properties', [PagesController::class, 'properties'])->name('properties');
+Route::get('property/listing', [PagesController::class, 'propertyListing'])->name('property.listing');
 Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
 Route::get('agent/details/{id}', [PagesController::class, 'agentDetails'])->name('agent.details');
+Route::get('agent/listing', [PagesController::class, 'agentListing'])->name('agent.listing');
+
 
 
 Route::get('wishlist', [WishlistController::class, 'property'])->name('wishlist');

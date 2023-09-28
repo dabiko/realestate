@@ -117,7 +117,7 @@
                                                         <figure class="image"><img style="width: 300px; height: 350px;" src="{{asset($property->thumbnail)}}" alt=""></figure>
                                                         <div class="batch"><i class="icon-11"></i></div>
                                                         <span class="category">{{$property->tag}}</span>
-                                                        <div class="buy-btn"><a href="{{route('property.details',Crypt::encryptString($property->id))}}">For {{$property->purpose}}</a></div>
+                                                        <div class="buy-btn"><a href="{{route('agent.listing', ['purpose' => $property->purpose, 'agent' => Crypt::encryptString($property->agent->id)])}}">For {{$property->purpose}}</a></div>
                                                     </div>
                                                     <div class="lower-content">
                                                         <div class="title-text"><h4><a href="{{route('property.details', Crypt::encryptString($property->id))}}">{{$property->name}}</a></h4></div>
@@ -233,7 +233,7 @@
                                                                             <figure class="author-thumb"><img src="{{empty(!$property->agent->photo) ? asset($property->agent->photo) : url('upload/no_image.jpg') }}" alt=""></figure>
                                                                             <h6>{{$property->agent->name}}</h6>
                                                                         </div>
-                                                                        <div class="buy-btn pull-right"><a href="{{route('property.details', Crypt::encryptString($property->id) )}}">For {{$property->purpose}}</a></div>
+                                                                        <div class="buy-btn pull-right"><a href="{{route('agent.listing', ['purpose' => $property->purpose, 'agent' => Crypt::encryptString($property->agent->id)])}}">For {{$property->purpose}}</a></div>
                                                                     </div>
                                                                     <div class="title-text"><h4><a href="{{route('property.details', Crypt::encryptString($property->id))}}">{{$property->name}}</a></h4></div>
                                                                     <div class="price-box clearfix">
@@ -364,9 +364,9 @@
                                 <h5>Status Of Property</h5>
                             </div>
                             <ul class="category-list clearfix">
-                                <li><a href="agency-details.html">For Rent <span>({{$rent}})</span></a></li>
-                                <li><a href="agency-details.html">For Sale <span>({{$sale}})</span></a></li>
-                                <li><a href="agency-details.html">For Buy <span>({{$buy}})</span></a></li>
+                                <li><a href="{{ $rent > 0 ? route('agent.listing', ['purpose' => 'rent', 'agent' => Crypt::encryptString($property->agent->id)]) :  'javascript:void(0)'}}">For Rent <span>({{$rent}})</span></a></li>
+                                <li><a href="{{ $sale > 0 ? route('agent.listing', ['purpose' => 'sale', 'agent' => Crypt::encryptString($property->agent->id)]) :  'javascript:void(0)'}}">For Sale <span>({{$sale}})</span></a></li>
+                                <li><a href="{{ $buy > 0 ? route('agent.listing', ['purpose' => 'buy',   'agent' => Crypt::encryptString($property->agent->id)]) :  'javascript:void(0)'}}">For Buy <span>({{$buy}})</span></a></li>
                             </ul>
                         </div>
                         <div class="featured-widget sidebar-widget">

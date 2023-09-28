@@ -32,7 +32,7 @@
                                     <figure class="author-thumb"><img src="{{empty(!$property->agent->photo) ? asset($property->agent->photo) : url('upload/no_image.jpg') }}" alt=""></figure>
                                     <h6>{{$property->agent->name}}</h6>
                                 </div>
-                                <div class="buy-btn pull-right"><a href="{{route('property.details', Crypt::encryptString($property->id) )}}">For {{$property->purpose}}</a></div>
+                                <div class="buy-btn pull-right"><a href="{{route('agent.listing', ['purpose' => $property->purpose, 'agent' => Crypt::encryptString($property->user_id)])}}">For {{$property->purpose}}</a></div>
                             </div>
                             <div class="title-text"><h4><a href="{{route('property.details', Crypt::encryptString($property->id))}}">{{$property->name}}</a></h4></div>
                             <div class="price-box clearfix">
@@ -115,6 +115,6 @@
          @endforeach
 
     </div>
-    <div class="more-btn centred"><a href="" class="theme-btn btn-one">View All Listing</a></div>
+    <div class="more-btn centred"><a href="{{route('properties')}}" class="theme-btn btn-one">View All Listing</a></div>
 </div>
 </section>

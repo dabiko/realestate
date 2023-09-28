@@ -148,4 +148,88 @@ class PagesController extends Controller
         );
 
     }
+
+    public function agentListing(): View
+    {
+        $purpose = request()->purpose;
+        $agent = $this->decryptId(request()->agent);
+
+        $properties = Property::with(['agent'])->where('user_id',$agent)
+            ->where('purpose',$purpose )
+            ->get();
+
+        $property_agent = User::findOrFail($agent);
+
+        $sale = Property::where('user_id',$agent)
+            ->where('purpose', 'sale')
+            ->count();
+
+        $buy = Property::where('user_id',$agent)
+            ->where('purpose', 'buy')
+            ->count();
+
+        $rent = Property::where('user_id',$agent)
+            ->where('purpose', 'rent')
+            ->count();
+
+        return View('frontend.pages.agent-listing',
+            [
+                'property_agent' => $property_agent,
+                'properties' => $properties,
+                'sale'   => $sale,
+                'buy'    => $buy,
+                'rent'   => $rent,
+            ]
+        );
+
+    }
+
+
+    public function properties(): View
+    {
+
+        $properties = Property::with(['agent'])->get();
+
+        $sale = Property::where('purpose', 'sale')->count();
+
+        $buy = Property::where('purpose', 'buy')->count();
+
+        $rent = Property::where('purpose', 'rent')->count();
+
+        return View('frontend.pages.properties',
+            [
+                'properties' => $properties,
+                'sale'   => $sale,
+                'buy'    => $buy,
+                'rent'   => $rent,
+            ]
+        );
+
+    }
+
+
+    public function propertyListing(): View
+    {
+        $purpose = request()->purpose;
+
+        $properties = Property::with(['agent'])
+            ->where('purpose', $purpose)
+            ->get();
+
+        $sale = Property::where('purpose', 'sale')->count();
+
+        $buy = Property::where('purpose', 'buy')->count();
+
+        $rent = Property::where('purpose', 'rent')->count();
+
+        return View('frontend.pages.property-listing',
+            [
+                'properties' => $properties,
+                'sale'   => $sale,
+                'buy'    => $buy,
+                'rent'   => $rent,
+            ]
+        );
+
+    }
 }

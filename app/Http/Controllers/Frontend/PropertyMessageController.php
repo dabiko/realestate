@@ -31,11 +31,7 @@ class PropertyMessageController extends Controller
                 'message' => $validate['message'],
             ]);
 
-//            return Redirect::route('property.details', $validate['property_id'])
-//                ->with([
-//                    'status' => 'success',
-//                    'message' => 'Message sent successfully'
-//                ]);
+
 
             return Redirect::back()->with([
                 'status' => 'success',
