@@ -131,6 +131,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{route('admin.testimonials.index')}}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Testimonials</span>
+                </a>
+            </li>
+
             <li class="nav-item nav-category">Authorization</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">

@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\PropertyStatsController;
 use App\Http\Controllers\Backend\PropertyVariantController;
 use App\Http\Controllers\Backend\PropertyVariantItemController;
 use App\Http\Controllers\Backend\StateController;
+use App\Http\Controllers\Backend\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -109,3 +110,7 @@ Route::resource('property-stats', PropertyStatsController::class);
 
 Route::get('packages', [PackageController::class, 'index'])->name('package.history.index');
 Route::get('package/invoice-print/{id}', [PackageController::class, 'invoice'])->name('package.invoice-print');
+
+
+Route::put('testimonial-change-status', [TestimonialController::class, 'updateTestimonial'])->name('testimonial.change-status');
+Route::resource('testimonials', TestimonialController::class);

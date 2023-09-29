@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | State
+    {{ config('app.name') }} | Testimonials
 @endsection
 
 @section('content')
@@ -15,13 +15,13 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">States</h4>
+            <h4 class="mb-3 mb-md-0">Testimonials</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('admin.state.create')}}">
+            <a href="{{route('admin.testimonials.create')}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                    State
+                    Testimonial
                 </button>
             </a>
 
@@ -33,7 +33,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">States</li>
+            <li class="breadcrumb-item active" aria-current="page">Testimonials</li>
         </ol>
     </nav>
 
@@ -41,18 +41,19 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Sates</h6>
+                    <h6 class="card-title">Testimonials</h6>
                     <p class="text-muted mb-3">Add read text here.....</p>
 
-                    @if($states->Count() > 0)
+                    @if($testimonials->Count() > 0)
                         {{ $dataTable->table() }}
                     @else
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>
-                                <tr><th>ID</th>
+                                <tr><th>Position</th>
                                     <th>Image</th>
                                     <th>Name</th>
+                                    <th>Message</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -62,7 +63,7 @@
                                     <td colspan="100%" style="text-align: center;">
                                         <div class="alert alert-primary" role="alert">
                                             <i data-feather="alert-circle"></i>
-                                            <strong>Oops No Data Available!!! </strong> Create state.. <a href="{{route('admin.state.create')}}">Here</a>                                        </div>
+                                            <strong>Oops No Data Available!!! </strong> Create testimonial.. <a href="{{route('admin.testimonials.create')}}">Here</a>                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -94,7 +95,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{route('admin.state.change-status')}}",
+                    url: "{{route('admin.testimonial.change-status')}}",
                     method: 'PUT',
                     data: {
                         status: isChecked,
