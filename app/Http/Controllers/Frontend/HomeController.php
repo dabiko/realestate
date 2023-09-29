@@ -76,8 +76,9 @@ class HomeController extends Controller
        $category_name = $category->name;
 
        $properties = Property::with(['state', 'category'])
-           ->where('name', 'like', '%'.$keyword.'%')
+           ->where('is_approved', 1)
            ->where('purpose', $purpose)
+           ->where('name', 'like', '%'.$keyword.'%')
            ->whereHas('state', function ($query) use ($state_name){
                $query->where('name', 'like', '%'.$state_name.'%');
            })

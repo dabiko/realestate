@@ -244,6 +244,9 @@ class PagesController extends Controller
 
         $properties = Property::with(['agent'])->paginate(4);
 
+        $all_states = State::where('status', 1)->get();
+        $all_categories = Category::where('status', 1)->get();
+
         $sale = Property::where('purpose', 'sale')->count();
 
         $buy = Property::where('purpose', 'buy')->count();
@@ -253,6 +256,8 @@ class PagesController extends Controller
         return View('frontend.pages.properties',
             [
                 'properties' => $properties,
+                'all_states' => $all_states,
+                'all_categories' => $all_categories,
                 'sale'   => $sale,
                 'buy'    => $buy,
                 'rent'   => $rent,
@@ -322,5 +327,52 @@ class PagesController extends Controller
             ]
         );
 
+    }
+
+
+    public function filterProperty(Request $request): View
+    {
+        $purpose = $request->purpose;
+        $state_id =  $this->decryptId($request->state_id);
+        $category_id = $this->decryptId($request->category_id);
+        $num_of_rooms = $request->num_of_rooms;
+        $num_of_bathrooms = $request->num_of_bathrooms;
+
+
+        $state = State::findOrFail($state_id);
+        $state_name = $state->name;
+
+        $category = Category::findOrFail($category_id);
+        $category_name = $category->name;
+
+        $all_states = State::where('status', 1)->get();
+        $all_categories = Category::where('status', 1)->get();
+
+        $properties = Property::with(['state', 'category'])
+            ->where('is_approved', 1)
+            ->where('beds', $num_of_rooms)
+            ->where('bath', $num_of_bathrooms)
+            ->where('purpose', 'like', '%'.$purpose.'%')
+
+            ->whereHas('state', function ($query) use ($state_name){
+                $query->where('name', 'like', '%'.$state_name.'%');
+            })
+            ->whereHas('category', function ($query) use ($category_name){
+                $query->where('name', 'like', '%'.$category_name.'%');
+            })
+            ->paginate(4);
+
+        return View('frontend.pages.property-filter',
+            [
+                'num_of_rooms' => $num_of_rooms,
+                'num_of_bathrooms' => $num_of_bathrooms,
+                'state_name' => $state_name,
+                'all_states' => $all_states,
+                'all_categories' => $all_categories,
+                'category_name' => $category_name,
+                'purpose' => $purpose,
+                'properties' => $properties
+            ]
+        );
     }
 }

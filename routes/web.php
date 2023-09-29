@@ -53,6 +53,7 @@ Route::get('properties', [PagesController::class, 'properties'])->name('properti
 Route::get('property/listing', [PagesController::class, 'propertyListing'])->name('property.listing');
 Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
 Route::get('property/state', [PagesController::class, 'propertyStates'])->name('property.state');
+Route::post('property/filter', [PagesController::class, 'filterProperty'])->name('filter.property');
 
 Route::get('states/listing', [PagesController::class, 'stateListing'])->name('state.listing');
 

@@ -28,10 +28,10 @@
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-12 col-sm-12 column">
                                                 <div class="form-group">
-                                                    <label>Search Property</label>
+                                                    <label>Search keyword</label>
                                                     <div class="field-input">
                                                         <i class="fas fa-search"></i>
-                                                        <input type="search" id="search" name="search" placeholder="Search by Property, Location or Landmark...">
+                                                        <input type="search" id="search" name="search" placeholder="Search by Property name, Location or Landmark...">
                                                         <input type="hidden" name="purpose" id="purpose" value="buy">
                                                     </div>
                                                 </div>
@@ -42,7 +42,7 @@
                                                     <div class="select-box">
                                                         <i class="far fa-compass"></i>
                                                         <select name="state_id" class="wide">
-                                                            <option disabled selected data-display="Input location">select location</option>
+                                                            <option disabled selected data-display="select location">select location</option>
                                                             @foreach($all_states as $states)
                                                                 <option value="{{Crypt::encryptString($states->id)}}">{{$states->name}}</option>
                                                             @endforeach
@@ -55,7 +55,7 @@
                                                     <label>Property Category</label>
                                                     <div class="select-box">
                                                         <select name="category_id" class="wide">
-                                                            <option disabled selected data-display="All Type">All Category</option>
+                                                            <option disabled selected data-display="Select Category">Select Category</option>
                                                             @foreach($all_categories as $categories)
                                                                 <option value="{{Crypt::encryptString($categories->id)}}">{{$categories->name}}</option>
                                                             @endforeach
@@ -86,10 +86,10 @@
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-12 col-sm-12 column">
                                                 <div class="form-group">
-                                                    <label>Search Property</label>
+                                                    <label>Search Keyword</label>
                                                     <div class="field-input">
                                                         <i class="fas fa-search"></i>
-                                                        <input type="search" id="search" name="search" placeholder="Search by Property, Location or Landmark...">
+                                                        <input type="search" id="search" name="search" placeholder="Search by Property name, Location or Landmark...">
                                                         <input type="hidden" name="purpose" id="purpose" value="rent">
                                                     </div>
                                                 </div>
@@ -100,7 +100,7 @@
                                                     <div class="select-box">
                                                         <i class="far fa-compass"></i>
                                                         <select name="state_id" class="wide">
-                                                            <option disabled selected data-display="Input location">select location</option>
+                                                            <option disabled selected data-display="select location">select location</option>
                                                             @foreach($all_states as $states)
                                                                 <option value="{{ Crypt::encryptString($states->id) }}">{{$states->name}}</option>
                                                             @endforeach
@@ -113,7 +113,7 @@
                                                     <label>Property Type</label>
                                                     <div class="select-box">
                                                         <select name="category_id" class="wide">
-                                                            <option disabled selected data-display="All Type">All Category</option>
+                                                            <option disabled selected data-display="Select Category">Select Category</option>
                                                             @foreach($all_categories as $categories)
                                                                 <option value="{{Crypt::encryptString($categories->id)}}">{{$categories->name}}</option>
                                                             @endforeach
@@ -143,10 +143,10 @@
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-12 col-sm-12 column">
                                                 <div class="form-group">
-                                                    <label>Search Property</label>
+                                                    <label>Search Keyword</label>
                                                     <div class="field-input">
                                                         <i class="fas fa-search"></i>
-                                                        <input type="search" id="search" name="search" placeholder="Search by Property, Location or Landmark...">
+                                                        <input type="search" id="search" name="search" placeholder="Search by Property name, Location or Landmark...">
                                                         <input type="hidden" name="purpose" id="purpose" value="sale">
                                                     </div>
                                                 </div>
@@ -157,7 +157,7 @@
                                                     <div class="select-box">
                                                         <i class="far fa-compass"></i>
                                                         <select name="state_id" class="wide">
-                                                            <option disabled selected data-display="Input location">select location</option>
+                                                            <option disabled selected data-display="select location">select location</option>
                                                             @foreach($all_states as $states)
                                                                 <option value="{{Crypt::encryptString($states->id)}}">{{$states->name}}</option>
                                                             @endforeach
@@ -170,7 +170,7 @@
                                                     <label>Property Type</label>
                                                     <div class="select-box">
                                                         <select name="category_id" class="wide">
-                                                            <option disabled selected data-display="All Type">All Category</option>
+                                                            <option disabled selected data-display="Select Type">Select Category</option>
                                                             @foreach($all_categories as $categories)
                                                                 <option value="{{Crypt::encryptString($categories->id)}}">{{$categories->name}}</option>
                                                             @endforeach

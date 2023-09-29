@@ -2,7 +2,7 @@
 
 @section('title')
 
-    {{ config('app.name') }} | Properties
+    {{ config('app.name') }} | filtered properties
 
 @endsection
 
@@ -21,10 +21,11 @@
         </div>
         <div class="auto-container">
             <div class="content-box clearfix">
-                <h1>All Properties</h1>
+                <h1>All {{ $category_name }} Properties in {{ $state_name }} for {{ $purpose }}</h1>
+                <li>{{ $num_of_rooms }} badrooms and {{ $num_of_bathrooms }} bathrooms </li>
                 <ul class="bread-crumb clearfix">
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>properties</li>
+                    <li>{{ $category_name }} Properties for {{ $purpose }}</li>
                 </ul>
             </div>
         </div>
@@ -54,11 +55,11 @@
                             <div class="widget-title">
                                 <h5>Status Of Property</h5>
                             </div>
-                            <ul class="category-list clearfix">
-                                <li><a href="{{ $rent > 0 ? route('property.listing', ['purpose' => 'rent', ]) :  'javascript:void(0)'}}">For Rent <span>({{$rent}})</span></a></li>
-                                <li><a href="{{ $sale > 0 ? route('property.listing', ['purpose' => 'sale', ]) :  'javascript:void(0)'}}">For Sale <span>({{$sale}})</span></a></li>
-                                <li><a href="{{ $buy > 0 ? route('property.listing', ['purpose' => 'buy',   ]) :  'javascript:void(0)'}}">For Buy <span>({{$buy}})</span></a></li>
-                            </ul>
+{{--                            <ul class="category-list clearfix">--}}
+{{--                                <li><a href="{{ $rent > 0 ? route('property.listing', ['purpose' => 'rent', ]) :  'javascript:void(0)'}}">For Rent <span>({{$rent}})</span></a></li>--}}
+{{--                                <li><a href="{{ $sale > 0 ? route('property.listing', ['purpose' => 'sale', ]) :  'javascript:void(0)'}}">For Sale <span>({{$sale}})</span></a></li>--}}
+{{--                                <li><a href="{{ $buy > 0 ? route('property.listing', ['purpose' => 'buy',   ]) :  'javascript:void(0)'}}">For Buy <span>({{$buy}})</span></a></li>--}}
+{{--                            </ul>--}}
                         </div>
                         <div class="category-widget sidebar-widget">
                             <div class="widget-title">
@@ -79,13 +80,11 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-content-side">
                         <div class="item-shorting clearfix">
                             <div class="left-column pull-left">
-                                <h5>Search Results: <span>Showing {{ count($properties) }} Listings</span></h5>
+                                <h5>Search Results : <span>Showing {{ count($properties) }} Listings</span></h5>
                             </div>
                             <div class="right-column pull-right clearfix">
                                 <div class="short-box clearfix">
@@ -323,7 +322,7 @@
                             </div>
                         </div>
                         <div class="pagination-wrapper">
-                                {{ $properties->links('vendor.pagination.custom') }}
+                            {{ $properties->links('vendor.pagination.custom') }}
                         </div>
                     </div>
                 </div>
