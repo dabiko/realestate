@@ -52,8 +52,8 @@
                 <div class="right-column pull-right clearfix">
                     <div class="price-inner clearfix">
                         <ul class="category clearfix pull-left">
-                            <li><a href="property-details.html">Building</a></li>
-                            <li><a href="javascript:void(0)">For {{$property->purpose}}</a></li>
+                            <li><a href="{{route('property.category', ['category' => Crypt::encryptString($property->category_id) ])}}">{{$property->category->name}}</a></li>
+                            <li><a href="{{route('agent.details', Crypt::encryptString($property->user_id) )}}">For {{$property->purpose}}</a></li>
                         </ul>
                         <div class="price-box pull-right">
                             <h3>${{$property->low_price}}.00</h3>
@@ -171,6 +171,7 @@
                                     </div>
 
                                     <ul class="info clearfix">
+                                        <li><span>State/county :</span> {{$property->state->name}}</li>
                                         @foreach($locations as $location)
                                             <li><span>{{$location->name}}:</span> {{$location->value}}</li>
                                         @endforeach
@@ -403,7 +404,7 @@
                                         <li><i class="fas fa-map-marker-alt"></i>{{$property->agent->address}}</li>
                                         <li><i class="fas fa-phone"></i><a href="tel:{{$property->agent->phone}}">{{$property->agent->phone}}</a></li>
                                     </ul>
-                                    <div class="btn-box"><a href="agents-details.html">View Listing</a></div>
+                                    <div class="btn-box"><a href="{{route('agent.details', Crypt::encryptString($property->agent->id) )}}">View Listing</a></div>
                                 </div>
                             </div>
                             <div class="form-inner">

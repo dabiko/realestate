@@ -52,7 +52,7 @@ class PagesController extends Controller
         $properties = Property::with(['category'])->where('status', 1)
             ->where('category_id',$category_id)
             ->orderBy('id', 'ASC')
-            ->get();
+            ->paginate(4);
 
         $count = Property::with(['category'])->where('status', 1)
             ->where('category_id',$category_id)

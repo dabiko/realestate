@@ -2,13 +2,11 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
-use App\Http\Controllers\Frontend\AgentDetailsController;
 use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PagesController;
 use App\Http\Controllers\Frontend\PropertyMessageController;
 use App\Http\Controllers\Frontend\WishlistController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +42,9 @@ Route::post('agent/process-registration', [AgentController::class, 'processRegis
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('property/search', [HomeController::class, 'searchProperty'])->name('search.property');
+
+
 Route::get('categories', [PagesController::class, 'categories'])->name('categories');
 Route::get('property/category', [PagesController::class, 'propertyCategory'])->name('property.category');
 

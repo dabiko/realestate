@@ -7,10 +7,14 @@ use App\Models\Category;
 use App\Models\Property;
 use App\Models\State;
 use App\Models\User;
+use App\Traits\EncryptDecrypt;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    use EncryptDecrypt;
+
     public function index(): View
     {
         $categories = Category::where('status', 1)
@@ -39,14 +43,59 @@ class HomeController extends Controller
         $states = State::where('status', 1)
             ->paginate(6);
 
+        $all_states = State::where('status', 1)->get();
+        $all_categories = Category::where('status', 1)->get();
+
+
         return view('frontend.index',
             [
                 'categories' => $categories,
                 'featured_property' => $featured_property,
                 'hot_property' => $hot_property,
                 'property_agents' => $property_agents,
-                'states' => $states
+                'states' => $states,
+                'all_states' => $all_states,
+                'all_categories' => $all_categories
             ]
         );
     }
+
+
+    public function searchProperty(Request $request): View
+    {
+       $request->validate(['search' => 'required']);
+       $keyword = $request->search;
+       $state_id =  $this->decryptId($request->state_id);
+       $category_id = $this->decryptId($request->category_id);
+       $purpose = $request->purpose;
+
+       $state = State::findOrFail($state_id);
+       $state_name = $state->name;
+
+       $category = Category::findOrFail($category_id);
+       $category_name = $category->name;
+
+       $properties = Property::with(['state', 'category'])
+           ->where('name', 'like', '%'.$keyword.'%')
+           ->where('purpose', $purpose)
+           ->whereHas('state', function ($query) use ($state_name){
+               $query->where('name', 'like', '%'.$state_name.'%');
+           })
+           ->whereHas('category', function ($query) use ($category_name){
+               $query->where('name', 'like', '%'.$category_name.'%');
+           })
+           ->paginate(4);
+
+       return View('frontend.pages.property-search',
+           [
+               'keyword' => $keyword,
+               'state_name' => $state_name,
+               'category_name' => $category_name,
+               'purpose' => $purpose,
+               'properties' => $properties
+           ]
+       );
+    }
+
+
 }
