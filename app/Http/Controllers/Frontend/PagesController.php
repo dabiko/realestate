@@ -14,6 +14,7 @@ use App\Models\PropertyLocation;
 use App\Models\PropertyMap;
 use App\Models\PropertyPlan;
 use App\Models\PropertyStats;
+use App\Models\State;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Request;
@@ -29,9 +30,14 @@ class PagesController extends Controller
             ->orderBy('id', 'ASC')
             ->get();
 
+        $recent_properties = Property::with(['category'])->where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->paginate(3);
+
             return view('frontend.pages.categories',
                 [
                     'categories' => $categories,
+                    'recent_properties' => $recent_properties,
 
                 ]
             );
@@ -189,7 +195,7 @@ class PagesController extends Controller
 
         $properties = Property::with(['agent'])->where('user_id',$agent)
             ->where('purpose',$purpose )
-            ->get();
+            ->paginate(4);
 
         $property_agent = User::findOrFail($agent);
 
@@ -212,6 +218,21 @@ class PagesController extends Controller
                 'sale'   => $sale,
                 'buy'    => $buy,
                 'rent'   => $rent,
+            ]
+        );
+
+    }
+
+    public function stateListing(): View
+    {
+
+
+        $states = State::where('status', 1)->get();
+
+
+        return View('frontend.pages.state-listing',
+            [
+                'states'   => $states,
             ]
         );
 
@@ -247,11 +268,9 @@ class PagesController extends Controller
 
         $properties = Property::with(['agent'])
             ->where('purpose', $purpose)
-            ->get();
+            ->paginate(4);
 
-        $count = Property::with(['agent'])
-            ->where('purpose', $purpose)
-            ->count();
+
 
         $sale = Property::where('purpose', 'sale')->count();
 
@@ -261,11 +280,45 @@ class PagesController extends Controller
 
         return View('frontend.pages.property-listing',
             [
-                'count' => $count,
                 'properties' => $properties,
                 'sale'   => $sale,
                 'buy'    => $buy,
                 'rent'   => $rent,
+            ]
+        );
+
+    }
+
+    public function propertyStates(): View
+    {
+        $decrypted_id = $this->decryptId(request()->property);
+
+        $state = State::findOrFail($decrypted_id);
+
+        $properties = Property::with(['state','agent'])->where('state_id',$decrypted_id)
+            ->paginate(4);
+
+        $sale = Property::where('state_id',$decrypted_id)
+            ->where('purpose', 'sale')
+            ->count();
+
+        $buy = Property::where('state_id',$decrypted_id)
+            ->where('purpose', 'buy')
+            ->count();
+
+        $rent = Property::where('state_id',$decrypted_id)
+            ->where('purpose', 'rent')
+            ->count();
+
+
+
+
+        return view('frontend.pages.state-property',
+            [
+                'sale'   => $sale,
+                'buy'    => $buy,
+                'rent'   => $rent,
+                'properties'  => $properties,
             ]
         );
 

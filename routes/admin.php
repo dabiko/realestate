@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
 use App\Http\Controllers\Backend\PropertyVariantController;
 use App\Http\Controllers\Backend\PropertyVariantItemController;
+use App\Http\Controllers\Backend\StateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,6 +57,9 @@ Route::resource('facility', FacilityController::class);
 
 Route::put('detail-change-status', [DetailController::class, 'updateStatus'])->name('detail.change-status');
 Route::resource('detail', DetailController::class);
+
+Route::put('state-change-status', [StateController::class, 'updateStatus'])->name('state.change-status');
+Route::resource('state', StateController::class);
 
 Route::get('property/check-approved', [PropertyController::class, 'checkIsApproved'])->name('property.check-approved');
 Route::put('property/change-status', [PropertyController::class, 'updateStatus'])->name('property.change-status');

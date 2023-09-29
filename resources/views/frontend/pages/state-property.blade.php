@@ -2,7 +2,7 @@
 
 @section('title')
 
-    {{ config('app.name') }} | Properties for {{ request()->purpose }}
+    {{ config('app.name') }} | Properties in {{ request()->state }}
 
 @endsection
 
@@ -21,10 +21,10 @@
         </div>
         <div class="auto-container">
             <div class="content-box clearfix">
-                <h1>All Properties for {{ request()->purpose }}</h1>
+                <h1>All Properties in {{ request()->state }}</h1>
                 <ul class="bread-crumb clearfix">
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>properties for {{ request()->purpose }}</li>
+                    <li>properties in {{ request()->state }}</li>
                 </ul>
             </div>
         </div>

@@ -14,6 +14,7 @@ use App\Models\PropertyFacility;
 use App\Models\PropertyLocation;
 use App\Models\PropertyMessage;
 use App\Models\PropertyPlan;
+use App\Models\State;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use App\Traits\ImageUploadTraits;
@@ -51,6 +52,7 @@ class PropertyController extends Controller
     public function create(): View
     {
         $categories = Category::where('status', 1)->get();
+        $states = State::where('status', 1)->get();
         $agents = User::where('status', 'active')
             ->where('role', 'agent')
             ->latest()
@@ -59,6 +61,7 @@ class PropertyController extends Controller
 
         return view('admin.property.create',
             [
+                'states' => $states,
                 'categories' => $categories,
                 'agents' => $agents,
                 'amenities' => $amenities
@@ -91,8 +94,12 @@ class PropertyController extends Controller
             'user_id' => Auth::id(),
             'agent_id' => $validate['agent_id'],
             'category_id' => $validate['category_id'],
+            'state_id' => $validate['state'],
             'amenity_id' => $format_amenity,
             'name' => $validate['name'],
+            'beds' => $validate['beds'],
+            'bath' => $validate['bath'],
+            'size' => $validate['size'],
             'slug' => Str::slug($validate['name'], '-'),
             'code' => $code,
             'low_price' => $validate['low_price'],
@@ -132,6 +139,7 @@ class PropertyController extends Controller
         $decrypted_id =  $this->decryptId($id);
 
         $property = Property::findOrFail($decrypted_id);
+        $states = State::where('status', 1)->get();
         $categories = Category::where('status', 1)->get();
         $agents = User::where('status', 'active')
             ->where('role', 'agent')
@@ -143,6 +151,7 @@ class PropertyController extends Controller
 
         return view('admin.property.edit',
             [
+                'states' => $states,
                 'property' => $property,
                 'categories' => $categories,
                 'agents' => $agents,
@@ -175,8 +184,12 @@ class PropertyController extends Controller
             'user_id' => $property->user_id,
             'agent_id' => $validate['agent_id'],
             'category_id' => $validate['category_id'],
+            'state_id' => $validate['state'],
             'amenity_id' => $format_amenity,
             'name' => $validate['name'],
+            'beds' => $validate['beds'],
+            'bath' => $validate['bath'],
+            'size' => $validate['size'],
             'slug' => Str::slug($validate['name'], '-'),
             'code' => $property->code,
             'status' => $property->status,

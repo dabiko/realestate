@@ -163,6 +163,7 @@ class PropertyDataTable extends DataTable
                 $updated_on = Carbon::parse($query->updated_at)->diffForHumans();
 
                 return "
+                        <h6 class='mb-2' style='text-align: justify'>".$query->state->name."</h6>
                        <a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'>
                        <img class='mb-2' style='border-radius: 2px; width:50%; height:50%;'  src='".asset($query->thumbnail)."' alt='image'></img>
                         <h6>$query->name</h6>
@@ -352,11 +353,11 @@ class PropertyDataTable extends DataTable
     {
         if (Auth::user()->role === 'admin'){
 
-            return $model->newQuery()->orderBy('id', 'ASC');
+            return $model->newQuery()->orderBy('id', 'DESC');
 
         }else{
 
-            return $model->where('agent_id', Auth::id())->newQuery()->orderBy('id', 'ASC');
+            return $model->where('agent_id', Auth::id())->newQuery()->orderBy('id', 'DESC');
 
         }
     }

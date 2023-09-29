@@ -25,6 +25,7 @@ class PropertyCreateRequest extends FormRequest
     {
         return [
             'image' => ['required', 'image'],
+            'state' => ['required', 'integer'],
             'name' => ['required', 'string', 'min:4', 'max:50', 'unique:'.Property::class],
             'category_id' => ['required', 'integer'],
             'beds' => ['required', 'integer'],

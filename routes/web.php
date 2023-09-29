@@ -51,6 +51,11 @@ Route::get('property/category', [PagesController::class, 'propertyCategory'])->n
 Route::get('properties', [PagesController::class, 'properties'])->name('properties');
 Route::get('property/listing', [PagesController::class, 'propertyListing'])->name('property.listing');
 Route::get('property/details/{id}', [PagesController::class, 'property'])->name('property.details');
+Route::get('property/state', [PagesController::class, 'propertyStates'])->name('property.state');
+
+Route::get('states/listing', [PagesController::class, 'stateListing'])->name('state.listing');
+
+
 Route::get('agent/details/{id}', [PagesController::class, 'agentDetails'])->name('agent.details');
 Route::get('agent/listing', [PagesController::class, 'agentListing'])->name('agent.listing');
 

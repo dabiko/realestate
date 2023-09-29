@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
+            $table->foreignId('state_id')->constrained();
             $table->string('amenity_id');
             $table->integer('agent_id');
             $table->text('thumbnail');

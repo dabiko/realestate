@@ -54,13 +54,28 @@
                             <img style="width: 20%; height: 20%" id="show-image" src="{{asset($property->thumbnail)}}" alt="">
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label  class="mb-1" for="image">{{__('Thumbnail')}}</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" >
-                            @error('image')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                      <div class="row mb-3">
+                          <div class="form-group col-md-6">
+                              <label  class="mb-1" for="image">{{__('Thumbnail')}}</label>
+                              <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" >
+                              @error('image')
+                              <span class="text-danger">{{ $message }}</span>
+                              @enderror
+                          </div>
+
+                          <div class=" col-md-6">
+                              <label for="state" class="form-label">{{ __('State') }}</label>
+                              <select class="js-example-basic-single form-select @error('state') is-invalid @enderror" data-width="100%" name="state" id="state" >
+                                  <option selected disabled>Select state</option>
+                                  @foreach($states  as $state)
+                                      <option {{ $property->state_id === $state->id ? 'selected' : '' }} value="{{$state->id}}">{{$state->name}}</option>
+                                  @endforeach
+                              </select>
+                              @error('state')
+                              <span class="text-danger">{{ $message }}</span>
+                              @enderror
+                          </div>
+                      </div>
 
                         <div class="row mb-3">
                             <div class="form-group col-md-6 ">

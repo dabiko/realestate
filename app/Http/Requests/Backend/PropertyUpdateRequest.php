@@ -26,6 +26,7 @@ class PropertyUpdateRequest extends FormRequest
     {
         return [
             'image' => ['nullable', 'image'],
+            'state' => ['required', 'integer'],
             'name' => ['required', 'string', 'min:4', 'max:50',
                 Rule::unique('properties', 'id')->ignore($property->id)],
             'beds' => ['required', 'integer'],

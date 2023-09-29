@@ -1,5 +1,6 @@
 
 @if ($paginator->hasPages())
+    <nav>
         <ul class="pagination clearfix">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
@@ -44,4 +45,5 @@
                 </li>
             @endif
         </ul>
+    </nav>
 @endif
