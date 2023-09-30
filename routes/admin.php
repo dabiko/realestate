@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Backend\AllUserController;
 use App\Http\Controllers\Backend\AmenityController;
+use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
@@ -18,8 +19,6 @@ use App\Http\Controllers\Backend\PropertyLocationController;
 use App\Http\Controllers\Backend\PropertyMapController;
 use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
-use App\Http\Controllers\Backend\PropertyVariantController;
-use App\Http\Controllers\Backend\PropertyVariantItemController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use Illuminate\Support\Facades\Route;
@@ -114,3 +113,7 @@ Route::get('package/invoice-print/{id}', [PackageController::class, 'invoice'])-
 
 Route::put('testimonial-change-status', [TestimonialController::class, 'updateTestimonial'])->name('testimonial.change-status');
 Route::resource('testimonials', TestimonialController::class);
+
+
+Route::put('blog_category-change-status', [BlogCategoryController::class, 'updateBlogCategory'])->name('blog_category.change-status');
+Route::resource('blog-category', BlogCategoryController::class);

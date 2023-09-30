@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Backend;
 
+use App\Models\BlogCategory;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class TestimonialUpdateRequest extends FormRequest
+class BlogCategoryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,13 +22,11 @@ class TestimonialUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    public function rules(): array
+    public function rules(BlogCategory $blogCategory): array
     {
         return [
-            'image' => ['nullable', 'image'],
-            'position' => ['required', 'string', 'min:2'],
-            'name' => ['required', 'string', 'min:2'],
-            'message' => ['required', 'string'],
+            'name' => ['required', 'string', 'min:4', 'max:100',
+                Rule::unique('blog_categories', 'id')->ignore($blogCategory->id)],
             'status' => ['required', 'boolean'],
         ];
     }

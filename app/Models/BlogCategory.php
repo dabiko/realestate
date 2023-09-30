@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static create(array $array)
  * @method static findOrFail(string $decrypted_id)
- * @method static where(string $string, int $int)
  */
-class Testimonial extends Model
+class BlogCategory extends Model
 {
     use HasFactory;
 

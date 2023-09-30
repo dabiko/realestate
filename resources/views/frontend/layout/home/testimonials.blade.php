@@ -6,42 +6,21 @@
             <h2>What They Say About Us</h2>
         </div>
         <div class="single-item-carousel owl-carousel owl-theme owl-dots-none nav-style-one">
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img src="frontend/assets/images/resource/testimonial-1.jpg" alt=""></figure>
-                    <div class="text">
-                        <p>Our goal each day is to ensure that our residents’ needs are not only met but exceeded. To make that happen we are committed to provid ing an environment in which residents can enjoy.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Rebeka Dawson</h4>
-                        <span class="designation">Instructor</span>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img src="frontend/assets/images/resource/testimonial-2.jpg" alt=""></figure>
-                    <div class="text">
-                        <p>Our goal each day is to ensure that our residents’ needs are not only met but exceeded. To make that happen we are committed to provid ing an environment in which residents can enjoy.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Marc Kenneth</h4>
-                        <span class="designation">Founder CEO</span>
+            @foreach($testimonials as $testimonial)
+                <div class="testimonial-block-one">
+                    <div class="inner-box">
+                        <figure class="thumb-box"><img src="{{asset($testimonial->image)}}" alt=""></figure>
+                        <div class="text">
+                            <p>{{$testimonial->message}}</p>
+                        </div>
+                        <div class="author-info">
+                            <h4>{{$testimonial->name}}</h4>
+                            <span class="designation">{{$testimonial->position}}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img src="frontend/assets/images/resource/testimonial-1.jpg" alt=""></figure>
-                    <div class="text">
-                        <p>Our goal each day is to ensure that our residents’ needs are not only met but exceeded. To make that happen we are committed to provid ing an environment in which residents can enjoy.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Owen Lester</h4>
-                        <span class="designation">Manager</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+
         </div>
     </div>
 </section>

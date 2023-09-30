@@ -24,8 +24,7 @@ class TestimonialCreateRequest extends FormRequest
     {
         return [
             'image' => ['required', 'image'],
-            'position' => ['required', 'integer'],
-            'title' => ['required', 'string', 'min:2'],
+            'position' => ['required', 'string', 'min:2'],
             'name' => ['required', 'string', 'min:2'],
             'message' => ['required', 'string'],
             'status' => ['required', 'boolean'],

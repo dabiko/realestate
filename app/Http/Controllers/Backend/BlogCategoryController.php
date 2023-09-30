@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\DataTables\CategoryDataTable;
+use App\DataTables\BlogCategoryDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\CreateCategoryRequest;
-use App\Http\Requests\Backend\UpdateCategoryRequest;
-use App\Models\Category;
+use App\Http\Requests\Backend\BlogCategoryCreateRequest;
+use App\Http\Requests\Backend\BlogCategoryUpdateRequest;
+use App\Models\BlogCategory;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,18 +15,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class CategoryController extends Controller
+class BlogCategoryController extends Controller
 {
     use EncryptDecrypt;
 
     /**
      * Display a listing of the resource.
      */
-    public function index(CategoryDataTable $dataTable)
+    public function index(BlogCategoryDataTable $dataTable)
     {
-        $categories = Category::all();
+        $categories = BlogCategory::all();
 
-        return $dataTable->render('admin.category.index',
+        return $dataTable->render('admin.blog-category.index',
             [
                 'categories' => $categories
             ]
@@ -38,27 +38,26 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
-        return view('admin.category.create');
+        return view('admin.blog-category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateCategoryRequest $request): RedirectResponse
+    public function store(BlogCategoryCreateRequest $request): RedirectResponse
     {
         $validate = $request->validated();
 
-        Category::create([
+        BlogCategory::create([
             'user_id' => Auth::id(),
             'name' => $validate['name'],
-            'icon' => $validate['icon'],
             'status' => $validate['status'],
         ]);
 
-        return Redirect::route('admin.category.index')
+        return Redirect::route('admin.blog-category.index')
             ->with([
                 'status' => 'success',
-                'message' => 'Property category Successfully'
+                'message' => 'Blog category Successfully'
             ]);
 
     }
@@ -78,9 +77,9 @@ class CategoryController extends Controller
     {
         $decrypted_id =  $this->decryptId($id);
 
-        $category = Category::findOrFail($decrypted_id);
+        $category = BlogCategory::findOrFail($decrypted_id);
 
-        return view('admin.category.edit',
+        return view('admin.blog-category.edit',
             [
                 'category' => $category
             ]
@@ -90,20 +89,19 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, string $id): RedirectResponse
+    public function update(BlogCategoryUpdateRequest $request, string $id): RedirectResponse
     {
         $validate = $request->validated();
 
         $decrypted_id =  $this->decryptId($id);
 
-        Category::findOrFail($decrypted_id)->update([
-            'icon' => $validate['icon'],
+        BlogCategory::findOrFail($decrypted_id)->update([
             'name' => $validate['name'],
             'status' => $validate['status'],
         ]);
 
 
-        return Redirect::route('admin.category.index')
+        return Redirect::route('admin.blog-category.index')
             ->with([
                 'status' => 'success',
                 'message' => $validate['name']. ' Updated Successfully'
@@ -118,33 +116,33 @@ class CategoryController extends Controller
     {
         $decrypted_id = $this->decryptId($id);
 
-        $propertyCat = Category::findOrFail($decrypted_id);
+        $category_id = BlogCategory::findOrFail($decrypted_id);
 
-        if ($propertyCat->status === 1){
+        if ($category_id->status === 1){
             return response([
                 'status' => 'error',
-                'title' => 'Cant delete '.$propertyCat->name,
-                'message' => 'This Category is still active. Deactivate before deleting',
+                'title' => 'Cant delete '.$category_id->name,
+                'message' => 'This Blog Category is still active. Deactivate before deleting',
             ]);
         }
 
-        $propertyCat->delete();
+        $category_id->delete();
         return response([
             'status' => 'success',
-            'message' => 'Category Deleted successfully !!',
+            'message' => 'Blog Category Deleted successfully !!',
         ]);
     }
 
     /**
      * Update the status resource in storage.
      */
-    public function updateStatus(Request $request): Response
+    public function updateBlogCategory(Request $request): Response
     {
         $decrypted_id = $this->decryptId($request->id);
-        $propertyCat = Category::findOrFail($decrypted_id);
+        $category_id = BlogCategory::findOrFail($decrypted_id);
 
-        $propertyCat->status = $request->status === 'true' ? 1 : 0;
-        $propertyCat->save();
+        $category_id->status = $request->status === 'true' ? 1 : 0;
+        $category_id->save();
 
         return response([
             'status' => 'success',

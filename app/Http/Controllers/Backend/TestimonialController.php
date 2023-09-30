@@ -54,7 +54,6 @@ class TestimonialController extends Controller
         Testimonial::create([
             'image' => $imagePath,
             'position' => $validate['position'],
-            'title' => $validate['title'],
             'name' => $validate['name'],
             'message' => $validate['message'],
             'status' => $validate['status'],
@@ -107,7 +106,6 @@ class TestimonialController extends Controller
         Testimonial::findOrFail($decrypted_id)->update([
             'image' => $updatePath,
             'position' => $validate['position'],
-            'title' => $validate['title'],
             'name' => $validate['name'],
             'message' => $validate['message'],
             'status' => $validate['status'],

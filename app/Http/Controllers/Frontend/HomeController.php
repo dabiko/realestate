@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\State;
+use App\Models\Testimonial;
 use App\Models\User;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Request;
@@ -46,6 +47,10 @@ class HomeController extends Controller
         $all_states = State::where('status', 1)->get();
         $all_categories = Category::where('status', 1)->get();
 
+        $testimonials = Testimonial::where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->get();
+
 
         return view('frontend.index',
             [
@@ -55,7 +60,8 @@ class HomeController extends Controller
                 'property_agents' => $property_agents,
                 'states' => $states,
                 'all_states' => $all_states,
-                'all_categories' => $all_categories
+                'all_categories' => $all_categories,
+                'testimonials' => $testimonials
             ]
         );
     }

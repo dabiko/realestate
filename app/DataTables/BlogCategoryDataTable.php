@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Testimonial;
+use App\Models\BlogCategory;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class TestimonialDataTable extends DataTable
+class BlogCategoryDataTable extends DataTable
 {
     use EncryptDecrypt;
     /**
@@ -27,19 +27,13 @@ class TestimonialDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $viewBtn ="<a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'  class='view-property'>
-                              <button class='btn btn-inverse-info'>
-                              <i class='far fa-eye'></i>
-                              </button>
-                              </a>";
-
-                $editBtn ="<a href='".route('admin.testimonials.edit', $this->encryptId($query->id))."'>
+                $editBtn ="<a href='".route('admin.blog-category.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
                                </a>";
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.testimonials.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route('admin.blog-category.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -47,7 +41,7 @@ class TestimonialDataTable extends DataTable
 
 
 
-                return $viewBtn.$editBtn.$deleteBtn;
+                return $editBtn.$deleteBtn;
             })
             ->addColumn('status', function ($query){
                 $active   = '<div class="form-check form-switch">
@@ -76,46 +70,17 @@ class TestimonialDataTable extends DataTable
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
-            ->addColumn('image', function ($query){
-                return "
-                <h6 class='mb-2' style='text-align: justify'>".$query->name."</h6>
-                <img class='mb-2' style='border-radius: 2px; width:50px; height:50px;'  src='".asset($query->image)."' alt='image'></img>
-                <h6 class='mb-2' style='text-align: justify'>".$query->position."</h6>
-                ";
-            })
-            ->addColumn('message', function ($query){
-                return " <a data-bs-toggle='modal' data-bs-target='#exampleModal-".$query->id."'>".truncate($query->message, 100)."</a>
-
-                <div class='modal fade' id='exampleModal-".$query->id."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                              <div class='modal-dialog-centered modal-dialog modal-lg'>
-                                <div class='modal-content'>
-                                  <div class='modal-header'>
-                                    <h5 class='modal-title' id='exampleModalLabel-".$query->id."'>Message</h5>
-                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='btn-close'></button>
-                                  </div>
-                                  <div class='modal-body'>
-                                      <div class='row form-group mb-3'>
-                                      <textarea maxlength='100' rows='8' disabled id='tinymceExample' class='form-control'> $query->message</textarea>
-                                       </div>
-                                  </div>
-                                  <div class='modal-footer'>
-                                    <button type='button' class='btn btn-inverse-secondary' data-bs-dismiss='modal'>Close</button>
-                                  </div>
-                                </div>
-                              </div>
-                       </div>";
-            })
-            ->rawColumns(['action', 'status', 'num', 'message', 'image'])
+            ->rawColumns(['action', 'status', 'num'])
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param Testimonial $model
+     * @param BlogCategory $model
      * @return QueryBuilder
      */
-    public function query(Testimonial $model): QueryBuilder
+    public function query(BlogCategory $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -128,7 +93,7 @@ class TestimonialDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('testimonial-table')
+                    ->setTableId('blogcategory-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -152,9 +117,9 @@ class TestimonialDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('num'),
-            Column::make('image'),
-            Column::make('message'),
+            Column::make('name'),
             Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
@@ -171,6 +136,6 @@ class TestimonialDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Testimonial_' . date('YmdHis');
+        return 'BlogCategory_' . date('YmdHis');
     }
 }

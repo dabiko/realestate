@@ -58,18 +58,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class=" col-md-6">
+                            <div class=" col-md-12">
                                 <label  class="mb-1" for="image">{{__('Image')}}</label>
                                 <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" >
                                 @error('image')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class=" col-md-6">
-                                <label  class="mb-1" for="position">{{__('Position')}}</label>
-                                <input type="text" class="form-control @error('position') is-invalid @enderror" name="position" id="position" >
-                                @error('position')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -79,9 +71,9 @@
                         <div class="row mb-3">
 
                             <div class=" col-md-6">
-                                <label  class="mb-1" for="title">{{__('Title')}}</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" >
-                                @error('title')
+                                <label  class="mb-1" for="position">{{__('Position')}}</label>
+                                <input type="text" class="form-control @error('position') is-invalid @enderror" name="position" id="position" >
+                                @error('position')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

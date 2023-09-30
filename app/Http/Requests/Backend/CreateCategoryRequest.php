@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Backend;
 
+use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TestimonialUpdateRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +24,21 @@ class TestimonialUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable', 'image'],
-            'position' => ['required', 'string', 'min:2'],
-            'name' => ['required', 'string', 'min:2'],
-            'message' => ['required', 'string'],
+            'icon' => ['required', 'string', 'min:4', 'max:10'],
+            'name' => ['required', 'string', 'min:4', 'max:100', 'unique:'.Category::class],
             'status' => ['required', 'boolean'],
+        ];
+    }
+
+/**
+* Get the error messages for the defined validation rules.
+*
+* @return array<string, string>
+*/
+    public function messages(): array
+    {
+        return [
+            'name.unique' => ':input category is already existing',
         ];
     }
 }
