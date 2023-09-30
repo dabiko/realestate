@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use App\Http\Requests\Admin\UpdateProfileRequest;
+use App\Http\Requests\Backend\BlogPostUpdateRequest;
 use App\Http\Requests\Backend\PropertyPlanCreateRequest;
 use App\Http\Requests\Backend\PropertyPlanUpdateRequest;
 use App\Http\Requests\Backend\PropertyUpdateRequest;
@@ -171,6 +172,29 @@ trait ImageUploadTraits
         }
 
     }
+
+    public function updateBlogPostImage(BlogPostUpdateRequest $request, $input, $path, $oldPath=null): string
+    {
+        if($request->hasFile($input)){
+
+            if(File::exists(public_path($oldPath))){
+                File::delete(public_path($oldPath));
+            }
+
+            $image = $request->{$input};
+            $extension = $image->getClientOriginalExtension();
+            $imgName = 'media_'.uniqid().'.'.$extension;
+
+            $image->move(public_path($path), $imgName);
+            return  $path.'/'.$imgName;
+
+        }else{
+
+            return 'No image provided';
+        }
+
+    }
+
 
     public function deleteImage(string $path): void
     {

@@ -36,22 +36,6 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#blog" role="button" aria-expanded="false" aria-controls="blog">
-                    <i class="link-icon" data-feather="codesandbox"></i>
-                    <span class="link-title">Blog</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="blog">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{route('admin.blog-category.index')}}" class="nav-link">Blog Category</a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#amenity" role="button" aria-expanded="false" aria-controls="amenity">
                     <i class="link-icon" data-feather="film"></i>
                     <span class="link-title">Amenities</span>
@@ -152,6 +136,27 @@
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Testimonials</span>
                 </a>
+            </li>
+
+            <li class="nav-item nav-category">BLOGS</li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#blog" role="button" aria-expanded="false" aria-controls="blog">
+                    <i class="link-icon" data-feather="codesandbox"></i>
+                    <span class="link-title">Blog</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="blog">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog-category.index')}}" class="nav-link"> Category</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog-post.index')}}" class="nav-link"> Post</a>
+                        </li>
+
+                    </ul>
+                </div>
             </li>
 
             <li class="nav-item nav-category">Authorization</li>

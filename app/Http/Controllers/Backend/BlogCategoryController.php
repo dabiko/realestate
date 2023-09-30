@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class BlogCategoryController extends Controller
@@ -26,7 +27,7 @@ class BlogCategoryController extends Controller
     {
         $categories = BlogCategory::all();
 
-        return $dataTable->render('admin.blog-category.index',
+        return $dataTable->render('admin.blog.category.index',
             [
                 'categories' => $categories
             ]
@@ -38,7 +39,7 @@ class BlogCategoryController extends Controller
      */
     public function create(): View
     {
-        return view('admin.blog-category.create');
+        return view('admin.blog.category.create');
     }
 
     /**
@@ -51,6 +52,7 @@ class BlogCategoryController extends Controller
         BlogCategory::create([
             'user_id' => Auth::id(),
             'name' => $validate['name'],
+            'slug' => Str::slug($validate['name'], '-'),
             'status' => $validate['status'],
         ]);
 
@@ -79,7 +81,7 @@ class BlogCategoryController extends Controller
 
         $category = BlogCategory::findOrFail($decrypted_id);
 
-        return view('admin.blog-category.edit',
+        return view('admin.blog.category.edit',
             [
                 'category' => $category
             ]
@@ -97,6 +99,7 @@ class BlogCategoryController extends Controller
 
         BlogCategory::findOrFail($decrypted_id)->update([
             'name' => $validate['name'],
+            'slug' => Str::slug($validate['name'], '-'),
             'status' => $validate['status'],
         ]);
 

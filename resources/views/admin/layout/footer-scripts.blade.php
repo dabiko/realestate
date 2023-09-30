@@ -14,6 +14,7 @@
 <script src="{{asset('backend/assets/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
 <script src="{{asset('backend/assets/vendors/select2/select2.min.js')}}"></script>
 <script src="{{asset('backend/assets/vendors/tinymce/tinymce.min.js')}}"></script>
+<script src="{{asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.js')}}"></script>
 <!-- End plugin js for this page -->
 
 <!-- inject:js -->
@@ -28,5 +29,6 @@
 <script src="{{asset('backend/assets/custom/action-script.js')}}"></script>
 <script src="{{asset('backend/assets/js/select2.js')}}"></script>
 <script src="{{asset('backend/assets/js/tinymce.js')}}"></script>
+<script src="{{asset('backend/assets/js/tags-input.js')}}"></script>
 
 <!-- End custom js for this page -->

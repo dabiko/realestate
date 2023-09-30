@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Backend\AllUserController;
 use App\Http\Controllers\Backend\AmenityController;
 use App\Http\Controllers\Backend\BlogCategoryController;
+use App\Http\Controllers\Backend\BlogPostController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
@@ -117,3 +118,6 @@ Route::resource('testimonials', TestimonialController::class);
 
 Route::put('blog_category-change-status', [BlogCategoryController::class, 'updateBlogCategory'])->name('blog_category.change-status');
 Route::resource('blog-category', BlogCategoryController::class);
+
+Route::put('blog_post-change-status', [BlogPostController::class, 'updateBlogPost'])->name('blog_post.change-status');
+Route::resource('blog-post', BlogPostController::class);
