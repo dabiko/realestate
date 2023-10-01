@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Amenity;
+use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\PropertyAmenity;
@@ -375,4 +376,5 @@ class PagesController extends Controller
             ]
         );
     }
+
 }

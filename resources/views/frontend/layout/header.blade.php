@@ -65,7 +65,7 @@
                                 </li>
 
                                 <li class="">
-                                    <a href=""><span>Blog</span></a>
+                                    <a href="{{route('blog-post.all')}}"><span>Blog</span></a>
                                 </li>
 
                                 <li class="">

@@ -32,8 +32,11 @@
 
 <div class="boxed_wrapper">
 
+    @yield('switcher')
 
     @yield('preloader')
+
+
 
     {{--     main header--}}
     @include('frontend.layout.header')

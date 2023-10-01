@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Frontend\BlogPostController;
 use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PagesController;
@@ -68,6 +69,13 @@ Route::post('wishlist-add/{id}', [WishlistController::class, 'addWishlist'])->na
 
 Route::get('compare', [CompareController::class, 'property'])->name('compare');
 Route::post('compare-add/{id}', [CompareController::class, 'addCompare'])->name('compare-add');
+
+Route::get('blog-post', [BlogPostController::class, 'index'])->name('blog-post.all');
+Route::get('blog-post-detail/{id}', [BlogPostController::class, 'blogPostDetail'])->name('blog-post-detail');
+Route::get('blog-post-filter', [BlogPostController::class, 'filterBlogPostCategory'])->name('blog-post-filter-category');
+Route::get('blog-post-tags', [BlogPostController::class, 'filterBlogPostTags'])->name('blog-post-filter-tags');
+
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

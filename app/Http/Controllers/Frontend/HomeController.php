@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\State;
@@ -51,6 +52,11 @@ class HomeController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $blog_post = BlogPost::where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+
 
         return view('frontend.index',
             [
@@ -61,7 +67,8 @@ class HomeController extends Controller
                 'states' => $states,
                 'all_states' => $all_states,
                 'all_categories' => $all_categories,
-                'testimonials' => $testimonials
+                'testimonials' => $testimonials,
+                'blog_post' => $blog_post
             ]
         );
     }
