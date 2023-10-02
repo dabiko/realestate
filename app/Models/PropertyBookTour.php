@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static create(array $array)
+ * @method static findOrFail(string $message_id)
+ * @method where(string $string, int|string|null $id)
  */
 class PropertyBookTour extends Model
 {

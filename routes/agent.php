@@ -3,6 +3,7 @@
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentPropertyAmenityController;
+use App\Http\Controllers\Agent\AgentPropertyBookTourController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Agent\AgentPropertyDetailController;
 use App\Http\Controllers\Agent\AgentPropertyFacilityController;
@@ -92,5 +93,11 @@ Route::resource('property-amenity', AgentPropertyAmenityController::class);
 Route::get('property-stats-index/{property}', [AgentPropertyStatsController::class, 'index'])->name('property-stats-index');
 Route::resource('property-stats', AgentPropertyStatsController::class);
 
+Route::get('property/check-approved', [AgentPropertyBookTourController::class, 'checkIsApproved'])->name('property-scheduled-tour.check-approved');
+Route::put('property/change-status', [AgentPropertyBookTourController::class, 'updateStatus'])->name('property-scheduled-tour.change-status');
+
+Route::get('property-schedules', [AgentPropertyBookTourController::class, 'propertySchedules'])->name('property-schedules.messages');
+Route::get('property-scheduled-details/{id}', [AgentPropertyBookTourController::class, 'propertyScheduledDetails'])->name('property-schedules.details');
+Route::resource('property-scheduled-tour', AgentPropertyBookTourController::class);
 
 

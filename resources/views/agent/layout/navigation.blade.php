@@ -64,6 +64,26 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#scheduled" role="button" aria-expanded="false" aria-controls="scheduled">
+                        <i class="link-icon" data-feather="layers"></i>
+                        <span class="link-title">Scheduled Tours</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="scheduled">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{route('agent.property-scheduled-tour.index')}}" class="nav-link">Tours</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('agent.property-schedules.messages')}}" class="nav-link">Inbox</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
 
 
                 <li class="nav-item">
