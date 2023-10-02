@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Agent;
 
 use App\DataTables\PropertyBookTourDataTable;
 use App\Http\Controllers\Controller;
+use App\Mail\ScheduleMail;
 use App\Models\PropertyBookTour;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class AgentPropertyBookTourController extends Controller
@@ -151,6 +153,15 @@ class AgentPropertyBookTourController extends Controller
 
         $tour_message->status = $request->status === 'true' ? 1 : 0;
         $tour_message->save();
+
+        $data = [
+            'tour_subject' => $request->status,
+            'tour_date' => $tour_message->date,
+            'tour_time' => $tour_message->time,
+            'tour_message' => $tour_message->message,
+        ];
+
+        Mail::to($tour_message->agent->email)->send(new ScheduleMail($data));
 
         return response([
             'status' => 'success',

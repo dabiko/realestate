@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\PropertyLocationController;
 use App\Http\Controllers\Backend\PropertyMapController;
 use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use Illuminate\Support\Facades\Route;
@@ -125,3 +126,7 @@ Route::resource('blog-post', BlogPostController::class);
 
 Route::put('blog_post_comment-change-status', [BlogPostCommentController::class, 'updateBlogPostComment'])->name('blog_post_comment.change-status');
 Route::resource('blog-post-comment', BlogPostCommentController::class);
+
+Route::get('settings', [SettingController::class, 'index'])->name('settings');
+Route::post('settings-email', [SettingController::class, 'updateEmailSetting'])->name('settings-update.email');
+
