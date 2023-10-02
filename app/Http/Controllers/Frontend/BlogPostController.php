@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
+use App\Models\BlogPostComment;
 use App\Traits\EncryptDecrypt;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class BlogPostController extends Controller
@@ -49,7 +54,11 @@ class BlogPostController extends Controller
             ->get();
 
         $array_tags = explode(",", $post->tags);
-//        $all_tags = explode(",", $blog_post->tags);
+
+        $blog_post_comments = BlogPostComment::where('status', 1)
+            ->where('blog_posts_id', $post->id)
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return View('frontend.pages.blog.post-detail',
             [
@@ -57,6 +66,7 @@ class BlogPostController extends Controller
                 'array_tags' => $array_tags,
                 'categories' => $categories,
                 'blog_post' => $blog_post,
+                'blog_post_comments' => $blog_post_comments,
             ]
 
         );
@@ -120,6 +130,32 @@ class BlogPostController extends Controller
 
             ]
         );
+    }
+
+    public function blogPostComment(Request $request): RedirectResponse
+    {
+
+        $validate = $request->validate([
+            'subject' => ['required', 'string',],
+            'blog_posts_id' => ['required', 'string',],
+            'comment' => ['required', 'string'],
+        ]);
+
+        $blog_post_id = $this->decryptId($validate['blog_posts_id']);
+
+
+        BlogPostComment::create([
+            'user_id' => Auth::id(),
+            'blog_posts_id' => $blog_post_id,
+            'subject' => $validate['subject'],
+            'comment' => $validate['comment'],
+        ]);
+
+        return Redirect::back()->with([
+            'status' => 'success',
+            'message' => 'commented successfully'
+        ]);
+
     }
 
 }

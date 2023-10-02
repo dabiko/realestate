@@ -347,38 +347,44 @@
                                 <h4>Schedule A Tour</h4>
                             </div>
                             <div class="form-inner">
-                                <form action="property-details.html" method="post">
+                                <form
+                                    action="{{route('user.property.book-tour')}}"
+                                      method="post"
+                                    id="bookForm"
+                                >
+
+                                    @method('POST')
+                                    @csrf
+
+                                    <input type="hidden" name="property_id" value="{{Crypt::encryptString($property->id)}}" >
+                                    <input type="hidden" name="agent_id" value="{{Crypt::encryptString($property->agent->id)}}" >
+
                                     <div class="row clearfix">
                                         <div class="col-lg-6 col-md-12 col-sm-12 column">
                                             <div class="form-group">
                                                 <i class="far fa-calendar-alt"></i>
-                                                <input type="text" name="date" placeholder="Tour Date" id="datepicker">
+                                                <input type="text" class=" @error('subject') is-invalid @enderror" name="date"  placeholder="Tour Date" id="datepicker">
+                                                @error('date')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-sm-12 column">
                                             <div class="form-group">
                                                 <i class="far fa-clock"></i>
-                                                <input type="text" name="time" placeholder="Any Time">
+                                                <input type="text" name="time" id="time" class=" @error('time') is-invalid @enderror" placeholder="Any Time">
+                                                @error('time')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12 column">
-                                            <div class="form-group">
-                                                <input type="text" name="name" placeholder="Your Name" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12 column">
-                                            <div class="form-group">
-                                                <input type="email" name="email" placeholder="Your Email" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12 column">
-                                            <div class="form-group">
-                                                <input type="tel" name="phone" placeholder="Your Phone" required="">
-                                            </div>
-                                        </div>
+
                                         <div class="col-lg-12 col-md-12 col-sm-12 column">
                                             <div class="form-group">
-                                                <textarea name="message" placeholder="Your message"></textarea>
+                                                <textarea name="message" id="message" class=" @error('message') is-invalid @enderror" placeholder="Your message"></textarea>
+                                                @error('message')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12 column">
@@ -426,16 +432,6 @@
                                     <input type="hidden" name="property_id" value="{{Crypt::encryptString($property->id)}}" >
                                     <input type="hidden" name="agent_id" value="{{Crypt::encryptString($property->agent->id)}}" >
 
-
-                                    <div class="form-group">
-                                        <input disabled type="text" name="name" value="{{Auth::user() ? Auth::user()->name : 'Your name'}}" >
-                                    </div>
-                                    <div class="form-group">
-                                        <input disabled type="email" name="email"  value="{{Auth::user() ? Auth::user()->email : 'Your Email'}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input disabled type="text" name="phone"  value="{{Auth::user() ? Auth::user()->phone : 'Your Phone'}}">
-                                    </div>
                                     <div class="form-group">
                                         <textarea name="message" class="@error('message') is-invalid @enderror" placeholder="Message"></textarea>
                                         @error('message')
@@ -544,3 +540,77 @@
     </section>
     @include('frontend.layout.subscription')
 @endsection
+@push('scripts')
+    <script>
+        $(function() {
+            'use strict';
+
+            // $.validator.setDefaults({
+            //     submitHandler: function() {
+            //         alert("submitted!");
+            //     }
+            // });
+            $(function() {
+                // validate form on keyup and submit
+                $("#bookForm").validate({
+                    rules: {
+                        date: {
+                            required: true,
+                        },
+
+                        time: {
+                            required: true,
+                        },
+
+                        message: {
+                            required: true,
+                        },
+
+                    },
+
+                    messages: {
+                        date: {
+                            required: "Please provide a tour date",
+                        },
+
+                        time: {
+                            required: "Please provide a tour time",
+                        },
+
+                        message: {
+                            required: "Message is required",
+                        },
+
+
+                    },
+                    errorPlacement: function(error, element) {
+                        error.addClass( "invalid-feedback" );
+
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        }
+                        else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                            error.insertAfter(element.parent().parent());
+                        }
+                        else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                            error.appendTo(element.parent().parent());
+                        }
+                        else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    highlight: function(element, errorClass) {
+                        if ($(element).prop('type') !== 'checkbox' && $(element).prop('type') !== 'radio') {
+                            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                        }
+                    },
+                    unhighlight: function(element, errorClass) {
+                        if ($(element).prop('type') !== 'checkbox' && $(element).prop('type') !== 'radio') {
+                            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

@@ -159,6 +159,22 @@
                 </div>
             </li>
 
+            <li class="nav-item nav-category">BLOG POST COMMENTS</li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">
+                    <i class="link-icon" data-feather="codesandbox"></i>
+                    <span class="link-title">Comment</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="comments">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.blog-post-comment.index')}}" class="nav-link"> All Comments</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             <li class="nav-item nav-category">Authorization</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">

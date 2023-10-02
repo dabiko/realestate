@@ -70,76 +70,80 @@
                         </div>
                         <div class="comments-area">
                             <div class="group-title">
-                                <h4>3 Comments</h4>
+                                <h4> {{count($blog_post_comments)}} {{count($blog_post_comments) > 1 ? 'Comments' : 'Comment'}}</h4>
                             </div>
                             <div class="comment-box">
-                                <div class="comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-1.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Rebeka Dawson</h5>
-                                            <span>April 10, 2020</span>
+                                @if(count($blog_post_comments) > 0)
+                                    @foreach($blog_post_comments as $comment)
+                                        <div class="comment">
+                                            <figure class="thumb-box">
+                                                <img src="{{asset($comment->user->photo)}}" alt="">
+                                            </figure>
+                                            <div class="comment-inner">
+                                                <div class="comment-info clearfix">
+                                                    <h5>{{$comment->user->name}}</h5>
+                                                    <span>{{$comment->created_at->format('M d Y')}}</span>
+                                                </div>
+                                                <div class="text">
+                                                    <p>{{$comment->comment}}.</p>
+                                                    <a href="javascript:void(0)"><i class="fas fa-share"></i>Reply</a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos trud exerc.</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="alert alert-primary" role="alert">
+                                        <i data-feather="alert-circle"></i>
+                                        <strong>This Blog Post has {{count($blog_post_comments)}} Comments </strong>
                                     </div>
-                                </div>
-                                <div class="comment replay-comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-2.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Elizabeth Winstead</h5>
-                                            <span>April 10, 2020</span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-3.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Benedict Cumbatch</h5>
-                                            <span>April 10, 2020</span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos trud exerc.</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
+
+
+{{--                                <div class="comment replay-comment">--}}
+{{--                                    <figure class="thumb-box">--}}
+{{--                                        <img src="assets/images/news/comment-2.jpg" alt="">--}}
+{{--                                    </figure>--}}
+{{--                                    <div class="comment-inner">--}}
+{{--                                        <div class="comment-info clearfix">--}}
+{{--                                            <h5>Elizabeth Winstead</h5>--}}
+{{--                                            <span>April 10, 2020</span>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="text">--}}
+{{--                                            <p>Lorem ipsum dolor sit amet, consectur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos</p>--}}
+{{--                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
                             </div>
                         </div>
                         <div class="comments-form-area">
                             <div class="group-title">
                                 <h4>Leave a Comment</h4>
                             </div>
-                            <form action="blog-details.html" method="post" class="comment-form default-form">
+                            <form
+                                action="{{route('user.blog-post.message')}}"
+                                method="post" class="comment-form default-form"
+                                id="commentForm"
+                            >
+
+                                @csrf
+                                @method('POST')
+
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="name" placeholder="Your name" required="">
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="email" name="email" placeholder="Your email" required>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="phone" placeholder="Phone number" required="">
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="subject" placeholder="Subject" required="">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                        <input type="text" name="subject" id="subject" class="form-control @error('subject') is-invalid @enderror" placeholder="Subject">
+                                        <input type="hidden" name="blog_posts_id" id="blog_posts_id" value="{{Crypt::encryptString($post->id)}}" >
+                                        @error('subject')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                        <textarea name="message" placeholder="Your message"></textarea>
+                                        <textarea name="comment" id="comment" class="form-control @error('subject') is-invalid @enderror" placeholder="Your message"></textarea>
+                                        @error('comment')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
                                         <button type="submit" class="theme-btn btn-one">Submit Now</button>
@@ -239,3 +243,73 @@
 
     @include('frontend.layout.subscription')
 @endsection
+@push('scripts')
+    <script>
+        $(function() {
+            'use strict';
+
+            // $.validator.setDefaults({
+            //     submitHandler: function() {
+            //         alert("submitted!");
+            //     }
+            // });
+            $(function() {
+                // validate form on keyup and submit
+                $("#commentForm").validate({
+                    rules: {
+                        subject: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 20
+                        },
+
+                        comment: {
+                            required: true,
+                        },
+
+                    },
+
+                    messages: {
+                        subject: {
+                            required: "Please enter a subject",
+                            minlength: "Message must consist of at least 2 characters",
+                            maxlength: "Message must consist of at most 20 characters"
+                        },
+
+                        comment: {
+                            required: "Comment is required",
+                        },
+
+
+                    },
+                    errorPlacement: function(error, element) {
+                        error.addClass( "invalid-feedback" );
+
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        }
+                        else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                            error.insertAfter(element.parent().parent());
+                        }
+                        else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                            error.appendTo(element.parent().parent());
+                        }
+                        else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    highlight: function(element, errorClass) {
+                        if ($(element).prop('type') !== 'checkbox' && $(element).prop('type') !== 'radio') {
+                            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                        }
+                    },
+                    unhighlight: function(element, errorClass) {
+                        if ($(element).prop('type') !== 'checkbox' && $(element).prop('type') !== 'radio') {
+                            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

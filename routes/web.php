@@ -77,6 +77,7 @@ Route::get('blog-post-tags', [BlogPostController::class, 'filterBlogPostTags'])-
 
 
 
+
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -116,5 +117,10 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
 
 
     Route::post('property-message', [PropertyMessageController::class, 'propertyMessage'])->name('property.message');
+    Route::post('property-book-tour', [PropertyMessageController::class, 'propertyBookTour'])->name('property.book-tour');
+
+
+    Route::post('blog-post-comment', [BlogPostController::class, 'blogPostComment'])->name('blog-post.message');
+
 
 });
