@@ -3,7 +3,8 @@
 namespace App\DataTables;
 
 use App\Traits\EncryptDecrypt;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Eloquent\MassPrunable;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +14,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PermissionDataTable extends DataTable
+class RoleDataTable extends DataTable
 {
     use EncryptDecrypt;
     /**
@@ -27,13 +28,13 @@ class PermissionDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
 
-                $editBtn ="<a href='".route('admin.permissions.edit', $this->encryptId($query->id))."'>
-                               <button class='btn btn-inverse-primary'>
-                               <i class='far fa-edit'></i>
+                $editBtn ='<a href='.route('admin.roles.edit', $this->encryptId($query->id)).'>
+                               <button class="btn btn-inverse-primary">
+                               <i class="far fa-edit"></i>
                                </button>
-                               </a>";
+                               </a>';
 
-                $deleteBtn ="<a class='delete-item' href='".route('admin.permissions.destroy', $this->encryptId($query->id))."'>
+                $deleteBtn ="<a class='delete-item' href='".route('admin.roles.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
@@ -45,8 +46,8 @@ class PermissionDataTable extends DataTable
             })
             ->addColumn('num', content: function ($query)  {
 
-                    $num =  $query->id ;
-                    return "<a><button type='button' class='btn btn-inverse-info'>".$num."</button></a>";
+                $num =  $query->id ;
+                return "<a><button type='button' class='btn btn-inverse-info'>".$num."</button></a>";
 
             })
             ->addColumn('name', content: function ($query)  {
@@ -62,10 +63,10 @@ class PermissionDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param Permission $model
+     * @param Role $model
      * @return QueryBuilder
      */
-    public function query(Permission $model): QueryBuilder
+    public function query(Role $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -78,7 +79,7 @@ class PermissionDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('permission-table')
+                    ->setTableId('role-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -104,7 +105,6 @@ class PermissionDataTable extends DataTable
         return [
             Column::make('num'),
             Column::make('name'),
-            Column::make('group_name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -120,6 +120,6 @@ class PermissionDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Permission_' . date('YmdHis');
+        return 'Role_' . date('YmdHis');
     }
 }

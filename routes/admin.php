@@ -133,8 +133,10 @@ Route::get('settings', [SettingController::class, 'index'])->name('settings');
 Route::post('settings-email', [SettingController::class, 'updateEmailSetting'])->name('settings-update.email');
 Route::post('settings-header', [SettingController::class, 'updateHeaderSetting'])->name('header-settings.update');
 
-Route::resource('roles', RoleController::class);
-
+Route::post('import-permissions', [PermissionController::class, 'importPermissions'])->name('import.permissions');
+Route::get('export-permissions', [PermissionController::class, 'exportPermissions'])->name('export.permissions');
 Route::resource('permissions', PermissionController::class);
+
+Route::resource('roles', RoleController::class);
 
 

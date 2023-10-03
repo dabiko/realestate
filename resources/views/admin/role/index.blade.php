@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | Permissions
+    {{ config('app.name') }} | Roles
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Permissions</h4>
+            <h4 class="mb-3 mb-md-0">Roles</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
 
@@ -33,10 +33,11 @@
                 </button>
             </a>
 
-            <a href="{{route('admin.permissions.create')}}">
+
+            <a data-bs-toggle="modal" data-bs-target="#roleModal" data-bs-whatever="@mdo">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                     Permission
+                     Roles
                 </button>
             </a>
 
@@ -85,6 +86,52 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="importModalLabel">ROLES</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form
+                                id="roleForm"
+                                action="{{route('admin.roles.store')}}"
+                                method="POST"
+
+                            >
+                                @csrf
+                                @method('POST')
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Role Name</label>
+                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" id="name" name="name">
+                                    @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-inverse-danger" data-bs-dismiss="modal">
+                                        <i class="btn-icon-prepend" data-feather="cancel"></i>
+                                        {{__('Close')}}
+                                    </button>
+                                    <button type="submit" class="btn btn-inverse-primary">
+                                        <i class="btn-icon-prepend" data-feather="server"></i>
+                                        {{__('Save')}}
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -92,7 +139,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Permissions</li>
+            <li class="breadcrumb-item active" aria-current="page">Roles</li>
         </ol>
     </nav>
 
@@ -100,18 +147,17 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Permissions</h6>
+                    <h6 class="card-title">Roles</h6>
                     <p class="text-muted mb-3">Add read text here.....</p>
 
-                    @if($permissions->Count() > 0)
+                    @if($roles->Count() > 0)
                         {{ $dataTable->table() }}
                     @else
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>
-                                <tr><th>ID</th>
+                                <tr><th>Num</th>
                                     <th>Name</th>
-                                    <th>Group Name</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -120,7 +166,7 @@
                                     <td colspan="100%" style="text-align: center;">
                                         <div class="alert alert-primary" role="alert">
                                             <i data-feather="alert-circle"></i>
-                                            <strong>Oops No Data Available!!! </strong> Create Permission.. <a href="{{route('admin.permissions.create')}}">Here</a>                                        </div>
+                                            <strong>Oops No Data Available!!! </strong> Create Roles.. <a href="{{route('admin.roles.create')}}">Here</a>                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -147,16 +193,16 @@
             // });
             $(function() {
                 // validate form on keyup and submit
-                $("#uploadForm").validate({
+                $("#roleForm").validate({
                     rules: {
-                        import: {
+                        name: {
                             required: true,
                         },
                     },
 
                     messages: {
-                        import: {
-                            required: "Import file is required",
+                        name: {
+                            required: "Name is required",
                         },
 
                     },

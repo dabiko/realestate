@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | Create Permission
+    {{ config('app.name') }} | Edit {{$role->name}}
 @endsection
 
 @section('content')
@@ -17,13 +17,13 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create Permission</h4>
+            <h4 class="mb-3 mb-md-0">Edit <code>{{$role->name}} </code> Role</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('admin.permissions.index')}}">
+            <a href="{{route('admin.roles.index')}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="arrow-left"></i>
-                    Permission Table
+                    Role Table
                 </button>
             </a>
         </div>
@@ -32,8 +32,8 @@
 
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('admin.permissions.index')}}">Permissions Table</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Create Permission</li>
+            <li class="breadcrumb-item"><a href="{{route('admin.roles.index')}}">Role Table</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit <code>{{$role->name}} </code></li>
         </ol>
     </nav>
 
@@ -41,49 +41,23 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form id="permissionsForm" method="POST" action="{{route('admin.permissions.store')}}">
+                    <form id="editRole"
+                          method="POST"
+                          action="{{route('admin.roles.update', Crypt::encryptString($role->id))}}">
 
                             @csrf
-                            @method('POST')
-
+                            @method('PUT')
 
                             <div class="form-group mb-3">
                                 <label  class="mb-1" for="name">{{__('Name')}}</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{old('name')}}">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{$role->name}}">
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                        <div class="mb-3">
-                            <label for="group_name" class="form-label">{{ __('Group Name') }}</label>
-                            <select class="js-example-basic-single form-select  @error('group_name') is-invalid @enderror" data-width="100%" name="group_name" id="group_name" >
-                                <option selected disabled>Select group name</option>
-                                <option value="categories">categories</option>
-                                <option value="amenities">amenities</option>
-                                <option value="facilities">facilities</option>
-                                <option value="details">details</option>
-                                <option value="states">states</option>
-                                <option value="properties">properties</option>
-                                <option value="packages">packages</option>
-                                <option value="message">message</option>
-                                <option value="testimonials">testimonials</option>
-                                <option value="blog">blog</option>
-                                <option value="blog_categories">blog categories</option>
-                                <option value="blog_post">blog post</option>
-                                <option value="blog_comments">blog comments</option>
-                                <option value="manage_account">manage account</option>
-                                <option value="site_settings">site settings</option>
-                                <option value="permissions">permission</option>
-                                <option value="roles">roles</option>
-                            </select>
-                            @error('group_name')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
                             <button type="submit" class="btn btn-primary">
-                                <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}
+                                <i class="btn-icon-prepend" data-feather="upload"></i>  {{__('Update')}}
                             </button>
 
                     </form>
@@ -92,8 +66,8 @@
             </div>
         </div>
     </div>
-@endsection
 
+@endsection
 @push('scripts')
     <script>
         $(function() {
@@ -106,26 +80,18 @@
             // });
             $(function() {
                 // validate form on keyup and submit
-                $("#permissionsForm").validate({
+                $("#editRole").validate({
                     rules: {
                         name: {
                             required: true,
                         },
 
-                        group_name: {
-                            required: true,
-                        },
                     },
 
                     messages: {
                         name: {
                             required: "Please enter a name",
                         },
-
-                        group_name: {
-                            required: "Please enter a group name",
-                        },
-
 
                     },
                     errorPlacement: function(error, element) {

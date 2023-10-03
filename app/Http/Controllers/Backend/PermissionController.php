@@ -11,6 +11,11 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
+use App\Exports\PermissionExport;
+use App\Imports\PermissionImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 class PermissionController extends Controller
 {
@@ -123,5 +128,36 @@ class PermissionController extends Controller
             'status' => 'success',
             'message' => 'Permission Deleted successfully !!',
         ]);
+    }
+
+    /**
+     * import permissions from an excel file.
+     */
+
+    public function importPermissions(Request $request): RedirectResponse
+    {
+        $validate = $request->validate([
+            'import' => ['required', 'file'],
+        ]);
+
+        Excel::import(new PermissionImport, $request->import);
+
+        return Redirect::route('admin.permissions.index')
+            ->with(
+                [
+                    'status' => 'success',
+                    'message' => 'Permissions imported Successfully'
+                ]
+            );
+    }
+
+
+    /**
+     * export permissions from an excel file.
+     */
+
+    public function exportPermissions(): BinaryFileResponse
+    {
+        return Excel::download(new PermissionExport, 'permissions.xlsx');
     }
 }

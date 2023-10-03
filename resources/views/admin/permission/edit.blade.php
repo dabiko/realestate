@@ -63,6 +63,7 @@
                                     <option {{$permission->group_name === 'amenities' ? 'selected' : ''}} value="amenities">amenities</option>
                                     <option {{$permission->group_name === 'facilities' ? 'selected' : ''}} value="facilities">facilities</option>
                                     <option {{$permission->group_name === 'details' ? 'selected' : ''}} value="details">details</option>
+                                    <option {{$permission->group_name === 'states' ? 'selected' : ''}} value="states">states</option>
                                     <option {{$permission->group_name === 'properties' ? 'selected' : ''}} value="properties">properties</option>
                                     <option {{$permission->group_name === 'packages' ? 'selected' : ''}} value="packages">packages</option>
                                     <option {{$permission->group_name === 'message' ? 'selected' : ''}} value="message">message</option>
@@ -73,7 +74,9 @@
                                     <option {{$permission->group_name === 'blog_comments' ? 'selected' : ''}} value="blog_comments">blog comments</option>
                                     <option {{$permission->group_name === 'manage_account' ? 'selected' : ''}} value="manage_account">manage account</option>
                                     <option {{$permission->group_name === 'site_settings' ? 'selected' : ''}} value="site_settings">site settings</option>
-                                    <option {{$permission->group_name === 'role_permissions' ? 'selected' : ''}} value="role_permissions">role and permission</option>
+                                    <option {{$permission->group_name === 'permissions' ? 'selected' : ''}} value="permissions">permissions</option>
+                                    <option {{$permission->group_name === 'roles' ? 'selected' : ''}} value="roles">roles</option>
+
                                 </select>
                                 @error('group_name')
                                 <span class="text-danger">{{ $message }}</span>
