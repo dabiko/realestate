@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Models\Category;
+use App\Models\PropertyBookTour;
 use App\Models\User;
 use App\Traits\ImageUploadTraits;
 use Illuminate\Http\RedirectResponse;
@@ -30,6 +31,20 @@ class UserController extends Controller
 
         );
     }
+
+    public function userSchedule(): View
+    {
+
+        $user_schedule = PropertyBookTour::where('user_id', Auth::id())->get();
+
+        return view('frontend.profile.dashboard',
+            [
+                'user_schedule' => $user_schedule,
+            ]
+
+        );
+    }
+
 
 
     public function updateProfile(UpdateUserProfileRequest $request): RedirectResponse

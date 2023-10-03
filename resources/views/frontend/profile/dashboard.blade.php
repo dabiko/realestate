@@ -13,6 +13,10 @@
 
         {{ config('app.name') }} | Update Password
 
+    @elseif(Route::currentRouteName() === 'user.profile.schedule')
+
+        {{ config('app.name') }} | Scheduled Tours
+
     @elseif(Route::currentRouteName() === 'user.wishlist')
 
         {{ config('app.name') }} | My Wishlist
@@ -73,11 +77,11 @@
                             <div class="widget-content">
                                 <ul class="category-list ">
 
-                                    <li class="current">  <a href="{{route('user.dashboard')}}"><i class="fab fa fa-envelope "></i> Dashboard </a></li>
+                                    <li class="current">  <a href="{{route('user.dashboard')}}"><i class="fab fa fa-home "></i> Dashboard </a></li>
 
 
                                     <li><a href="{{route('user.profile.edit')}}"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
-                                    <li><a href="blog-details.html"><i class="fa fa-credit-card" aria-hidden="true"></i> Buy credits<span class="badge badge-info">( 10 credits)</span></a></li>
+                                    <li><a href="{{route('user.profile.schedule')}}"><i class="fa fa-envelope" aria-hidden="true"></i> Schedule Request<span class="badge badge-info">( schedules)</span></a></li>
                                     <li><a href="blog-details.html"><i class="fa fa-list-alt" aria-hidden="true"></i></i> Properties </a></li>
                                     <li><a href="{{route('user.compare')}}"><i class="fa fa-indent" aria-hidden="true"></i> Compare  </a></li>
                                     <li><a href="{{route('user.wishlist')}}"><i class="fa fa-indent" aria-hidden="true"></i> Wishlist  </a></li>
@@ -102,6 +106,10 @@
                 @if (Route::currentRouteName() === 'user.dashboard')
 
                     @include('frontend.profile.partials.profile-info')
+
+                @elseif(Route::currentRouteName() === 'user.profile.schedule')
+
+                    @include('frontend.profile.partials.scheduled-tour')
 
                 @elseif(Route::currentRouteName() === 'user.profile.edit')
 

@@ -101,6 +101,9 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
 
     Route::patch('password', [UserController::class, 'updatePassword'])->name('password.update');
 
+    Route::get('schedule', [UserController::class, 'userSchedule'])->name('profile.schedule');
+
+
 
     Route::get('user-wishlist', [WishlistController::class, 'userWishList'])->name('wishlist');
 
