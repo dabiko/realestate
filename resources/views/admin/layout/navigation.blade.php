@@ -204,6 +204,21 @@
 
             <li class="nav-item nav-category">Roles and Permissions</li>
             <li class="nav-item">
+
+                <a class="nav-link" data-bs-toggle="collapse" href="#roles_permissions" role="button" aria-expanded="false" aria-controls="roles_permissions">
+                    <i class="link-icon" data-feather="shield"></i>
+                    <span class="link-title">Roles in Permissions</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="roles_permissions">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{route('admin.roles.permissions')}}" class="nav-link">Roles and Permissions</a>
+                        </li>
+
+                    </ul>
+                </div>
+
                 <a class="nav-link" data-bs-toggle="collapse" href="#permissions" role="button" aria-expanded="false" aria-controls="permissions">
                     <i class="link-icon" data-feather="shield"></i>
                     <span class="link-title">Permissions</span>
@@ -231,6 +246,7 @@
 
                     </ul>
                 </div>
+
             </li>
 
 

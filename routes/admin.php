@@ -137,6 +137,12 @@ Route::post('import-permissions', [PermissionController::class, 'importPermissio
 Route::get('export-permissions', [PermissionController::class, 'exportPermissions'])->name('export.permissions');
 Route::resource('permissions', PermissionController::class);
 
+Route::post('roles-permissions-save', [RoleController::class, 'rolesPermissionsSave'])->name('roles.permissions.save');
+Route::get('roles-permissions', [RoleController::class, 'rolesPermissions'])->name('roles.permissions');
+Route::get('roles-permissions-create', [RoleController::class, 'rolesPermissionsCreate'])->name('roles.permissions.create');
+Route::get('roles-permissions-edit/{id}', [RoleController::class, 'rolesPermissionsEdit'])->name('roles.permissions.edit');
+Route::delete('roles-permissions-delete/{id}', [RoleController::class, 'rolesPermissionsDelete'])->name('roles.permissions.delete');
+
 Route::resource('roles', RoleController::class);
 
 
