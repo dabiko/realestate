@@ -1,21 +1,25 @@
+@php
+ $header_setting = \App\Models\SiteHeaderSetting::findOrFail(1);
+@endphp
+
 <header class="main-header">
     <!-- header-top -->
     <div class="header-top">
         <div class="top-inner clearfix">
             <div class="left-column pull-left">
                 <ul class="info clearfix">
-                    <li><i class="far fa-map-marker-alt"></i>Discover St, New York, NY 10012, USA</li>
-                    <li><i class="far fa-clock"></i>Mon - Sat  9.00 - 18.00</li>
-                    <li><i class="far fa-phone"></i><a href="tel:2512353256">+251-235-3256</a></li>
+                    <li><i class="far fa-map-marker-alt"></i>{{$header_setting->address}}</li>
+                    <li><i class="far fa-clock"></i>{{$header_setting->working_hours}}</li>
+                    <li><i class="far fa-phone"></i><a href="tel:{{$header_setting->phone}}">{{$header_setting->phone}}</a></li>
                 </ul>
             </div>
             <div class="right-column pull-right">
                 <ul class="social-links clearfix">
-                    <li><a href="index.html"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-pinterest-p"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-google-plus-g"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
+                    {{ empty(!$header_setting->facebook ? '<li><a href=""><i class="fab fa-facebook-f"></i></a></li>' : '') }}
+                    {{ empty(!$header_setting->twitter ? '<li><a href=""><i class="fab fa-twitter"></i></a></li>' : '') }}
+                    {{ empty(!$header_setting->pinterest ? '<li><a href=""><i class="fab fa-pinterest-p"></i></a></li>' : '') }}
+                    {{ empty(!$header_setting->google ? '<li><a href=""><i class="fab fa-google-plus-g"></i></a></li>' : '') }}
+                    {{ empty(!$header_setting->vimeo ? '<li><a href=""><i class="fab fa-vimeo-v"></i></a></li>' : '') }}
                 </ul>
                 @auth
                     <div class="sign-box">
@@ -36,7 +40,7 @@
         <div class="outer-box">
             <div class="main-box">
                 <div class="logo-box">
-                    <figure class="logo"><a href="{{route('home')}}"><img src="{{asset('frontend/assets/images/logo.png')}}" alt=""></a></figure>
+                    <figure class="logo"><a href="{{route('home')}}"><img src="{{asset($header_setting->logo)}}" alt=""></a></figure>
                 </div>
                 <div class="menu-area clearfix">
                     <!--Mobile Navigation Toggler-->
