@@ -213,7 +213,7 @@
                 <div class="collapse" id="roles_permissions">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{route('admin.roles.permissions')}}" class="nav-link">Roles and Permissions</a>
+                            <a href="{{route('admin.roles-permissions.index')}}" class="nav-link">Roles and Permissions</a>
                         </li>
 
                     </ul>

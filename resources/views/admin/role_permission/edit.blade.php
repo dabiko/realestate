@@ -1,39 +1,35 @@
 @extends('admin.layout.master')
 @section('title')
-    {{ config('app.name') }} | Edit {{$role->name}}
+    {{ config('app.name') }} | Edit {{$role->name}} Permissions
 @endsection
 
 @section('content')
     @if(Session::has('status'))
         <script>
-            Swal.fire({
+            ToastToRight.fire({
                 icon: '{{Session::get('status')}}',
                 title: '{{Session::get('message')}}',
-                showConfirmButton: false,
-                timer: 3000
             })
         </script>
     @endif
 
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Edit <code>{{$role->name}} </code> Role</h4>
+            <h4 class="mb-3 mb-md-0">Edit <code>{{$role->name}} </code> Role in Permissions</h4>
         </div>
-        <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{route('admin.roles.index')}}">
-                <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                    <i class="btn-icon-prepend" data-feather="arrow-left"></i>
-                    Role Table
-                </button>
-            </a>
-        </div>
-    </div>
 
+        <a href="{{route('admin.roles-permissions.index')}}">
+            <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
+                <i class="btn-icon-prepend" data-feather="arrow-left"></i>
+                Roles in Permissions Table
+            </button>
+        </a>
+    </div>
 
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('admin.roles.index')}}">Role Table</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit <code>{{$role->name}} </code></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><code>{{$role->name}} </code> Role in Permissions</li>
         </ol>
     </nav>
 
@@ -41,34 +37,91 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form id="editRole"
-                          method="POST"
-                          action="{{route('admin.roles.update', Crypt::encryptString($role->id))}}">
+                    <h6 class="card-title">Roles in Permissions</h6>
+                    <p class="text-muted mb-3">Add read text here.....</p>
 
-                            @csrf
-                            @method('PUT')
+                    <form id="rolesPermissionsForm"
+                          method="POST" action="{{route('admin.roles-permissions.update', Crypt::encryptString($role->id))}}">
 
-                            <div class="form-group mb-3">
-                                <label  class="mb-1" for="name">{{__('Name')}}</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{$role->name}}">
-                                @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        @csrf
+                        @method('PATCH')
+
+                        <div class="mb-3">
+                            <h5>Role : <code>{{$role->name}}</code></h5>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="checkDefaultMain" class="form-label">{{ __('All Permissions') }}</label>
+                            <input type="checkbox" name="" class="form-check-input checkDefaultMain" id="checkDefaultMain">
+                            @error('permissions')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <hr>
+
+                        @foreach($permission_groups as $groups)
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @php
+                                        $permissions_sub = \App\Models\User::getPermissionByGroupName($groups->group_name)
+                                    @endphp
+
+                                    <div class="form-check mb-2">
+                                        <label for="checkDefault" class="form-label">{{ $groups->group_name }}</label>
+                                        <input type="checkbox" name="" class="form-check-input" id="checkDefault"
+                                            {{\App\Models\User::roleHasPermissions($role,$permissions) ? 'checked' : ''}}
+                                        >
+                                        @error('permissions')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    @foreach($permissions_sub as $permission)
+                                        <div class="form-check mb-2">
+                                            <label for="checkDefault{{$permission->id}}" class="form-label">{{ $permission->name }}</label>
+                                            <input type="checkbox" name="permission[]" class="form-check-input" id="checkDefault{{$permission->id}}" value="{{$permission->id}}"
+                                                   {{$role->hasPermissionTo($permission->name) ? 'checked' : ''}}
+                                            >
+                                            @error('permission')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    @endforeach
+                                    <br> <hr>
+                                </div>
                             </div>
+                        @endforeach
+                        <hr>
+                        <div class="mb-3">
+                            <label for="checkDefaultMain" class="form-label">{{ __('All Permissions') }}</label>
+                            <input type="checkbox" name="" class="form-check-input checkDefaultMain" id="checkDefaultMain">
+                            @error('permissions')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                            <button type="submit" class="btn btn-primary">
-                                <i class="btn-icon-prepend" data-feather="upload"></i>  {{__('Update')}}
-                            </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Update')}}
+                        </button>
 
                     </form>
+
+
 
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
+<style type="text/css">
+    .form-check > label {
+        text-transform: capitalize;
+    }
+</style>
 @push('scripts')
+
     <script>
         $(function() {
             'use strict';
@@ -80,17 +133,16 @@
             // });
             $(function() {
                 // validate form on keyup and submit
-                $("#editRole").validate({
+                $("#roleForm").validate({
                     rules: {
                         name: {
                             required: true,
                         },
-
                     },
 
                     messages: {
                         name: {
-                            required: "Please enter a name",
+                            required: "Name is required",
                         },
 
                     },
@@ -123,5 +175,25 @@
                 });
             });
         });
+
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('body').on('click', '.checkDefaultMain', function (event){
+                // event.preventDefault();
+
+                let isChecked = $(this).is(':checked');
+
+                if(isChecked){
+                    $('input[ type=checkbox]').prop('checked', true);
+                }else{
+                    $('input[ type=checkbox]').prop('checked', false);
+                }
+            })
+        })
     </script>
 @endpush

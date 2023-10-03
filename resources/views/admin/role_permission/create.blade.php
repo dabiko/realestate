@@ -34,7 +34,7 @@
                     <p class="text-muted mb-3">Add read text here.....</p>
 
                     <form id="rolesPermissionsForm"
-                          method="POST" action="{{route('admin.roles.permissions.save')}}">
+                          method="POST" action="{{route('admin.roles-permissions.store')}}">
 
                         @csrf
                         @method('POST')

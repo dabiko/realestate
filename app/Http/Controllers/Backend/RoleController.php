@@ -35,19 +35,9 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
-        $roles = Role::all();
-        $permissions = Permission::all();
-        $permission_groups = User::getPermissionGroups();
-
-        return view('admin.role_permission.create',
-            [
-                'roles' => $roles,
-                'permissions' => $permissions,
-                'permission_groups' => $permission_groups,
-            ]
-        );
+       //
     }
 
     /**
@@ -134,50 +124,4 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-
-    public function rolesPermissions(): View
-    {
-        $roles = Role::all();
-
-        return view('admin.role_permission.index',
-            [
-                'roles' => $roles,
-            ]
-        );
-
-    }
-
-
-    public function rolesPermissionsSave(Request $request): RedirectResponse
-    {
-        $validate = $request->validate([
-            'role' => ['required', 'string'],
-            'permission' => ['required'],
-        ]);
-
-        $decrypt_role_id = $this->decryptId($validate['role']);
-        $permission_id = $request->permission;
-
-        $data = array();
-
-        foreach ($permission_id as $key => $item){
-            $data['role_id'] =  $decrypt_role_id;
-            $data['permission_id'] =  $item;
-
-            DB::table('role_has_permissions')->insert($data);
-        }
-
-        return Redirect::route('admin.roles.permissions')
-            ->with(
-                [
-                    'status' => 'success',
-                    'message' => 'Roles in Permissions added'
-                ]
-            );
-
-
-    }
 }

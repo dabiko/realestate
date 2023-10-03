@@ -19,7 +19,7 @@
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
 
-            <a href="{{route('admin.roles.create')}}">
+            <a href="{{route('admin.roles-permissions.create')}}">
                 <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                     Roles in Permissions
@@ -68,11 +68,11 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{route('admin.roles.permissions.edit',Crypt::encryptString($role->id))}}" class="btn btn-inverse-info">
+                                            <a href="{{route('admin.roles-permissions.edit',Crypt::encryptString($role->id))}}" class="btn btn-inverse-info">
                                                 <i class='far fa-edit'></i>
                                             </a>
 
-                                            <a  href="{{route('admin.roles.permissions.delete', Crypt::encryptString($role->id))}}" class="btn btn-inverse-danger delete-item">
+                                            <a  href="{{route('admin.roles-permissions.destroy', Crypt::encryptString($role->id))}}" class="btn btn-inverse-danger delete-item">
                                                 <i class='far fa-trash-alt'></i>
                                             </a>
                                         </td>
@@ -97,7 +97,7 @@
                                     <td colspan="100%" style="text-align: center;">
                                         <div class="alert alert-primary" role="alert">
                                             <i data-feather="alert-circle"></i>
-                                            <strong>Oops No Data Available!!! </strong> Create Roles in permission <a href="{{route('admin.roles.create')}}">Here</a>                                        </div>
+                                            <strong>Oops No Data Available!!! </strong> Create Roles in permission <a href="{{route('admin.roles-permissions.create')}}">Here</a>                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
