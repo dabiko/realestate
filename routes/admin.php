@@ -129,4 +129,6 @@ Route::resource('blog-post-comment', BlogPostCommentController::class);
 
 Route::get('settings', [SettingController::class, 'index'])->name('settings');
 Route::post('settings-email', [SettingController::class, 'updateEmailSetting'])->name('settings-update.email');
+Route::post('settings-header', [SettingController::class, 'updateHeaderSetting'])->name('header-settings.update');
+
 
