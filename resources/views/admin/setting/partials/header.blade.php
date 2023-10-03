@@ -15,24 +15,34 @@
         <div class="d-flex align-items-center mb-3">
             <img style="width: 10%; height: 10%" id="show-image" src="{{asset(empty(!$headerSetting->logo) ? $headerSetting->logo : url('upload/no_image.jpg'))}}" alt="">
         </div>
+            <div class="row mb-3">
 
-        <div class="col-md-12 mb-3">
-            <label  class="mb-1" for="logo">{{__('Logo')}}</label>
-            <input type="file" class="form-control @error('logo') is-invalid @enderror" name="logo" id="logo" >
-            @error('logo')
-            <span class="text-danger">{{ $message }}</span>
-            @enderror
-        </div>
+                <div class="col-md-6 mb-3">
+                    <label  class="mb-1" for="logo">{{__('Logo')}}</label>
+                    <input type="file" class="form-control @error('logo') is-invalid @enderror" name="logo" id="logo" >
+                    @error('logo')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label  class="mb-1" for="address">{{__('Address')}}</label>
+                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" value="{{$headerSetting->address}}">
+                    @error('address')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
 
         <div class="row mb-3">
+
             <div class="col-md-6 mb-3">
-                <label  class="mb-1" for="address">{{__('Address')}}</label>
-                <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" value="{{$headerSetting->address}}">
-                @error('address')
+                <label  class="mb-1" for="email">{{__('Email')}}</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{$headerSetting->email}}">
+                @error('email')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-
 
             <div class="col-md-6 mb-3">
                 <label  class="mb-1" for="working_days">{{__('Working Days')}}</label>
@@ -55,7 +65,7 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label  class="mb-1" for="facebook">{{__('Facebook')}}</label>
+                <label  class="mb-1" for="facebook">{{__('Facebook link')}}</label>
                 <input type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" id="facebook" value="{{$headerSetting->facebook}}">
                 @error('facebook')
                 <span class="text-danger">{{ $message }}</span>
@@ -66,7 +76,7 @@
         <div class="row mb-3">
 
             <div class="form-group col-md-6">
-                <label  class="mb-1" for="twitter">{{__('Twitter')}}</label>
+                <label  class="mb-1" for="twitter">{{__('Twitter link')}}</label>
                 <input type="text" class="form-control @error('twitter') is-invalid @enderror" name="twitter" id="twitter" value="{{$headerSetting->twitter}}">
                 @error('twitter')
                 <span class="text-danger">{{ $message }}</span>
@@ -74,7 +84,7 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label  class="mb-1" for="pinterest">{{__('Pinterest')}}</label>
+                <label  class="mb-1" for="pinterest">{{__('Pinterest link')}}</label>
                 <input type="text" class="form-control @error('pinterest') is-invalid @enderror" name="pinterest" id="pinterest" value="{{$headerSetting->pinterest}}">
                 @error('pinterest')
                 <span class="text-danger">{{ $message }}</span>
@@ -84,14 +94,14 @@
 
         <div class="row mb-3" >
             <div class="form-group col-md-6">
-                <label  class="mb-1" for="google">{{__('Google+')}}</label>
+                <label  class="mb-1" for="google">{{__('Google+ link')}}</label>
                 <input type="text" class="form-control @error('google') is-invalid @enderror" name="google" id="google" value="{{$headerSetting->google}}">
                 @error('google')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="form-group col-md-6">
-                <label  class="mb-1" for="vimeo">{{__('Vimeo')}}</label>
+                <label  class="mb-1" for="vimeo">{{__('Vimeo link')}}</label>
                 <input type="text" class="form-control @error('vimeo') is-invalid @enderror" name="vimeo" id="vimeo" value="{{$headerSetting->vimeo}}">
                 @error('vimeo')
                 <span class="text-danger">{{ $message }}</span>

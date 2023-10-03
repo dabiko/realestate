@@ -71,6 +71,7 @@ class SettingController extends Controller
             'logo' => ['nullable', 'image' ],
             'update_id' =>  ['required', 'string' ],
             'address' =>  ['required', 'string' ],
+            'email' =>  ['required', 'email' ],
             'working_days' => ['required', 'string' ],
             'phone' => ['required', 'string' ],
             'facebook' => ['nullable', 'string' ],
@@ -89,6 +90,7 @@ class SettingController extends Controller
         SiteHeaderSetting::findOrFail($update_id)->update([
             'logo' => $updatePath,
             'address' => $validate['address'],
+            'email' => $validate['email'],
             'working_days' => $validate['working_days'],
             'phone' => $validate['phone'],
             'facebook' => $validate['facebook'],

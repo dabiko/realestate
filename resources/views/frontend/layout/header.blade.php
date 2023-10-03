@@ -98,7 +98,7 @@
         <div class="outer-box">
             <div class="main-box">
                 <div class="logo-box">
-                    <figure class="logo"><a href="{{route('home')}}"><img src="{{asset('frontend/assets/images/logo.png')}}" alt=""></a></figure>
+                    <figure class="logo"><a href="{{route('home')}}"><img src="{{asset($header_setting->logo)}}" alt=""></a></figure>
                 </div>
                 <div class="menu-area clearfix">
                     <nav class="main-menu clearfix">
@@ -106,7 +106,10 @@
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a href="index.html" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                    @auth
+                    @else
+                        <a href="{{route('agent.login')}}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                    @endauth
                 </div>
             </div>
         </div>

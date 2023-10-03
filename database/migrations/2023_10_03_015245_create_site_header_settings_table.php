@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('working_days');
             $table->string('phone');
+            $table->string('email');
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('pinterest')->nullable();
