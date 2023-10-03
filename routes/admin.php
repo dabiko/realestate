@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DetailController;
 use App\Http\Controllers\Backend\FacilityController;
 use App\Http\Controllers\Backend\PackageController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PropertyAmenityController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyDetailController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Backend\PropertyLocationController;
 use App\Http\Controllers\Backend\PropertyMapController;
 use App\Http\Controllers\Backend\PropertyPlanController;
 use App\Http\Controllers\Backend\PropertyStatsController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
@@ -130,5 +132,9 @@ Route::resource('blog-post-comment', BlogPostCommentController::class);
 Route::get('settings', [SettingController::class, 'index'])->name('settings');
 Route::post('settings-email', [SettingController::class, 'updateEmailSetting'])->name('settings-update.email');
 Route::post('settings-header', [SettingController::class, 'updateHeaderSetting'])->name('header-settings.update');
+
+Route::resource('roles', RoleController::class);
+
+Route::resource('permissions', PermissionController::class);
 
 
