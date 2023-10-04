@@ -43,7 +43,7 @@
                 <div class="col-md-8 col-xl-6 mx-auto d-flex flex-column align-items-center">
                     <img src="{{asset('backend/assets/images/others/404.svg')}}" class="img-fluid mb-2" alt="404">
                     <h1 class="fw-bolder mb-22 mt-2 tx-80 text-muted">403</h1>
-                    <h4 class="mb-2">USER DOES NOT HAVE THE RIGHT PERMISSION</h4>
+                    <h4 class="mb-2">YOU DO NOT HAVE THE RIGHT PERMISSION</h4>
                     <h6 class="text-muted mb-3 text-center">Contact support team...</h6>
                     <a href="{{route('admin.dashboard')}}">Back to home</a>
                 </div>

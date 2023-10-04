@@ -19,8 +19,7 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     use EncryptDecrypt;
-    //use CategoriesAuthPermissions;
-
+    use CategoriesAuthPermissions;
 
     /**
      * Display a listing of the resource.
