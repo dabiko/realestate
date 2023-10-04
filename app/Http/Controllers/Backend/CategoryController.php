@@ -21,7 +21,7 @@ class CategoryController extends Controller
     use EncryptDecrypt;
     //use CategoriesAuthPermissions;
 
-    
+
     /**
      * Display a listing of the resource.
      */
