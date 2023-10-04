@@ -52,7 +52,8 @@ Route::get('password', [AdminProfileController::class, 'index'])->name('password
 Route::put('password-update', [AdminProfileController::class, 'passwordUpdate'])->name('password.update');
 
 
-Route::put('category/change-status', [CategoryController::class, 'updateStatus'])->name('category.change-status');
+Route::put('category/change-status', [CategoryController::class, 'updateStatus'])->name('category.change-status')
+->middleware('permission:categories.status');
 Route::resource('category', CategoryController::class);
 
 Route::put('amenity/change-status', [AmenityController::class, 'updateStatus'])->name('amenity.change-status');
@@ -137,13 +138,6 @@ Route::post('settings-header', [SettingController::class, 'updateHeaderSetting']
 Route::post('import-permissions', [PermissionController::class, 'importPermissions'])->name('import.permissions');
 Route::get('export-permissions', [PermissionController::class, 'exportPermissions'])->name('export.permissions');
 Route::resource('permissions', PermissionController::class);
-
-//Route::post('roles-permissions-save', [RoleController::class, 'rolesPermissionsSave'])->name('roles.permissions.save');
-//Route::get('roles-permissions', [RoleController::class, 'rolesPermissions'])->name('roles.permissions');
-//Route::get('roles-permissions-create', [RoleController::class, 'rolesPermissionsCreate'])->name('roles.permissions.create');
-//Route::get('roles-permissions-edit/{id}', [RoleController::class, 'rolesPermissionsEdit'])->name('roles.permissions.edit');
-//Route::patch('roles-permissions-update/{id}', [RoleController::class, 'rolesPermissionsUpdate'])->name('roles.permissions.update');
-//Route::delete('roles-permissions-delete/{id}', [RoleController::class, 'rolesPermissionsDelete'])->name('roles.permissions.delete');
 
 Route::resource('roles', RoleController::class);
 Route::resource('roles-permissions', RolePermissionController::class);

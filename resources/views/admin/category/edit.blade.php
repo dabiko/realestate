@@ -36,8 +36,8 @@
             <li class="breadcrumb-item active" aria-current="page">Edit {{$category->name}}</li>
         </ol>
     </nav>
-
-    <div class="row">
+    @if(Auth::user()->can('categories.edit'))
+       <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -91,5 +91,5 @@
             </div>
         </div>
     </div>
-
+    @endif
 @endsection

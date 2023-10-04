@@ -12,28 +12,34 @@
     <div class="sidebar-body">
         <ul class="nav">
             <li class="nav-item nav-category">Main</li>
+
             <li class="nav-item">
                 <a href="{{route('admin.dashboard')}}" class="nav-link">
                     <i class="link-icon" data-feather="home"></i>
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">HOMES</li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="category">
-                    <i class="link-icon" data-feather="grid"></i>
-                    <span class="link-title">Categories</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="category">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{route('admin.category.index')}}" class="nav-link">Category</a>
-                        </li>
 
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item nav-category">HOMES</li>
+            @if(Auth::user()->can('categories.menu'))
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="category">
+                        <i class="link-icon" data-feather="grid"></i>
+                        <span class="link-title">Categories</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="category">
+                        <ul class="nav sub-menu">
+                            @if(Auth::user()->can('categories.all'))
+                                <li class="nav-item">
+                                    <a href="{{route('admin.category.index')}}" class="nav-link">Category</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </li>
+            @endif
+
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#amenity" role="button" aria-expanded="false" aria-controls="amenity">
@@ -185,16 +191,16 @@
                 <div class="collapse" id="accounts">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index', ['role' => 'All'])}}" class="nav-link">All</a>
+                            <a href="{{route('admin.users.index', ['role' => 'all'])}}" class="nav-link">All</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index', ['role' => 'User'])}}" class="nav-link">User</a>
+                            <a href="{{route('admin.users.index', ['role' => 'user'])}}" class="nav-link">User</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index', ['role' => 'Admin'])}}" class="nav-link">Admin</a>
+                            <a href="{{route('admin.users.index', ['role' => 'admin'])}}" class="nav-link">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.users.index', ['role' => 'Agent'])}}" class="nav-link">Agent</a>
+                            <a href="{{route('admin.users.index', ['role' => 'agent'])}}" class="nav-link">Agent</a>
                         </li>
 
                     </ul>

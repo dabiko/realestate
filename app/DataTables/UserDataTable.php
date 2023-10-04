@@ -44,36 +44,8 @@ UserDataTable extends DataTable
                 $user = "<a href='javascript:void(0)' class='btn btn-inverse-success'>$query->role</a>";
                 $error = "<a href='javascript:void(0)' class='btn btn-inverse-danger'>$query->role</a>";
 
-                if ($query->role == 'admin'){
-
-                    return "
-                    <img class='mb-2' style='border-radius: 2px; width:50%; height:50%;' src='".asset($query->photo)."' alt='image'></img>
-                    <p>$admin</p>
-                    ";
-
-                }elseif($query->role == 'agent'){
-
-                    return "
-                       <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
-                          <p>$agent</p>
-                       ";
-
-                }elseif($query->role == 'user'){
-
-                    return "
-                    <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
-                    <p>$user</p>
-                    ";
-
-                }else{
-                    return $error;
-                }
-
-            })
-            ->addColumn('username', function ($query){
-
                 if ($query->status == 'active'){
-                   return '<p>'.$query->username.'</p>
+                    $active_status = '
                             <p>
                                 <bubtton  disabled class="btn btn-inverse-success">
                                 <i class="fa-solid fa-person-circle-check fa-beat-fade"></i>
@@ -81,7 +53,7 @@ UserDataTable extends DataTable
                                </bubtton>
                             </p>';
                 }else{
-                    return '<p>'.$query->username.'</p>
+                    $active_status =  '
                                 <p>
                                 <bubtton disabled class="btn btn-inverse-warning">
                                    <i class="fas fa-clock fa-spin"></i>
@@ -90,10 +62,41 @@ UserDataTable extends DataTable
                                </p>';
                 }
 
+                if ($query->role == 'admin'){
+
+                    return "
+                    <img class='mb-2' style='border-radius: 2px; width:50%; height:50%;' src='".asset($query->photo)."' alt='image'></img>
+
+                    ";
+
+                }elseif($query->role == 'agent'){
+
+                    return "
+
+                       <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
+
+                       ";
+
+                }elseif($query->role == 'user'){
+
+                    return "
+                    <img class='mb-2' width='70px;' src='".asset($query->photo)."' alt='image'></img>
+
+                    ";
+
+                }else{
+                    return $error;
+                }
+
+            })
+            ->addColumn('role', function ($query){
+                foreach ($query->roles as $role){
+                    return "<span class='badge badge-pill bg-danger'>$role->name</span>";
+                }
             })
             ->addColumn('status', function ($query){
 
-                if ($query->status == 'active'){
+                if ($query->status == 1){
 
                     $activated   = '
 
@@ -123,7 +126,7 @@ UserDataTable extends DataTable
             ->addColumn('num', content: function ($query)  {
                 return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
             })
-            ->rawColumns(['username', 'photo', 'action', 'status', 'num'])
+            ->rawColumns(['role', 'photo', 'action', 'status', 'num'])
             ->setRowId('id');
     }
 
@@ -132,7 +135,7 @@ UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        if (request()->role == 'All'){
+        if (request()->role == 'all'){
 
             return $model->newQuery()->orderBy('id', 'ASC');
 
@@ -176,7 +179,7 @@ UserDataTable extends DataTable
             Column::make('num'),
             Column::make('photo'),
             Column::make('name'),
-            Column::make('username'),
+            Column::make('role'),
             Column::make('email'),
             Column::make('status'),
             Column::computed('action')

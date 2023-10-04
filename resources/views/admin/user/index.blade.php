@@ -18,49 +18,47 @@
             <h4 class="mb-3 mb-md-0"> {{request()->role}}  Users</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            @if(request()->role == 'All')
-                <a href="{{route('admin.users.create', ['role' => 'User'])}}">
+            @if(request()->role == 'all')
+                <a href="{{route('admin.users.create', ['role' => 'user'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         User
                     </button>
                 </a>
-                <a href="{{route('admin.users.create', ['role' => 'Agent'])}}">
+                <a href="{{route('admin.users.create', ['role' => 'agent'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         Agent
                     </button>
                 </a>
-                <a href="{{route('admin.users.create', ['role' => 'Admin'])}}">
+                <a href="{{route('admin.users.create', ['role' => 'admin'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         Admin
                     </button>
                 </a>
-            @elseif(request()->role == 'User')
-                <a href="{{route('admin.users.create', ['role' => 'User'])}}">
+            @elseif(request()->role == 'user')
+                <a href="{{route('admin.users.create', ['role' => 'user'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         User
                     </button>
                 </a>
-            @elseif(request()->role == 'Agent')
-                <a href="{{route('admin.users.create', ['role' => 'Agent'])}}">
+            @elseif(request()->role == 'agent')
+                <a href="{{route('admin.users.create', ['role' => 'agent'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         Agent
                     </button>
                 </a>
-            @elseif(request()->role == 'Admin')
-                <a href="{{route('admin.users.create', ['role' => 'Admin'])}}">
+            @elseif(request()->role == 'admin')
+                <a href="{{route('admin.users.create', ['role' => 'admin'])}}">
                     <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                         <i class="btn-icon-prepend" data-feather="plus-circle"></i>
                         Admin
                     </button>
                 </a>
             @endif
-
-
 
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\CreateCategoryRequest;
 use App\Http\Requests\Backend\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Traits\CategoriesAuthPermissions;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,9 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     use EncryptDecrypt;
+    //use CategoriesAuthPermissions;
 
+    
     /**
      * Display a listing of the resource.
      */

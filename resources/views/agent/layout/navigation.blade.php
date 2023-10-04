@@ -4,7 +4,7 @@
     $status = User::findOrFail(Auth::id());
 @endphp
 
-@if($status->status === 'active')
+@if($status->status == 1)
     <nav class="sidebar">
         <div class="sidebar-header">
             <a href="{{route('agent.dashboard')}}" class="sidebar-brand">

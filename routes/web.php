@@ -76,14 +76,6 @@ Route::get('blog-post-filter', [BlogPostController::class, 'filterBlogPostCatego
 Route::get('blog-post-tags', [BlogPostController::class, 'filterBlogPostTags'])->name('blog-post-filter-tags');
 
 
-
-
-//Route::middleware('auth')->group(function () {
-//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-//});
-
 require __DIR__.'/auth.php';
 
 

@@ -44,7 +44,7 @@
                 use \Illuminate\Support\Facades\Auth;
                 $status = User::findOrFail(Auth::id());
             @endphp
-            @if($status->status === 'active')
+            @if($status->status == 1)
                 @yield('content')
             @else
                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">

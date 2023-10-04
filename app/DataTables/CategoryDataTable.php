@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Category;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -29,50 +30,56 @@ class CategoryDataTable extends DataTable
         return (new EloquentDataTable($query))
                ->addColumn('action', function ($query){
 
-                   $editBtn ="<a href='".route('admin.category.edit', $this->encryptId($query->id))."'>
+                   if(Auth::user()->can('categories.action')){
+
+                       return"<a href='".route('admin.category.edit', $this->encryptId($query->id))."'>
                                <button class='btn btn-inverse-primary'>
                                <i class='far fa-edit'></i>
                                </button>
-                               </a>";
-
-                   $deleteBtn ="<a class='delete-item' href='".route('admin.category.destroy', $this->encryptId($query->id))."'>
+                               </a>
+                               <a class='delete-item' href='".route('admin.category.destroy', $this->encryptId($query->id))."'>
                               <button class='btn btn-inverse-danger'>
                               <i class='far fa-trash-alt'></i>
                               </button>
-                              </a>";
+                              </a>
 
-
-
-                   return $editBtn.$deleteBtn;
-               })
-               ->addColumn('status', function ($query){
-                   $active   = '<div class="form-check form-switch">
-                                 <input
-                                 class="form-check-input change-status"
-                                 type="checkbox" id="activeChecked"
-                                 data-id="'.$this->encryptId($query->id).'"
-                                 checked>
-                             </div>';
-
-                   $InActive   = '<div class="form-check form-switch">
-                                 <input
-                                 class="form-check-input change-status"
-                                 type="checkbox"
-                                 data-id="'.$this->encryptId($query->id).'"
-                                 id="inActiveChecked">
-                             </div>';
-
-                   if ($query->status == 1){
-                       return $active;
-                   }else{
-                       return $InActive;
+                               ";
                    }
 
                })
+
+               ->addColumn('status', function ($query){
+
+                   if(Auth::user()->can('categories.status')) {
+                       if ($query->status == 1){
+                           return '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox" id="activeChecked"
+                                 data-id="' . $this->encryptId($query->id) . '"
+                                 checked>
+                             </div>';
+                       }else{
+                        return '<div class="form-check form-switch">
+                                 <input
+                                 class="form-check-input change-status"
+                                 type="checkbox"
+                                 data-id="' . $this->encryptId($query->id) . '"
+                                 id="inActiveChecked">
+                             </div>';
+                       }
+
+                   }
+
+               })
+
                 ->addColumn('num', content: function ($query)  {
                     return "<a><button type='button' class='btn btn-inverse-info'>$query->id</button></a>";
                 })
-               ->rawColumns(['action', 'status', 'num'])
+                ->addColumn('', content: function ($query)  {
+                    return "";
+                })
+               ->rawColumns(['action', 'status', 'num', ''])
                ->setRowId('id');
 
     }
@@ -121,17 +128,21 @@ class CategoryDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::make('num'),
-            Column::make('icon'),
-            Column::make('name'),
-            Column::make('status'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-        ];
+            return [
+                Column::make('num'),
+                Column::make('icon'),
+                Column::make('name'),
+                Auth::user()->can('categories.status') ? Column::make('status') : '',
+                Auth::user()->can('categories.action')
+                    ? Column::computed('action')
+                        ->exportable(false)
+                        ->printable(false)
+                        ->width(60)
+                        ->addClass('text-center')
+                    : '',
+
+            ];
+
     }
 
     /**

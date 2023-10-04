@@ -8,13 +8,16 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Traits\EncryptDecrypt;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 
 class AllUserController extends Controller
 {
@@ -32,39 +35,51 @@ class AllUserController extends Controller
      */
     public function create(): View
     {
-        return view ('admin.user.create');
+        $roles = Role::all();
+
+        return view ('admin.user.create',
+            [
+                'roles' => $roles
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         //dd($request->all());
-        if ($request->role == 'Agent')
-        {
+
             $validate = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
+                'role_id' => ['required', 'string'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
 
+            $role_id = $this->decryptId($validate['role_id']);
+
             $user = User::create([
                 'name' =>  $validate['name'],
                 'email' => $validate['email'],
-                'role' =>  $request->role,
-                'status' => 'inactive',
+                'role' =>  request()->role,
+                'status' => 1,
                 'password' => Hash::make($validate['password']),
             ]);
 
             event(new Registered($user));
 
-            return Redirect::route('admin.users.index', ['role' => $request->role])
+            if($role_id){
+                $user->assignRole($role_id);
+            }
+
+            return Redirect::route('admin.users.index', ['role' => request()->role])
                 ->with([
                     'status' => 'success',
-                    'message' => 'Agent created successfully'
+                    'message' => request()->role.' created successfully'
                 ]);
-        }
+
     }
 
     /**
@@ -80,15 +95,54 @@ class AllUserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $decrypted_id = $this->decryptId($id);
+
+        $user = User::findOrFail($decrypted_id);
+        $roles = Role::all();
+
+        return view ('admin.user.edit',
+            [
+                'roles' => $roles,
+                'user' => $user
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
-        //
+        $user_id = $this->decryptId($id);
+
+        $validate = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role_id' => ['required', 'string'],
+            'role' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255',
+                Rule::unique('users', 'id')->ignore($user_id)],
+        ]);
+
+        $role_id = $this->decryptId($validate['role_id']);
+
+
+        $user = User::findOrFail($user_id);
+        $user->name =  $validate['name'];
+        $user->email =  $validate['email'];
+        $user->role =  $validate['role'];
+        $user->save();
+
+        $user->roles()->detach();
+
+        if($role_id){
+            $user->assignRole($role_id);
+        }
+
+        return Redirect::route('admin.users.index', ['role' => $validate['role']])
+            ->with([
+                'status' => 'success',
+                'message' => $validate['role'].' updated successfully'
+            ]);
     }
 
     /**
@@ -100,15 +154,15 @@ class AllUserController extends Controller
 
         $user = User::findOrFail($decrypted_id);
 
-        if ($user->status == 'active'){
+        if ($user->status == 1){
             return response([
                 'status' => 'error',
                 'title' => 'Cant delete '.$user->name,
                 'message' => 'This User is still active. Deactivate before deleting',
             ]);
         }
+            $user->delete();
 
-        $user->delete();
         return response([
             'status' => 'success',
             'message' => 'User Deleted successfully !!',
@@ -124,7 +178,7 @@ class AllUserController extends Controller
 
         $user = User::findOrFail($decrypted_id);
 
-        $user->status = $request->status === 'true' ? 'active' : 'inactive';
+        $user->status = $request->status === 'true' ? '1' : '0';
         $user->save();
 
         return response([

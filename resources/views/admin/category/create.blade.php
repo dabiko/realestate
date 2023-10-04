@@ -37,11 +37,12 @@
         </ol>
     </nav>
 
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST" action="{{route('admin.category.store')}}">
+    @if(Auth::user()->can('categories.add'))
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="{{route('admin.category.store')}}">
 
                             @csrf
                             @method('POST')
@@ -62,28 +63,28 @@
                                 @enderror
                             </div>
 
-                        <div class="mb-3">
-                            <label for="status" class="form-label">{{ __('Status') }}</label>
-                            <select class="form-select @error('status') is-invalid @enderror" name="status" id="status" >
-                                <option selected disabled>Select status</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                            @error('status')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">{{ __('Status') }}</label>
+                                <select class="form-select @error('status') is-invalid @enderror" name="status" id="status" >
+                                    <option selected disabled>Select status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
 
 
                             <button type="submit" class="btn btn-primary">
                                 <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Save')}}
                             </button>
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    @endif
 @endsection

@@ -13,8 +13,6 @@ use App\Http\Controllers\Agent\AgentPropertyLocationController;
 use App\Http\Controllers\Agent\AgentPropertyMapController;
 use App\Http\Controllers\Agent\AgentPropertyPlanController;
 use App\Http\Controllers\Agent\AgentPropertyStatsController;
-use App\Http\Controllers\Agent\AgentPropertyVariantController;
-use App\Http\Controllers\Agent\AgentPropertyVariantItemController;
 use Illuminate\Support\Facades\Route;
 
 /*

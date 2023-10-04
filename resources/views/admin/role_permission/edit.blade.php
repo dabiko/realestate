@@ -57,6 +57,10 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="btn-icon-prepend" data-feather="server"></i>  {{__('Update')}}
+                        </button>
+
                         <hr>
 
                         @foreach($permission_groups as $groups)

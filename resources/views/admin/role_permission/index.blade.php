@@ -60,11 +60,14 @@
                                 <tbody>
                                 @foreach($roles as $key => $role)
                                     <tr>
-                                        <td>{{$key+1}}</td>
-                                        <td>{{$role->name}}</td>
+                                        <td><button class="btn btn-inverse-info">{{$key+1}}</button></td>
+                                        <td><code>{{$role->name}}</code></td>
                                         <td>
                                             @foreach($role->permissions as $permission)
-                                                <span class="badge bg-danger">{{$permission->name}} <br></span>
+                                                <span class="badge bg-danger">
+                                                    {{count($role->permissions) > 0 ? $permission->name : 'No Permission assign'}}
+                                                    <br>
+                                                </span>
                                             @endforeach
                                         </td>
                                         <td>
