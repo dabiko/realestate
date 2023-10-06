@@ -410,7 +410,7 @@
                                         <li><i class="fas fa-map-marker-alt"></i>{{$property->agent->address}}</li>
                                         <li><i class="fas fa-phone"></i><a href="tel:{{$property->agent->phone}}">{{$property->agent->phone}}</a></li>
                                     </ul>
-                                    <div class="btn-box"><a href="{{route('agent.details', Crypt::encryptString($property->agent->id) )}}">View Listing</a></div>
+                                    <div class="btn-box"><a href="{{route('agent.details', Crypt::encryptString($property->agent->id) )}}">Live Chat</a></div>
                                 </div>
                             </div>
                             <div class="form-inner">

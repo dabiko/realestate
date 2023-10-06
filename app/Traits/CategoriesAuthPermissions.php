@@ -14,7 +14,7 @@ trait CategoriesAuthPermissions
         $this->middleware('permission:categories.add')->only("create");
         $this->middleware('permission:categories.edit')->only("edit");
         $this->middleware('permission:categories.delete')->only("destroy");
-        $this->middleware('permission:categories.action')->only("index");
+        $this->middleware('permission:categories.action')->only("destroy");
     }
 
 }
