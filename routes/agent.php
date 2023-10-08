@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Agent\AgentChatMessageController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentPropertyAmenityController;
@@ -99,3 +100,4 @@ Route::get('property-scheduled-details/{id}', [AgentPropertyBookTourController::
 Route::resource('property-scheduled-tour', AgentPropertyBookTourController::class);
 
 
+Route::get('/live-chats', [AgentChatMessageController::class, 'liveChats'])->name('live.chats');

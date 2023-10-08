@@ -82,14 +82,15 @@
 
                                     <li><a href="{{route('user.profile.edit')}}"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
                                     <li><a href="{{route('user.profile.schedule')}}"><i class="fa fa-envelope" aria-hidden="true"></i> Schedule Request<span class="badge badge-info">( schedules)</span></a></li>
-                                    <li><a href="blog-details.html"><i class="fa fa-list-alt" aria-hidden="true"></i></i> Properties </a></li>
-                                    <li><a href="{{route('user.compare')}}"><i class="fa fa-indent" aria-hidden="true"></i> Compare  </a></li>
+                                    <li><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> Properties </a></li>
+                                    <li><a href="{{route('user.compare')}}"><i class="fa-solid fa-code-compare" aria-hidden="true"></i> Compare  </a></li>
                                     <li><a href="{{route('user.wishlist')}}"><i class="fa fa-indent" aria-hidden="true"></i> Wishlist  </a></li>
+                                    <li><a href="{{route('user.live-chat.index')}}"><i class="fa-brands fa-rocketchat" aria-hidden="true"></i> Live Chat  </a></li>
                                     <li><a href="{{route('user.password.change')}}"><i class="fa fa-key" aria-hidden="true"></i> Security </a></li>
 
                                     <li>
                                         <a href="{{route('user.logout')}}">
-                                            <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                                             <i class="fa-solid fa-right-from-bracket" aria-hidden="true">></i>
                                             {{ __('Log Out') }}
                                         </a>
                                     </li>
@@ -132,6 +133,9 @@
                             </div>
                         </div>
                     </div>
+                @elseif(Route::currentRouteName() === 'user.live-chat.index')
+
+                    @include('frontend.profile.partials.live-chat')
 
                 @endif
 

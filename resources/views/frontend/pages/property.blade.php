@@ -405,12 +405,23 @@
                             <div class="author-box">
                                 <figure class="author-thumb"><img src="{{empty(!$property->agent->photo) ? asset($property->agent->photo) : url('upload/no_image.jpg') }}" alt=""></figure>
                                 <div class="inner">
-                                    <h4>{{$property->agent->name}}</h4>
-                                    <ul class="info clearfix">
-                                        <li><i class="fas fa-map-marker-alt"></i>{{$property->agent->address}}</li>
-                                        <li><i class="fas fa-phone"></i><a href="tel:{{$property->agent->phone}}">{{$property->agent->phone}}</a></li>
-                                    </ul>
-                                    <div class="btn-box"><a href="{{route('agent.details', Crypt::encryptString($property->agent->id) )}}">Live Chat</a></div>
+
+                                    @auth
+                                        <h4>{{$property->agent->name}}</h4>
+                                        <ul class="info clearfix">
+                                            <li><i class="fas fa-map-marker-alt"></i>{{$property->agent->address}}</li>
+                                            <li><i class="fas fa-phone"></i><a href="tel:{{$property->agent->phone}}">{{$property->agent->phone}}</a></li>
+                                        </ul>
+                                        <div id="app">
+                                            <send-message agent_id="{{$property->agent->id}}" agent_name="{{$property->agent->name}}">
+
+                                            </send-message>
+                                        </div>
+                                    @else
+                                        <h4 class="mb-4">{{$property->agent->name}}</h4>
+
+                                    @endauth
+
                                 </div>
                             </div>
                             <div class="form-inner">

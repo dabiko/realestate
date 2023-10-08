@@ -83,7 +83,12 @@
                     </div>
                 </li>
 
-
+                <li class="nav-item">
+                    <a href="{{route('agent.live.chats')}}" class="nav-link">
+                        <i class="link-icon" data-feather="send"></i>
+                        <span class="link-title">Live Chat</span>
+                    </a>
+                </li>
 
 
                 <li class="nav-item">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Backend\ChatMessageController;
 use App\Http\Controllers\Frontend\BlogPostController;
 use App\Http\Controllers\Frontend\CompareController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -75,6 +76,9 @@ Route::get('blog-post-detail/{id}', [BlogPostController::class, 'blogPostDetail'
 Route::get('blog-post-filter', [BlogPostController::class, 'filterBlogPostCategory'])->name('blog-post-filter-category');
 Route::get('blog-post-tags', [BlogPostController::class, 'filterBlogPostTags'])->name('blog-post-filter-tags');
 
+Route::post('/send-message', [ChatMessageController::class, 'sendMessage'])->name('send.message');
+Route::get('/all-users', [ChatMessageController::class, 'allUsers'])->name('all.users');
+Route::get('/user-messages/{id}', [ChatMessageController::class, 'userMessages'])->name('user.messages');
 
 require __DIR__.'/auth.php';
 
@@ -116,6 +120,9 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
 
 
     Route::post('blog-post-comment', [BlogPostController::class, 'blogPostComment'])->name('blog-post.message');
+
+
+    Route::get('live-chat', [ChatMessageController::class, 'index'])->name('live-chat.index');
 
 
 });
